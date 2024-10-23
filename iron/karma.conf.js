@@ -38,6 +38,7 @@ module.exports = function (config) {
 
   if(process.env.CI) {
 	  configuration.browsers = ['ChromeHeadless'];
+    configuration.singleRun = true;
   }
 
   config.set(configuration);
