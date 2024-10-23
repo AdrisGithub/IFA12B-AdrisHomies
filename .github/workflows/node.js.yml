@@ -8,7 +8,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-    
+
+env:
+  CI: true    
+
 defaults:
   run:
     working-directory: iron
