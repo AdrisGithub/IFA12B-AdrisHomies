@@ -27,6 +27,7 @@ public class Service {
     private String additionalValues;
 
     public BigDecimal getPrice() {
+        if (price == null) return null;
         return price.setScale(2, RoundingMode.CEILING);
     }
 }
