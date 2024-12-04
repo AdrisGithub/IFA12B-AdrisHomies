@@ -20,7 +20,7 @@ public class ArticleItem {
     private DepositorySpot spot;
 
     @ManyToOne
-    @JoinColumn(name = "articleId", nullable = false,insertable = false, updatable = false)
+    @JoinColumn(name = "articleId", nullable = false, insertable = false, updatable = false)
     private Article article;
 
     @Column(precision = 4, scale = 2)
