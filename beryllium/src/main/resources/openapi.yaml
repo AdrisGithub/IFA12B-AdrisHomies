@@ -193,36 +193,42 @@ components:
   requestBodies:
     PostService:
       description: Ein Service der in die Therme hinzugefügt werden soll
+      required: true
       content:
         'application/json':
           schema:
             $ref: '#/components/schemas/PostService'
     PatchService:
       description: Ein Service buchen oder wieder auf verfügbar stellen
+      required: true
       content:
         'application/json':
           schema:
             $ref: '#/components/schemas/PatchService'
     PostArticle:
       description: Ein Artikel im System anlegen und damit indirekt es bestellen
+      required: true
       content:
         'application/json':
           schema:
             $ref: '#/components/schemas/PostArticle'
     PatchArticle:
       description: Ein Artikel im System nachbestellen
+      required: true
       content:
         'application/json':
           schema:
             $ref: '#/components/schemas/PatchArticle'
     SellArticle:
       description: Ein Artikel im System verkaufen
+      required: true
       content:
         'application/json':
           schema:
             $ref: '#/components/schemas/SellArticle'
     StoreArticle:
       description: Ein Artikel ins System einlagern
+      required: true
       content:
         'application/json':
           schema:
