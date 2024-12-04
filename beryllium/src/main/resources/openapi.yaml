@@ -1,0 +1,483 @@
+openapi: 3.0.3
+info:
+  title: BuBATZ
+  description: Baden und Bestandshaltung, Ankauf, Transfer, Zahlungsabwicklung
+  version: 1.0.0-SNAPSHOT
+  license:
+    name: GPLv3
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+  contact:
+    name: Adriii
+    email: leckeier@gmail.com
+    url: https://github.com/AdrisGithub
+tags:
+  - name: Article
+    description: der jeweilige Artikel im System
+  - name: Service
+    description: die jeweilige Dienstleistung im System
+  - name: Depository
+    description: das Lagerhaus
+paths:
+  /articles:
+    post:
+      tags:
+        - Article
+      summary: Artikel bestellen
+      description: |-
+        Beim Bestellen eines Artikels wird der State automatisch auf IN_TRANSIT gestellt.
+        Um diesen Artikel bei Ankunft einzulagern muss ein Post auf Depository ausgeführt werden
+      operationId: createArticle
+      requestBody:
+        $ref: '#/components/requestBodies/PostArticle'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetArticle'
+        default:
+          $ref: '#/components/responses/Error'
+    patch:
+      tags:
+        - Article
+      summary: Artikel nachbestellen
+      operationId: reorderArticle
+      description: |-
+        Wenn ein Artikel schon im Lager besteht oder bestellt wurde muss dieser Aufruf getätig werden um
+        Merge Konflikte bei den Additional Infos oder eine fehlhafte Gruppierung zu vermeiden.
+      requestBody:
+        $ref: '#/components/requestBodies/PatchArticle'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetArticle'
+        default:
+          $ref: '#/components/responses/Error'
+  /services:
+    get:
+      tags:
+        - Service
+      summary: Diensteistung anzeigen
+      description: |-
+        Dienstleistungen sind nicht gruppiert. Das heißt es kann mehrere Diensleistungen mit 
+        dem gleichen Inhalt geben basierend darauf ob sie angeboten werden
+      operationId: getServices
+      responses:
+        '200':
+          $ref: '#/components/responses/GetServices'
+        default:
+          $ref: '#/components/responses/Error'
+    post:
+      tags:
+        - Service
+      summary: Dienstleistung erstellen
+      description: |-
+        Beim Erstellen einer Dienstleistung ist sie automatisch available.
+      operationId: createService
+      requestBody:
+        $ref: '#/components/requestBodies/PostService'
+      responses:
+        '201':
+          $ref: '#/components/responses/GetService'
+        default:
+          $ref: '#/components/responses/Error'
+  /services/{id}:
+    patch:
+      tags:
+        - Service
+      summary: Dienstleistung buchen
+      description: |-
+        Beim Buchen einer Dienstleistung muss der jeweilige Soll Zustand mitgegeben werden. 
+        Dienstleistungen müssen nachdem sie wieder verfügbar sind manuell eingetragen werden.
+      operationId: bookService
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      requestBody:
+        $ref: '#/components/requestBodies/PatchService'
+      responses:
+        '204':
+          description: Dienstleistung wurde auf den gewollten Soll Zustand umgestellt
+        default:
+          $ref: '#/components/responses/Error'
+  /depository:
+    post:
+      tags:
+        - Depository
+      summary: Artikel einlagern
+      description: |-
+        Sobald ein Artikel vorhanden ist aber nicht im Lager ist (Status = IN_TRANSIT) kann 
+        dieser eingelagert werden. Dabei wird der State auf IN_LAGER gesetzt. Hierbei muss beachtet
+        werden das die ReihenNummer und SpaltenNummer nicht schon belegt sind ansonsten wird ein 
+        Fehler geworfen
+      operationId: storeArticle
+      requestBody:
+        $ref: '#/components/requestBodies/StoreArticle'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetArticle'
+        default:
+          $ref: '#/components/responses/Error'
+    get:
+      tags:
+        - Depository
+      summary: Alle Artikel anzeigen
+      description: |-
+        Sobald ein Artikel im Lager ist oder IN_TRANSIT kann er hier angezeigt werden. 
+        Die Suchergebnisse sollten allerdings voneinander getrennt oder dementsprechend 
+        unterschiedlich sein da dies zu Verwirrung führen kann
+      operationId: getArticles
+      parameters:
+        - $ref: '#/components/parameters/State'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetArticles'
+        default:
+          $ref: '#/components/responses/Error'
+  /depository/{id}:
+    patch:
+      tags:
+        - Depository
+      summary: Ein Artikel verkaufen
+      description: |-
+        Beim Verkaufen eines Artikels wird die Menge und der Artikel benötigt. Von wo was genommen 
+        wird entscheidet das Backend basierend auf einem hochkomplexen Algorithmus (Gambling)
+      operationId: sellArticle
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      requestBody:
+        $ref: '#/components/requestBodies/SellArticle'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetArticleWithSellPrice'
+        default:
+          $ref: '#/components/responses/Error'
+components:
+  responses:
+    GetServices:
+      description: Alle Services erhalten die aktuell in der Therme angeboten werden
+      content:
+        'application/json':
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/GetService'
+    GetService:
+      description: Ein Service der aktuell in der Therme angeboten wird
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/GetService'
+    GetArticles:
+      description: Alle Artikel die entweder aktuell bestellt sind oder im Lager vorhanden sind
+      content:
+        'application/json':
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/GetArticle'
+    GetArticle:
+      description: Ein Artikel der entweder aktuell bestellt ist oder im Lager vorhanden ist
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/GetArticle'
+    GetArticleWithSellPrice:
+      description: Nach dem Verkaufen eines Artikels erhält man den Artikel mit seiner Gruppierung
+        und den insgesamt Preis wie viel man so eben verdient hat
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/GetArticleWithSellPrice'
+    Error:
+      description: Im Fehlerfall wird immer dieses Model ausgegeben mit leserlicher Fehlerbeschreibung
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/Error'
+  requestBodies:
+    PostService:
+      description: Ein Service der in die Therme hinzugefügt werden soll
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/PostService'
+    PatchService:
+      description: Ein Service buchen oder wieder auf verfügbar stellen
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/PatchService'
+    PostArticle:
+      description: Ein Artikel im System anlegen und damit indirekt es bestellen
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/PostArticle'
+    PatchArticle:
+      description: Ein Artikel im System nachbestellen
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/PatchArticle'
+    SellArticle:
+      description: Ein Artikel im System verkaufen
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/SellArticle'
+    StoreArticle:
+      description: Ein Artikel ins System einlagern
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/StoreArticle'
+  parameters:
+    ID:
+      in: path
+      required: true
+      name: id
+      schema:
+        type: integer
+        format: int32
+        example: 1
+    State:
+      in: query
+      name: state
+      schema:
+        type: string
+        example: IN_TRANSIT
+        enum:
+          - IN_TRANSIT
+          - IN_LAGER
+  schemas:
+    GetService:
+      type: object
+      required:
+        - id
+        - name
+        - price
+        - description
+        - available
+        - infos
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 100
+        name:
+          type: string
+          example: "Massage"
+        price:
+          type: number
+          format: float
+          example: 19.99
+        description:
+          type: string
+          example: "Massage mit Happy End"
+        available:
+          type: boolean
+          example: true
+        infos:
+          $ref: '#/components/schemas/AdditionalInfos'
+    PostService:
+      type: object
+      required:
+        - name
+        - price
+        - description
+        - infos
+      properties:
+        name:
+          type: string
+          example: "Massage"
+        price:
+          type: number
+          format: float
+          example: 19.99
+        description:
+          type: string
+          example: "Massage mit Happy End"
+        infos:
+          $ref: '#/components/schemas/AdditionalInfos'
+    PatchService:
+      type: object
+      required:
+        - id
+        - state
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 100
+        state:
+          type: boolean
+          example: false
+    PostArticle:
+      type: object
+      required:
+        - name
+        - buyPrice
+        - sellPrice
+        - description
+        - amount
+        - infos
+      properties:
+        name:
+          type: string
+          example: "Ball"
+        buyPrice:
+          type: number
+          format: float
+          example: 1.99
+        sellPrice:
+          type: number
+          format: float
+          example: 0.99
+        description:
+          type: string
+          example: "Ein Ball halt"
+        amount:
+          type: integer
+          format: int32
+          example: 12
+        infos:
+          $ref: '#/components/schemas/AdditionalInfos'
+    PatchArticle:
+      type: object
+      required:
+        - id
+        - amount
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        amount:
+          type: integer
+          format: int32
+          example: 12
+        buyPrice:
+          type: number
+          format: float
+          example: 1.99
+        sellPrice:
+          type: number
+          format: float
+          example: 0.99
+    GetArticle:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - infos
+        - items
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: "Ball"
+        description:
+          type: string
+          example: "Ein Ball halt"
+        infos:
+          $ref: '#/components/schemas/AdditionalInfos'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleItem'
+    ArticleItem:
+      type: object
+      description: An Article Item is IN_TRANSIT when it doesnt have a reihenNr and spaltenNr
+      required:
+        - id
+        - amount
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 10
+        reihenNr:
+          type: integer
+          format: int32
+          example: 13
+        spaltenNr:
+          type: integer
+          format: int32
+          example: 23
+        amount:
+          type: integer
+          format: int32
+          example: 200
+        buyPrice:
+          type: number
+          format: float
+          example: 1.99
+        sellPrice:
+          type: number
+          format: float
+          example: 0.99
+    StoreArticle:
+      type: object
+      description: An Article Item that has arrived and needs to be stored somewhere
+      required:
+        - id
+        - reihenNr
+        - spaltenNr
+      properties:
+        id:
+          type: integer
+          description: The Article Item Id
+          format: int32
+          example: 10
+        reihenNr:
+          type: integer
+          format: int32
+          example: 20
+        spaltenNr:
+          type: integer
+          format: int32
+          example: 23
+    GetArticleWithSellPrice:
+      type: object
+      required:
+        - totalPrice
+        - article
+      properties:
+        totalPrice:
+          type: number
+          format: float
+          example: 123.99
+        article:
+          $ref: '#/components/schemas/GetArticle'
+    SellArticle:
+      type: object
+      required:
+        - amount
+      properties:
+        amount:
+          type: integer
+          format: int32
+          example: 10
+    AdditionalInfos:
+      type: object
+      additionalProperties:
+        type: string
+      example: |-
+        { "Farbe": "Rot" , "...": "..."}
+    Error:
+      type: object
+      required:
+        - detail
+        - timestamp
+        - message
+      properties:
+        message:
+          type: string
+          example: "Es ist ein Fehler aufgetreten"
+        detail:
+          type: string
+          example: "Es kann kein Minus Betrag bestellt werden"
+        timestamp:
+          type: string
+          format: date-time
+          example: "1985-04-12T23:20:50.52Z"
