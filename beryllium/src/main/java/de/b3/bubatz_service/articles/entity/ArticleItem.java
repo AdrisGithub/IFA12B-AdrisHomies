@@ -23,13 +23,13 @@ public class ArticleItem {
     @JoinColumn(name = "articleId", nullable = false, insertable = false, updatable = false)
     private Article article;
 
-    @Column(precision = 4, scale = 2)
+    @Column(precision = 5, scale = 2)
     private BigDecimal buyPrice;
 
-    @Column(precision = 4, scale = 2)
+    @Column(precision = 5, scale = 2)
     private BigDecimal sellPrice;
 
-    @Column(precision = 3)
+    @Column(precision = 4)
     private BigDecimal amount;
 
     public BigDecimal getBuyPrice() {

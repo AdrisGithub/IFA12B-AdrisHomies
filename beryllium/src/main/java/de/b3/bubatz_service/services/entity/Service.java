@@ -17,7 +17,7 @@ public class Service {
 
     private String name;
 
-    @Column(precision = 4, scale = 2)
+    @Column(precision = 6, scale = 2)
     private BigDecimal price;
 
     private String description;
