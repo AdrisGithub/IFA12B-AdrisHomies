@@ -246,11 +246,7 @@ components:
       in: query
       name: state
       schema:
-        type: string
-        example: IN_TRANSIT
-        enum:
-          - IN_TRANSIT
-          - IN_LAGER
+        $ref: '#/components/parameters/State'
   schemas:
     GetService:
       type: object
@@ -470,6 +466,12 @@ components:
         type: string
       example: |-
         { "Farbe": "Rot" , "...": "..."}
+    State:
+      type: string
+      example: IN_TRANSIT
+      enum:
+        - IN_TRANSIT
+        - IN_LAGER
     Error:
       type: object
       required:
