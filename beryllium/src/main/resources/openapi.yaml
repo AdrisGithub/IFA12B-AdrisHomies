@@ -246,7 +246,7 @@ components:
       in: query
       name: state
       schema:
-        $ref: '#/components/parameters/State'
+        $ref: '#/components/schemas/State'
   schemas:
     GetService:
       type: object
