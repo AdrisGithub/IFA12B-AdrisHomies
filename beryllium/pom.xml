@@ -48,6 +48,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -63,6 +73,39 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>7.10.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<id>generate-api-spec</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<apiPackage>de.b3.bubatz_service.generated.api</apiPackage>
+							<modelPackage>de.b3.bubatz_service.generated.models</modelPackage>
+							<configOptions>
+								<documentationProvider>none</documentationProvider>
+								<dateLibrary>java8-localdatetime</dateLibrary>
+								<interfaceOnly>true</interfaceOnly>
+								<performBeanValidation>true</performBeanValidation>
+								<skipDefaultInterface>true</skipDefaultInterface>
+								<useJakartaEe>true</useJakartaEe>
+								<openApiNullable>false</openApiNullable>
+								<useResponseEntity>true</useResponseEntity>
+								<useSpringBoot3>true</useSpringBoot3>
+								<useTags>true</useTags>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
