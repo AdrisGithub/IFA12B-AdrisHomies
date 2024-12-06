@@ -15,7 +15,7 @@ public class ServiceControl {
     private final ServiceRepository repository;
 
 
-    public List<GetService> getAllServices(){
+    public List<GetService> getAllServices() {
         return this.repository.findAll()
                 .stream()
                 .map(ServiceMapper::map)

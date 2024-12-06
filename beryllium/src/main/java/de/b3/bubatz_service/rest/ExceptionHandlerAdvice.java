@@ -24,7 +24,7 @@ public class ExceptionHandlerAdvice {
         error.setMessage("Invalide Entität");
         error.setDetail(String.format(INVALID_ADD_VALUES_ERROR, ex.getId()));
 
-        log.error("{}",error);
+        log.error("{}", error);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(error);
