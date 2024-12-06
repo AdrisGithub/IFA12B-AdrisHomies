@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import de.b3.bubatz_service.generated.models.GetService;
+import de.b3.bubatz_service.generated.models.PostService;
 import de.b3.bubatz_service.services.db.entity.Service;
 import de.b3.bubatz_service.services.exceptions.InvalidAdditionalValuesException;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,5 +45,23 @@ public class ServiceMapper {
         getService.setInfos(addInfos);
 
         return getService;
+    }
+
+    public static Service map(PostService postService){
+        final Service service = new Service();
+
+        service.setAvailable(true);
+        service.setName(postService.getName());
+        service.setDescription(postService.getDescription());
+        service.setPrice(BigDecimal.valueOf(postService.getPrice()));
+
+        try {
+            service.setAdditionalValues(mapper.writeValueAsString(postService.getInfos()));
+        } catch (JsonProcessingException e) {
+            // tbf don't know if this can fail, hopefully not
+            throw new InvalidAdditionalValuesException(null);
+        }
+
+        return service;
     }
 }
