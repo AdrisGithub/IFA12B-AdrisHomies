@@ -19,11 +19,11 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(value = {InvalidAdditionalValuesException.class})
     public ResponseEntity<Error> resourceNotFoundException(InvalidAdditionalValuesException ex) {
-        String message;
+        final String message;
 
-        if (null != ex.getId()){
+        if (null != ex.getId()) {
             message = String.format(INVALID_READ_ADD_VALUES_ERROR, ex.getId());
-        }else {
+        } else {
             message = INVALID_WRITE_ADD_VALUES_ERROR;
         }
 
@@ -36,7 +36,7 @@ public class ExceptionHandlerAdvice {
                 .body(error);
     }
 
-    private Error createError(String message){
+    private Error createError(String message) {
         final Error error = new Error();
 
         error.setTimestamp(LocalDateTime.now());
