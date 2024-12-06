@@ -1,4 +1,4 @@
-package de.b3.bubatz_service.services.entity;
+package de.b3.bubatz_service.services.db.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
