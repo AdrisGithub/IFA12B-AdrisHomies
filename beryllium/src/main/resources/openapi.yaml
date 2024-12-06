@@ -345,6 +345,8 @@ components:
       required:
         - id
         - amount
+        - buyPrice
+        - sellPrice
       properties:
         id:
           type: integer
