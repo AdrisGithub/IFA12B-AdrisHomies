@@ -47,7 +47,7 @@ public class ServiceMapper {
         return getService;
     }
 
-    public static Service map(PostService postService){
+    public static Service map(PostService postService) {
         final Service service = new Service();
 
         service.setAvailable(true);
