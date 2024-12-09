@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "npm run generate-sources && ng serve",
+    "build": "npm run generate-sources && ng build",
     "generate-sources": "openapi-generator-cli generate",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "watch": "npm run generate-sources && ng build --watch --configuration development",
+    "test": "npm run generate-sources && ng test"
   },
   "private": true,
   "dependencies": {
