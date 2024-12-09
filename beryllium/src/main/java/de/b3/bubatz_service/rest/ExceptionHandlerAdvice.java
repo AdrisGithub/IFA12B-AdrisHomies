@@ -14,19 +14,35 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ExceptionHandlerAdvice {
 
-    public static final String INVALID_ADD_VALUES_ERROR = "Beim Einlesen der Entität mit der Id %s ist ein Fehler entstanden";
+    public static final String INVALID_READ_ADD_VALUES_ERROR = "Beim Einlesen der Entität mit der Id %s ist ein Fehler entstanden";
+    public static final String INVALID_WRITE_ADD_VALUES_ERROR = "Beim Schreiben der Entität ist ein Fehler entstanden";
 
     @ExceptionHandler(value = {InvalidAdditionalValuesException.class})
     public ResponseEntity<Error> resourceNotFoundException(InvalidAdditionalValuesException ex) {
+        final String message;
+
+        if (null != ex.getId()) {
+            message = String.format(INVALID_READ_ADD_VALUES_ERROR, ex.getId());
+        } else {
+            message = INVALID_WRITE_ADD_VALUES_ERROR;
+        }
+
+
+        final Error error = createError(message);
+
+        log.error("{}", message);
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(error);
+    }
+
+    private Error createError(String message) {
         final Error error = new Error();
 
         error.setTimestamp(LocalDateTime.now());
         error.setMessage("Invalide Entität");
-        error.setDetail(String.format(INVALID_ADD_VALUES_ERROR, ex.getId()));
+        error.setDetail(message);
 
-        log.error("{}", String.format(INVALID_ADD_VALUES_ERROR, ex.getId()));
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(error);
+        return error;
     }
 }
