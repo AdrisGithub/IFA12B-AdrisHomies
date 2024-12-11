@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "ARTICLE_ITEMS")
 @Data
-public class ArticleItem {
+public class ArticleItemEntity {
 
     @Id
     @GeneratedValue
@@ -34,17 +34,17 @@ public class ArticleItem {
     private BigDecimal amount;
 
     public BigDecimal getBuyPrice() {
-        if(buyPrice == null) return null;
+        if (buyPrice == null) return null;
         return buyPrice.setScale(2, RoundingMode.CEILING);
     }
 
     public BigDecimal getSellPrice() {
-        if(sellPrice == null) return null;
+        if (sellPrice == null) return null;
         return sellPrice.setScale(2, RoundingMode.CEILING);
     }
 
     public BigDecimal getAmount() {
-        if(amount == null) return null;
+        if (amount == null) return null;
         return amount.setScale(0, RoundingMode.CEILING);
     }
 
@@ -61,7 +61,7 @@ public class ArticleItem {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ArticleItem that)) return false;
+        if (!(o instanceof ArticleItemEntity that)) return false;
         return Objects.equals(articleItemId, that.articleItemId) &&
                 Objects.equals(spot, that.spot) &&
                 Objects.equals(buyPrice, that.buyPrice) &&

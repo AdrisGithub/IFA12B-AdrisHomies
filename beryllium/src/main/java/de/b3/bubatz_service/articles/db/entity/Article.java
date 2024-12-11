@@ -22,7 +22,7 @@ public class Article {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "articleId")
-    private Set<ArticleItem> items;
+    private Set<ArticleItemEntity> items;
 
     @Override
     public String toString() {

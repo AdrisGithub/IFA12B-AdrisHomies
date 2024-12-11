@@ -23,15 +23,15 @@ public class DepositorySpot {
     private BigDecimal columnNr;
 
     @OneToOne(mappedBy = "spot")
-    private ArticleItem articleItem;
+    private ArticleItemEntity articleItem;
 
     public BigDecimal getRowNr() {
-        if(rowNr == null) return null;
+        if (rowNr == null) return null;
         return rowNr.setScale(0, RoundingMode.CEILING);
     }
 
     public BigDecimal getColumnNr() {
-        if(columnNr == null) return null;
+        if (columnNr == null) return null;
         return columnNr.setScale(0, RoundingMode.CEILING);
     }
 
