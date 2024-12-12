@@ -16,6 +16,6 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.service.reorderArticle({amount: 1,buyPrice: 1,sellPrice: 1,id: 1}).subscribe(value => console.log(value))
+    this.service.reorderArticle({amount: 1,buyPrice: 1,id: 1}).subscribe(value => console.log(value))
   }
 }
