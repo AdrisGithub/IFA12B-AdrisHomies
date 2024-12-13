@@ -1,13 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ArticleService} from './gen';
 
 @Component({
   selector: 'ls-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [ ],
+  template: `
+
+    <h1>It works</h1>
+  
+  `,
+  styles: `
+
+
+
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit{
   title = 'bubatz-ui';
@@ -16,6 +24,6 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.service.reorderArticle({amount: 1,buyPrice: 1,sellPrice: 1,id: 1}).subscribe(value => console.log(value))
+    // nthis.service.reorderArticle({amount: 1,buyPrice: 1,sellPrice: 1,id: 1}).subscribe(value => console.log(value))
   }
 }
