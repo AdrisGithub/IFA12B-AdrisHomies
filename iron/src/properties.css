@@ -1,0 +1,53 @@
+@property --bg {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #0D0400;
+}
+
+@property --text {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #F4F2F2;
+}
+
+@property --button {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #DE8315;
+}
+
+@property --card-bg {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #2C2825;
+}
+
+@property --status-green {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #0FF029;
+}
+
+@property --status-orange {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #EFAF00;
+}
+
+@property --status-red {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #F0310F;
+}
+
+@property --text-secondary {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #C1C0BC;
+}
+
+@property --text-inverted {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #C1C0BC;
+}

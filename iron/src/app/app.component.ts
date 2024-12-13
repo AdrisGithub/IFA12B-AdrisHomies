@@ -1,13 +1,16 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ArticleService} from './gen';
 
+import { ButtonComponent } from './core-components/button/button.component';
+
 @Component({
   selector: 'ls-root',
   standalone: true,
-  imports: [ ],
+  imports: [ButtonComponent],
   template: `
 
     <h1>It works</h1>
+    <ls-button>Open Test-Modal!</ls-button>
   
   `,
   styles: `
