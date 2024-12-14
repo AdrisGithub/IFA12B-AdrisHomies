@@ -10,7 +10,7 @@ import { ModalService } from '../../services/Modal.service';
   imports: [ButtonComponent, ModalDisplayerComponent],
   template: `
 
-  <ls-modal-displayer (closeEvent)="closeModal()"/> 
+  <ls-modal-displayer/> 
 
   <main class="flex-container">
     <h1>BuBATZ!</h1>
@@ -20,6 +20,7 @@ import { ModalService } from '../../services/Modal.service';
   
   `,
   styles: `
+  
     .flex-container {
     display: flex;
     align-items: center;
@@ -32,10 +33,10 @@ import { ModalService } from '../../services/Modal.service';
     width: 100vw;
   }
 
-h1 {
+  h1 {
     font-size: 56px;
     padding-bottom: .5em;
-}
+  }
 
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,5 +48,4 @@ export class ModalTestViewComponent {
   modalService = inject(ModalService);
 
   openModal = () => { this.modalService.openModal(Modal1Component) };
-  closeModal = () => { this.modalService.closeModal(); };
 }
