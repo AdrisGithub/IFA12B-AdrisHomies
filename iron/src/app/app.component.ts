@@ -1,32 +1,29 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, inject} from '@angular/core';
 import {ArticleService} from './gen';
-
-import { ButtonComponent } from './core-components/button/button.component';
+import { ModalTestViewComponent } from './views/ModalTestView/ModalTestView.component';
 
 @Component({
   selector: 'ls-root',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [ModalTestViewComponent],
   template: `
+    
+    <ls-modal-test-view/>
 
-    <h1>It works</h1>
-    <ls-button>Open Test-Modal!</ls-button>
-  
   `,
   styles: `
+  
 
-
-
+  
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit{
   title = 'bubatz-ui';
 
-  constructor(private service: ArticleService) {
-  }
+  service = inject(ArticleService);
 
   ngOnInit() {
-    // nthis.service.reorderArticle({amount: 1,buyPrice: 1,sellPrice: 1,id: 1}).subscribe(value => console.log(value))
+    // this.service.reorderArticle({amount: 1,buyPrice: 1,sellPrice: 1,id: 1}).subscribe(value => console.log(value))
   }
 }
