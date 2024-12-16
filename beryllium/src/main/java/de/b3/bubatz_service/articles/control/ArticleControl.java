@@ -1,17 +1,30 @@
 package de.b3.bubatz_service.articles.control;
 
 import de.b3.bubatz_service.articles.db.ArticleItemRepository;
+import de.b3.bubatz_service.articles.db.ArticleItemRepository;
 import de.b3.bubatz_service.articles.db.ArticleRepository;
+import de.b3.bubatz_service.articles.db.entity.Article;
+import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
+import de.b3.bubatz_service.articles.util.ArticleItemMapper;
+import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
+import de.b3.bubatz_service.articles.util.ArticleItemMapper;
+import de.b3.bubatz_service.articles.db.entity.Article;
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.articles.util.ArticleItemMapper;
 import de.b3.bubatz_service.articles.util.ArticleMapper;
 import de.b3.bubatz_service.generated.models.ArticleItem;
 import de.b3.bubatz_service.generated.models.GetArticle;
+import jakarta.persistence.EntityNotFoundException;
+import de.b3.bubatz_service.generated.models.PatchArticle;
 import de.b3.bubatz_service.generated.models.StoreArticle;
+import jakarta.persistence.EntityNotFoundException;
+import de.b3.bubatz_service.generated.models.PatchArticle;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -45,5 +58,18 @@ public class ArticleControl {
         return this.repository.findById(itemEntity.getArticle().getId())
                 .map(ArticleMapper::map)
                 .orElseThrow(() -> new EntityNotFoundException(""));
+    }
+
+    public GetArticle patchArticle(PatchArticle patchArticle) {
+
+        Article article = repository.findById(patchArticle.getId()).orElseThrow(
+                () -> new EntityNotFoundException("Article with id " + patchArticle.getId() + " not found")
+        );
+
+        BigDecimal sellPrice = article.getItems().stream().findFirst().get().getSellPrice();
+        ArticleItemEntity item = ArticleItemMapper.map(patchArticle, sellPrice);
+        itemRepository.save(item);
+        article.getItems().add(item);
+        return ArticleMapper.map(repository.save(article));
     }
 }
