@@ -1,0 +1,46 @@
+#left-bumper {
+  height: 1.25em;
+  width: 1.25em;
+  border-radius: 100%;
+  background-color: white;
+  transform: translate(50%);
+  z-index: -1;
+}
+
+#right-bumper {
+  height: 1.25em;
+  width: 1.25em;
+  border-radius: 100%;
+  background-color: white;
+  transform: translate(-50%);
+  z-index: -1;
+}
+
+#container {
+  display: flex;
+}
+
+#content {
+  display: flex;
+  background-color: white;
+  color: black;
+  width: max-content;
+}
+#led {
+  height: 1em;
+  width: 1em;
+  border-radius: 100%;
+  margin: 1.5px;
+  transform: translate(-50%);
+}
+.ordered {
+ background-color: orange;
+}
+
+.available {
+  background-color: green;
+}
+
+.not-available {
+  background-color: red;
+}
