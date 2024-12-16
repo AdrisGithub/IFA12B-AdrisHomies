@@ -434,6 +434,7 @@ components:
       required:
         - totalPrice
         - article
+        - spots
       properties:
         totalPrice:
           type: number
@@ -441,6 +442,8 @@ components:
           example: 123.99
         article:
           $ref: '#/components/schemas/GetArticle'
+        spots:
+          $ref: '#/components/schemas/PickupSpots'
     SellArticle:
       type: object
       required:
@@ -450,6 +453,21 @@ components:
           type: integer
           format: int32
           example: 10
+    PickupSpots:
+      type: object
+      properties:
+        reihenNr:
+          type: integer
+          format: int32
+          example: 20
+        spaltenNr:
+          type: integer
+          format: int32
+          example: 23
+        amount:
+          type: integer
+          format: int32,
+          example: 100
     AdditionalInfos:
       type: object
       additionalProperties:

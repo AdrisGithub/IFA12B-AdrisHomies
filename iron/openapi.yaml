@@ -55,7 +55,7 @@ paths:
         - Service
       summary: Diensteistung anzeigen
       description: |-
-        Dienstleistungen sind nicht gruppiert. Das heißt es kann mehrere Diensleistungen mit
+        Dienstleistungen sind nicht gruppiert. Das heißt es kann mehrere Diensleistungen mit 
         dem gleichen Inhalt geben basierend darauf ob sie angeboten werden
       operationId: getServices
       responses:
@@ -83,7 +83,7 @@ paths:
         - Service
       summary: Dienstleistung buchen
       description: |-
-        Beim Buchen einer Dienstleistung muss der jeweilige Soll Zustand mitgegeben werden.
+        Beim Buchen einer Dienstleistung muss der jeweilige Soll Zustand mitgegeben werden. 
         Dienstleistungen müssen nachdem sie wieder verfügbar sind manuell eingetragen werden.
       operationId: bookService
       parameters:
@@ -101,9 +101,9 @@ paths:
         - Depository
       summary: Artikel einlagern
       description: |-
-        Sobald ein Artikel vorhanden ist aber nicht im Lager ist (Status = IN_TRANSIT) kann
+        Sobald ein Artikel vorhanden ist aber nicht im Lager ist (Status = IN_TRANSIT) kann 
         dieser eingelagert werden. Dabei wird der State auf IN_LAGER gesetzt. Hierbei muss beachtet
-        werden das die ReihenNummer und SpaltenNummer nicht schon belegt sind ansonsten wird ein
+        werden das die ReihenNummer und SpaltenNummer nicht schon belegt sind ansonsten wird ein 
         Fehler geworfen
       operationId: storeArticle
       requestBody:
@@ -118,8 +118,8 @@ paths:
         - Depository
       summary: Alle Artikel anzeigen
       description: |-
-        Sobald ein Artikel im Lager ist oder IN_TRANSIT kann er hier angezeigt werden.
-        Die Suchergebnisse sollten allerdings voneinander getrennt oder dementsprechend
+        Sobald ein Artikel im Lager ist oder IN_TRANSIT kann er hier angezeigt werden. 
+        Die Suchergebnisse sollten allerdings voneinander getrennt oder dementsprechend 
         unterschiedlich sein da dies zu Verwirrung führen kann
       operationId: getArticles
       responses:
@@ -133,7 +133,7 @@ paths:
         - Depository
       summary: Ein Artikel verkaufen
       description: |-
-        Beim Verkaufen eines Artikels wird die Menge und der Artikel benötigt. Von wo was genommen
+        Beim Verkaufen eines Artikels wird die Menge und der Artikel benötigt. Von wo was genommen 
         wird entscheidet das Backend basierend auf einem hochkomplexen Algorithmus (Gambling)
       operationId: sellArticle
       parameters:
@@ -434,6 +434,7 @@ components:
       required:
         - totalPrice
         - article
+        - spots
       properties:
         totalPrice:
           type: number
@@ -441,6 +442,8 @@ components:
           example: 123.99
         article:
           $ref: '#/components/schemas/GetArticle'
+        spots:
+          $ref: '#/components/schemas/PickupSpots'
     SellArticle:
       type: object
       required:
@@ -450,6 +453,21 @@ components:
           type: integer
           format: int32
           example: 10
+    PickupSpots:
+      type: object
+      properties:
+        reihenNr:
+          type: integer
+          format: int32
+          example: 20
+        spaltenNr:
+          type: integer
+          format: int32
+          example: 23
+        amount:
+          type: integer
+          format: int32,
+          example: 100
     AdditionalInfos:
       type: object
       additionalProperties:
