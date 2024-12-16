@@ -1,8 +1,14 @@
 package de.b3.bubatz_service.articles.control;
 
+import de.b3.bubatz_service.articles.db.ArticleItemRepository;
 import de.b3.bubatz_service.articles.db.ArticleRepository;
+import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
+import de.b3.bubatz_service.articles.util.ArticleItemMapper;
 import de.b3.bubatz_service.articles.util.ArticleMapper;
+import de.b3.bubatz_service.generated.models.ArticleItem;
 import de.b3.bubatz_service.generated.models.GetArticle;
+import de.b3.bubatz_service.generated.models.StoreArticle;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +19,31 @@ import java.util.List;
 public class ArticleControl {
 
     private final ArticleRepository repository;
+    private final ArticleItemRepository itemRepository;
 
     public List<GetArticle> getAllArticles() {
         return this.repository.findAll()
                 .stream()
                 .map(ArticleMapper::map)
                 .toList();
+    }
+
+    public GetArticle storeArticle(StoreArticle storeArticle) {
+        final ArticleItemEntity itemEntity = this.itemRepository.findById(storeArticle.getId())
+                .orElseThrow(() -> new EntityNotFoundException("TEST"));
+
+        final ArticleItem item = ArticleItemMapper.map(itemEntity);
+
+        item.setReihenNr(storeArticle.getReihenNr());
+        item.setSpaltenNr(storeArticle.getSpaltenNr());
+
+        final ArticleItemEntity entity = ArticleItemMapper.map(item);
+        entity.setArticle(itemEntity.getArticle());
+
+        this.itemRepository.save(entity);
+
+        return this.repository.findById(itemEntity.getArticle().getId())
+                .map(ArticleMapper::map)
+                .orElseThrow(() -> new EntityNotFoundException(""));
     }
 }

@@ -4,6 +4,7 @@ import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.articles.db.entity.DepositorySpot;
 import de.b3.bubatz_service.generated.models.ArticleItem;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -34,5 +35,22 @@ public class ArticleItemMapper {
 
         return item;
 
+    }
+
+    public static ArticleItemEntity map(ArticleItem item){
+        final ArticleItemEntity entity = new ArticleItemEntity();
+
+        entity.setArticleItemId(item.getId());
+        entity.setAmount(BigDecimal.valueOf(item.getAmount()));
+
+        final DepositorySpot spot = new DepositorySpot();
+        spot.setColumnNr(item.getSpaltenNr());
+        spot.setRowNr(item.getReihenNr());
+
+        entity.setSpot(spot);
+        entity.setSellPrice(BigDecimal.valueOf(item.getSellPrice()));
+        entity.setBuyPrice(BigDecimal.valueOf(item.getBuyPrice()));
+
+        return entity;
     }
 }
