@@ -6,6 +6,7 @@ import de.b3.bubatz_service.generated.models.PatchService;
 import de.b3.bubatz_service.generated.models.PostService;
 import de.b3.bubatz_service.services.control.ServiceControl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class ServiceController implements ServiceApi {
 
     @Override
     public ResponseEntity<GetService> createService(PostService postService) {
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.control.createService(postService));
     }
 
     @Override
