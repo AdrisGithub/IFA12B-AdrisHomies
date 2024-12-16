@@ -13,14 +13,14 @@ import {StatusComponent} from '../status/status.component';
       <div class="information">
         <p class="price">{{ article().price }}</p>
         <div class="availability">
-          @if (!article().amountOrdered && !article().amountWarehouse) {
-            <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'"></ls-status>
-          }
           @if (article().amountOrdered) {
             <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
                        [amount]="article().amountOrdered"></ls-status>
           }
-          @if (article().amountWarehouse) {
+          @if (!article().amountWarehouse) {
+            <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'"></ls-status>
+          }
+          @else {
             <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
                        [amount]="article().amountWarehouse"></ls-status>
           }

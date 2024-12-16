@@ -1,5 +1,5 @@
 
-@import url(./properties.css);  
+@import url(./properties.css);
 
 h1, h2, h3, h4, h5, h6, p, pre {
     margin: 0;
@@ -10,3 +10,14 @@ body {
     background-color: var(--bg);
     color: var(--text)
 }
+
+@font-face {
+  font-family: Julius Sans One;
+  src: url('../public/JuliusSansOne-Regular.ttf');
+}
+
+@font-face {
+  font-family: Kodchasan;
+  src: url('../public/Kodchasan-ExtraLight.ttf');
+}
+
