@@ -10,7 +10,7 @@
 }
 
 span {
-  padding-left: 0.25em;
+  padding-left: 0.1em;
   padding-right: 0.5em;
 }
 
@@ -18,7 +18,7 @@ span {
   height: 1em;
   width: 1em;
   border-radius: 1000px;
-  margin: 0.125em;
+  margin: 0.125em 0.125em 0.125em 0.2em;
 }
 
 .orange {
