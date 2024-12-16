@@ -25,6 +25,6 @@ public class ArticleController implements ArticleApi{
 
     @Override
     public ResponseEntity<GetArticle> reorderArticle(PatchArticle patchArticle) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.control.patchArticle(patchArticle));
+        return ResponseEntity.ok(this.control.patchArticle(patchArticle));
     }
 }
