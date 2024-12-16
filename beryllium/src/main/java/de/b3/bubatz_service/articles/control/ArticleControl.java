@@ -1,29 +1,19 @@
 package de.b3.bubatz_service.articles.control;
 
 import de.b3.bubatz_service.articles.db.ArticleItemRepository;
-import de.b3.bubatz_service.articles.db.ArticleItemRepository;
 import de.b3.bubatz_service.articles.db.ArticleRepository;
-import de.b3.bubatz_service.articles.db.entity.Article;
-import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
-import de.b3.bubatz_service.articles.util.ArticleItemMapper;
-import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
-import de.b3.bubatz_service.articles.util.ArticleItemMapper;
 import de.b3.bubatz_service.articles.db.entity.Article;
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.articles.util.ArticleItemMapper;
 import de.b3.bubatz_service.articles.util.ArticleMapper;
 import de.b3.bubatz_service.generated.models.ArticleItem;
 import de.b3.bubatz_service.generated.models.GetArticle;
-import jakarta.persistence.EntityNotFoundException;
 import de.b3.bubatz_service.generated.models.PatchArticle;
 import de.b3.bubatz_service.generated.models.StoreArticle;
-import jakarta.persistence.EntityNotFoundException;
-import de.b3.bubatz_service.generated.models.PatchArticle;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -51,11 +41,10 @@ public class ArticleControl {
         item.setSpaltenNr(storeArticle.getSpaltenNr());
 
         final ArticleItemEntity entity = ArticleItemMapper.map(item);
-        entity.setArticle(itemEntity.getArticle());
 
         this.itemRepository.save(entity);
 
-        return this.repository.findById(itemEntity.getArticle().getId())
+        return this.repository.findArticleByItemsContains(entity)
                 .map(ArticleMapper::map)
                 .orElseThrow(() -> new EntityNotFoundException(""));
     }
