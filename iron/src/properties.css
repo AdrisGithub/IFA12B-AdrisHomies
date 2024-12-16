@@ -51,3 +51,9 @@
     inherits: false;
     initial-value: #C1C0BC;
 }
+
+@property --border {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #74716f;
+}
