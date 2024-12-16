@@ -29,8 +29,8 @@ public class ArticleItemMapper {
             // Item in Transit
             return item;
 
-        item.setSpaltenNr(spot.getColumnNr().intValue());
-        item.setReihenNr(spot.getRowNr().intValue());
+        item.setSpaltenNr(spot.getColumnNr());
+        item.setReihenNr(spot.getRowNr());
 
         return item;
 
