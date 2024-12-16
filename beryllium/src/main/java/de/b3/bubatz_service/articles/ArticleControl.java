@@ -11,6 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 @RequiredArgsConstructor
 public class ArticleControl {
@@ -23,7 +25,8 @@ public class ArticleControl {
                 () -> new EntityNotFoundException("Article with id " + patchArticle.getId() + " not found")
         );
 
-        ArticleItemEntity item = ArticleItemMapper.map(patchArticle, article.getItems().stream().findFirst().get().getSellPrice());
+        BigDecimal sellPrice = article.getItems().stream().findFirst().get().getSellPrice();
+        ArticleItemEntity item = ArticleItemMapper.map(patchArticle, sellPrice);
         article.getItems().add(item);
         return ArticleMapper.map(articleRepository.save(article));
     }
