@@ -6,15 +6,15 @@ import { ModalService } from '../../services/Modal.service';
   standalone: true,
   imports: [],
   template: `
-  
+
   <section class="modal">
     <header>
       <h1>{{ title() }}</h1>
-      <button (click)="closeDialoge()" type="button">X</button>
+      <button (click)="closeDialoge()" type="button"><img src="./x.svg"></button>
     </header>
     <ng-content/>
   </section>
-  
+
   `,
   styleUrl: './modal-container.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
