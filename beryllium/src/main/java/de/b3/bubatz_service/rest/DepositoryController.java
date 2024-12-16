@@ -18,7 +18,7 @@ public class DepositoryController implements DepositoryApi {
     private final ArticleControl articleControl;
 
     @Override
-    public ResponseEntity<List<GetArticle>> getArticles(State state) {
+    public ResponseEntity<List<GetArticle>> getArticles() {
         return ResponseEntity.ok(this.articleControl.getAllArticles());
     }
 
