@@ -1,10 +1,8 @@
-package de.b3.bubatz_service.articles.entity;
+package de.b3.bubatz_service.articles.db.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Objects;
 
 @Entity
@@ -16,24 +14,12 @@ public class DepositorySpot {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer spotId;
 
-    @Column(precision = 2)
-    private BigDecimal rowNr;
+    private Integer rowNr;
 
-    @Column(precision = 2)
-    private BigDecimal columnNr;
+    private Integer columnNr;
 
     @OneToOne(mappedBy = "spot")
-    private ArticleItem articleItem;
-
-    public BigDecimal getRowNr() {
-        if(rowNr == null) return null;
-        return rowNr.setScale(0, RoundingMode.CEILING);
-    }
-
-    public BigDecimal getColumnNr() {
-        if(columnNr == null) return null;
-        return columnNr.setScale(0, RoundingMode.CEILING);
-    }
+    private ArticleItemEntity articleItem;
 
     @Override
     public String toString() {
