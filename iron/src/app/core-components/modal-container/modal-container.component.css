@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+
+.modal {
+  padding: 1em 2em;
+  background-color: var(--bg);
+  font-size: 26px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  font-size: 46px;
+  border: none;
+  padding: 0;
+  margin-left: 1em;
+  background-color: inherit;
+  color: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
