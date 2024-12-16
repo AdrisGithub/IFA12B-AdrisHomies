@@ -49,7 +49,7 @@
 @property --text-inverted {
     syntax: "<color>";
     inherits: false;
-    initial-value: #C1C0BC;
+    initial-value: #000000;
 }
 
 @property --border {
