@@ -30,8 +30,7 @@ public class ArticleItemEntity {
     @Column(precision = 5, scale = 2)
     private BigDecimal sellPrice;
 
-    @Column(precision = 4)
-    private BigDecimal amount;
+    private Integer amount;
 
     public BigDecimal getBuyPrice() {
         if (buyPrice == null) return null;
@@ -41,11 +40,6 @@ public class ArticleItemEntity {
     public BigDecimal getSellPrice() {
         if (sellPrice == null) return null;
         return sellPrice.setScale(2, RoundingMode.CEILING);
-    }
-
-    public BigDecimal getAmount() {
-        if (amount == null) return null;
-        return amount.setScale(0, RoundingMode.CEILING);
     }
 
     @Override
