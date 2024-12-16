@@ -33,7 +33,7 @@ public class ArticleControl {
 
     public GetArticle storeArticle(StoreArticle storeArticle) {
         final ArticleItemEntity itemEntity = this.itemRepository.findById(storeArticle.getId())
-                .orElseThrow(() -> new EntityNotFoundException("TEST"));
+                .orElseThrow(() -> new EntityNotFoundException("ArticleItem with id " + storeArticle.getId() + " not found"));
 
         final ArticleItem item = ArticleItemMapper.map(itemEntity);
 
@@ -46,7 +46,7 @@ public class ArticleControl {
 
         return this.repository.findArticleByItemsContains(entity)
                 .map(ArticleMapper::map)
-                .orElseThrow(() -> new EntityNotFoundException(""));
+                .get();
     }
 
     public GetArticle patchArticle(PatchArticle patchArticle) {
