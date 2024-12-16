@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class InfoMapper {
 
-    private final static ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
     private static final MapType mapType;
 
     static {
