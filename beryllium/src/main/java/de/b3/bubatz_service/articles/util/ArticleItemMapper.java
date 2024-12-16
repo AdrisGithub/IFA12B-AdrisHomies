@@ -20,7 +20,7 @@ public class ArticleItemMapper {
     public static ArticleItem map(ArticleItemEntity entity) {
         final ArticleItem item = new ArticleItem();
 
-        item.setAmount(entity.getAmount().intValue());
+        item.setAmount(entity.getAmount());
         item.setId(entity.getArticleItemId());
         item.setBuyPrice(entity.getBuyPrice().floatValue());
         item.setSellPrice(entity.getSellPrice().floatValue());
@@ -44,6 +44,23 @@ public class ArticleItemMapper {
         entity.setSpot(null);
         entity.setSellPrice(sellPrice);
         entity.setBuyPrice(BigDecimal.valueOf(patchArticle.getBuyPrice()));
+
+        return entity;
+    }
+
+    public static ArticleItemEntity map(ArticleItem item){
+        final ArticleItemEntity entity = new ArticleItemEntity();
+
+        entity.setArticleItemId(item.getId());
+        entity.setAmount(item.getAmount());
+
+        final DepositorySpot spot = new DepositorySpot();
+        spot.setColumnNr(item.getSpaltenNr());
+        spot.setRowNr(item.getReihenNr());
+
+        entity.setSpot(spot);
+        entity.setSellPrice(BigDecimal.valueOf(item.getSellPrice()));
+        entity.setBuyPrice(BigDecimal.valueOf(item.getBuyPrice()));
 
         return entity;
     }

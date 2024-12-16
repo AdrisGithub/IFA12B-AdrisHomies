@@ -29,6 +29,6 @@ public class DepositoryController implements DepositoryApi {
 
     @Override
     public ResponseEntity<GetArticle> storeArticle(StoreArticle storeArticle) {
-        return null;
+        return ResponseEntity.ok(this.articleControl.storeArticle(storeArticle));
     }
 }
