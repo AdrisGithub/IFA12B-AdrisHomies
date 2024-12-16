@@ -346,7 +346,6 @@ components:
         - id
         - amount
         - buyPrice
-        - sellPrice
       properties:
         id:
           type: integer
@@ -360,10 +359,6 @@ components:
           type: number
           format: float
           example: 1.99
-        sellPrice:
-          type: number
-          format: float
-          example: 0.99
     GetArticle:
       type: object
       required:
