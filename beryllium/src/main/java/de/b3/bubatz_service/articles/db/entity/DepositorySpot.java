@@ -18,9 +18,6 @@ public class DepositorySpot {
 
     private Integer columnNr;
 
-    @OneToOne(mappedBy = "spot")
-    private ArticleItemEntity articleItem;
-
     @Override
     public String toString() {
         return "DepositorySpot{" +

@@ -20,10 +20,6 @@ public class ArticleItemEntity {
     @JoinColumn(name = "spotId", referencedColumnName = "spotId")
     private DepositorySpot spot;
 
-    @ManyToOne
-    @JoinColumn(name = "articleId", nullable = false, insertable = false, updatable = false)
-    private Article article;
-
     @Column(precision = 5, scale = 2)
     private BigDecimal buyPrice;
 

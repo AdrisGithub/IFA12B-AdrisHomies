@@ -1,5 +1,6 @@
 package de.b3.bubatz_service.articles.control;
 
+import de.b3.bubatz_service.articles.db.ArticleItemRepository;
 import de.b3.bubatz_service.articles.db.ArticleRepository;
 import de.b3.bubatz_service.articles.db.entity.Article;
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ArticleControl {
 
     private final ArticleRepository repository;
+    private final ArticleItemRepository itemRepository;
 
     public List<GetArticle> getAllArticles() {
         return this.repository.findAll()
@@ -35,6 +37,7 @@ public class ArticleControl {
 
         BigDecimal sellPrice = article.getItems().stream().findFirst().get().getSellPrice();
         ArticleItemEntity item = ArticleItemMapper.map(patchArticle, sellPrice);
+        itemRepository.save(item);
         article.getItems().add(item);
         return ArticleMapper.map(repository.save(article));
     }
