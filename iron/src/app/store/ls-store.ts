@@ -1,13 +1,13 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
-import {ArticleService, DepositoryService, ServiceService} from '../gen';
+import {ArticleService, DepositoryService, GetArticle, ServiceService} from '../gen';
 
 type BubatzState = {
-  name: string
+  allArticles: GetArticle[]
 };
 
 const initalState: BubatzState = {
-  name: ''
+  allArticles: []
 }
 
 export const BubatzStore = signalStore(
@@ -21,21 +21,23 @@ export const BubatzStore = signalStore(
     return {
        loadArticles(){
          // no need to call this manually
-         const articles = depository.getArticles();
-         patchState(store, {name: 'Hier muss dann irgendwann der aufruf gemappt werden'})
+         depository.getArticles().subscribe(articles => {
+         patchState(store, {allArticles: articles});
+         console.log(articles);
+         });
        },
        createArticle(name: string){
          // will be called manually
-         patchState(store, { name})
+         patchState(store, { })
        }
     }
   }),
-  withComputed(({name}) => ({
-        nameToString: computed(() => name.toString())
+  withComputed(({}) => ({
+        nameToString: computed(() => " ")
   })),
   withHooks({
     onInit({loadArticles}){
-      // load All the Articles at startup
+      // load all the Articles at startup
       loadArticles();
     }
   })
