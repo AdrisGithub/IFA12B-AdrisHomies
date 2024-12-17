@@ -24,7 +24,7 @@ public class DepositoryController implements DepositoryApi {
 
     @Override
     public ResponseEntity<GetArticleWithSellPrice> sellArticle(Integer id, SellArticle sellArticle) {
-        return null;
+        return ResponseEntity.ok(this.articleControl.sellArticle(id, sellArticle.getAmount()));
     }
 
     @Override

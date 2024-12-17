@@ -8,6 +8,7 @@ import de.b3.bubatz_service.generated.models.PatchArticle;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ArticleItemMapper {
 
@@ -15,6 +16,12 @@ public class ArticleItemMapper {
         return entities.stream()
                 .map(ArticleItemMapper::map)
                 .toList();
+    }
+
+    public static Set<ArticleItemEntity> map(List<ArticleItem> items){
+        return items.stream()
+                .map(ArticleItemMapper::map)
+                .collect(Collectors.toSet());
     }
 
     public static ArticleItem map(ArticleItemEntity entity) {

@@ -1,12 +1,8 @@
 package de.b3.bubatz_service.articles.util;
 
 import de.b3.bubatz_service.articles.db.entity.Article;
-import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.generated.models.GetArticle;
-import de.b3.bubatz_service.generated.models.PatchArticle;
 import de.b3.bubatz_service.util.InfoMapper;
-
-import java.math.BigDecimal;
 
 public class ArticleMapper {
 
@@ -20,5 +16,17 @@ public class ArticleMapper {
         getArticle.setItems(ArticleItemMapper.map(article.getItems()));
 
         return getArticle;
+    }
+
+    public static Article map(GetArticle getArticle){
+        final Article article = new Article();
+
+        article.setDescription(getArticle.getDescription());
+        article.setName(getArticle.getName());
+        article.setId(getArticle.getId());
+        article.setItems(ArticleItemMapper.map(getArticle.getItems()));
+        article.setAdditionalValues(InfoMapper.map(getArticle.getInfos()));
+
+        return article;
     }
 }

@@ -438,12 +438,14 @@ components:
       properties:
         totalPrice:
           type: number
-          format: float
+          format: double
           example: 123.99
         article:
           $ref: '#/components/schemas/GetArticle'
         spots:
-          $ref: '#/components/schemas/PickupSpots'
+          type: array
+          items:
+            $ref: '#/components/schemas/PickupSpot'
     SellArticle:
       type: object
       required:
@@ -453,7 +455,7 @@ components:
           type: integer
           format: int32
           example: 10
-    PickupSpots:
+    PickupSpot:
       type: object
       properties:
         reihenNr:
