@@ -9,7 +9,7 @@ import {StatusComponent} from '../status/status.component';
   ],
   template: `
     <article>
-      <h1>{{ article().title }}</h1>
+      <h3>{{ article().title }}</h3>
       <div class="information">
         <p class="price">{{ article().price }}</p>
         <div class="availability">
@@ -33,7 +33,7 @@ import {StatusComponent} from '../status/status.component';
     `
       article {
         background: var(--card-bg);
-        padding: 1em;
+        padding: 0.7em;
         font-family: Arial, sans-serif;
         width: 100%;
         box-sizing: border-box;
@@ -44,7 +44,7 @@ import {StatusComponent} from '../status/status.component';
       }
 
       p {
-        font-size: 32px;
+        font-size: 20px;
       }
 
       .information {
@@ -54,7 +54,7 @@ import {StatusComponent} from '../status/status.component';
       }
 
       .availability {
-        gap: 15px;
+        gap: 10px;
         margin-top: 0.2em;
       }
     `,
