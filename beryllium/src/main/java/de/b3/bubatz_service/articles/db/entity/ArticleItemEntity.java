@@ -11,7 +11,7 @@ import java.util.Objects;
 public class ArticleItemEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer articleItemId;
 
     @OneToOne(cascade = CascadeType.ALL)
