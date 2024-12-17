@@ -5,10 +5,12 @@ import {Article} from '../core-components/article/article.component';
 
 type BubatzState = {
   allArticles: GetArticle[]
+  selectedArticle: number | undefined
 };
 
 const initalState: BubatzState = {
-  allArticles: []
+  allArticles: [],
+  selectedArticle: undefined
 }
 
 export const BubatzStore = signalStore(
@@ -29,7 +31,13 @@ export const BubatzStore = signalStore(
        createArticle(name: string){
          // will be called manually
          patchState(store, { })
-       }
+       },
+      storeArticle(){
+         depository.storeArticle().subscribe(articles => {
+           patchState(store, {allArticles: articles})
+         })
+      }
+
     }
   }),
   withComputed(({allArticles}) => ({

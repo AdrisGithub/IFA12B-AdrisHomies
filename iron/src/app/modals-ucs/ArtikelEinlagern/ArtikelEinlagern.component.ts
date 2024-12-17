@@ -62,8 +62,9 @@ import {ButtonComponent} from '../../core-components/button/button.component';
 export class ArtikelEinlagernComponent implements ModalBase {
   article: Article = {
     title: "Grünes T-Shirt",
-    price: "3,00€",
+    price: 3.00,
     amountOrdered: 5,
-    amountWarehouse: 28
+    amountWarehouse: 28,
+    id: 1
   }
 }
