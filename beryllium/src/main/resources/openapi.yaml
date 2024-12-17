@@ -354,6 +354,8 @@ components:
         - id
         - name
         - description
+        - sellPrice
+        - buyPrice
         - infos
         - items
       properties:
