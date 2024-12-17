@@ -12,24 +12,24 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     </div>
   `,
   styles: `
-    :host {
-      display: block;
-    }
 
     .container {
-      border: solid 1px var(--text-secondary);
+      border: solid 1px var(--border);
       border-radius: .5em;
       position: relative;
-      margin: .3em;
       padding: 1em;
+      box-sizing: border-box;
+      height: 100%;
     }
 
     .float {
       position: absolute;
-      top: -1em;
+      top: 0;
       left: 1em;
       background-color: var(--bg);
-      padding: 5px;
+      color: var(--border);
+      transform: translateY(-0.7em);
+      padding: 0 10px;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
