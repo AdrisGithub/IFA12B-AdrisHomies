@@ -348,10 +348,6 @@ components:
           type: integer
           format: int32
           example: 12
-        buyPrice:
-          type: number
-          format: float
-          example: 1.99
     GetArticle:
       type: object
       required:
@@ -371,6 +367,14 @@ components:
         description:
           type: string
           example: "Ein Ball halt"
+        buyPrice:
+          type: number
+          format: float
+          example: 1.99
+        sellPrice:
+          type: number
+          format: float
+          example: 0.99
         infos:
           $ref: '#/components/schemas/AdditionalInfos'
         items:
@@ -400,14 +404,6 @@ components:
           type: integer
           format: int32
           example: 200
-        buyPrice:
-          type: number
-          format: float
-          example: 1.99
-        sellPrice:
-          type: number
-          format: float
-          example: 0.99
     StoreArticle:
       type: object
       description: An Article Item that has arrived and needs to be stored somewhere

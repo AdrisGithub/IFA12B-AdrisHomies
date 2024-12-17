@@ -14,6 +14,8 @@ public class ArticleMapper {
         getArticle.setDescription(article.getDescription());
         getArticle.setInfos(InfoMapper.map(article.getAdditionalValues()));
         getArticle.setItems(ArticleItemMapper.map(article.getItems()));
+        getArticle.setSellPrice(article.getSellPrice().floatValue());
+        getArticle.setBuyPrice(article.getBuyPrice().floatValue());
 
         return getArticle;
     }

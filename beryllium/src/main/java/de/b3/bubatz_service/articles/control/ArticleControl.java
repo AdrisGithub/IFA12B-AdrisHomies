@@ -51,8 +51,7 @@ public class ArticleControl {
     public GetArticle patchArticle(PatchArticle patchArticle) {
         final Article article = findArticleById(patchArticle.getId());
 
-        BigDecimal sellPrice = article.getItems().stream().findFirst().get().getSellPrice();
-        ArticleItemEntity item = ArticleItemMapper.map(patchArticle, sellPrice);
+        ArticleItemEntity item = ArticleItemMapper.map(patchArticle);
         itemRepository.save(item);
         article.getItems().add(item);
 
