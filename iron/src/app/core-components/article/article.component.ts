@@ -1,26 +1,28 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {StatusComponent} from '../status/status.component';
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
   selector: 'ls-article',
   standalone: true,
   imports: [
-    StatusComponent
+    StatusComponent,
+    CurrencyPipe
   ],
   template: `
     <article>
-      <h1>{{ article().title }}</h1>
+      <h3>{{ article().title }}</h3>
       <div class="information">
-        <p class="price">{{ article().price }}</p>
+        <p class="price">{{ article().price | currency: 'EUR' }}</p>
         <div class="availability">
-          @if (!article().amountOrdered && !article().amountWarehouse) {
-            <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'"></ls-status>
-          }
           @if (article().amountOrdered) {
             <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
                        [amount]="article().amountOrdered"></ls-status>
           }
-          @if (article().amountWarehouse) {
+          @if (!article().amountWarehouse) {
+            <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'"></ls-status>
+          }
+          @else {
             <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
                        [amount]="article().amountWarehouse"></ls-status>
           }
@@ -33,7 +35,7 @@ import {StatusComponent} from '../status/status.component';
     `
       article {
         background: var(--card-bg);
-        padding: 1em;
+        padding: 0.7em;
         font-family: Arial, sans-serif;
         width: 100%;
         box-sizing: border-box;
@@ -44,7 +46,7 @@ import {StatusComponent} from '../status/status.component';
       }
 
       p {
-        font-size: 32px;
+        font-size: 20px;
       }
 
       .information {
@@ -54,7 +56,7 @@ import {StatusComponent} from '../status/status.component';
       }
 
       .availability {
-        gap: 15px;
+        gap: 10px;
         margin-top: 0.2em;
       }
     `,
@@ -66,8 +68,9 @@ export class ArticleComponent {
 }
 
 export type Article = {
+  id: number,
   title: string,
-  price: string,
+  price: number,
   amountWarehouse?: number,
   amountOrdered?: number;
 }
