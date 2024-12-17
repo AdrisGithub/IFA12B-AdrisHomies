@@ -3,6 +3,8 @@ package de.b3.bubatz_service.articles.db.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,6 +23,12 @@ public class Article {
 
     private String additionalValues;
 
+    @Column(precision = 5, scale = 2)
+    private BigDecimal buyPrice;
+
+    @Column(precision = 5, scale = 2)
+    private BigDecimal sellPrice;
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "articleId")
     private Set<ArticleItemEntity> items;
@@ -31,8 +39,20 @@ public class Article {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", buyPrice=" + buyPrice +
+                ", sellPrice=" + sellPrice +
                 ", additionalValues='" + additionalValues + '\'' +
                 ", items=" + items + '}';
+    }
+
+    public BigDecimal getBuyPrice() {
+        if (buyPrice == null) return null;
+        return buyPrice.setScale(2, RoundingMode.CEILING);
+    }
+
+    public BigDecimal getSellPrice() {
+        if (sellPrice == null) return null;
+        return sellPrice.setScale(2, RoundingMode.CEILING);
     }
 
     @Override
@@ -41,12 +61,14 @@ public class Article {
         return Objects.equals(id, article.id) &&
                 Objects.equals(name, article.name) &&
                 Objects.equals(description, article.description) &&
+                Objects.equals(buyPrice, article.buyPrice) &&
+                Objects.equals(sellPrice, article.sellPrice) &&
                 Objects.equals(additionalValues, article.additionalValues) &&
                 Objects.equals(items, article.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, additionalValues, items);
+        return Objects.hash(id, name, description, sellPrice, buyPrice, additionalValues, items);
     }
 }

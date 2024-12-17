@@ -6,9 +6,9 @@ import de.b3.bubatz_service.generated.models.ArticleItem;
 import de.b3.bubatz_service.generated.models.PostArticle;
 import de.b3.bubatz_service.generated.models.PatchArticle;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ArticleItemMapper {
 
@@ -18,13 +18,17 @@ public class ArticleItemMapper {
                 .toList();
     }
 
+    public static Set<ArticleItemEntity> map(List<ArticleItem> items){
+        return items.stream()
+                .map(ArticleItemMapper::map)
+                .collect(Collectors.toSet());
+    }
+
     public static ArticleItem map(ArticleItemEntity entity) {
         final ArticleItem item = new ArticleItem();
 
         item.setAmount(entity.getAmount());
         item.setId(entity.getArticleItemId());
-        item.setBuyPrice(entity.getBuyPrice().floatValue());
-        item.setSellPrice(entity.getSellPrice().floatValue());
 
         final DepositorySpot spot = entity.getSpot();
 
@@ -38,13 +42,11 @@ public class ArticleItemMapper {
         return item;
     }
 
-    public static ArticleItemEntity map(PatchArticle patchArticle, BigDecimal sellPrice) {
+    public static ArticleItemEntity map(PatchArticle patchArticle) {
         ArticleItemEntity entity = new ArticleItemEntity();
 
         entity.setAmount(patchArticle.getAmount());
         entity.setSpot(null);
-        entity.setSellPrice(sellPrice);
-        entity.setBuyPrice(BigDecimal.valueOf(patchArticle.getBuyPrice()));
 
         return entity;
     }
@@ -60,8 +62,6 @@ public class ArticleItemMapper {
         spot.setRowNr(item.getReihenNr());
 
         entity.setSpot(spot);
-        entity.setSellPrice(BigDecimal.valueOf(item.getSellPrice()));
-        entity.setBuyPrice(BigDecimal.valueOf(item.getBuyPrice()));
 
         return entity;
     }
@@ -70,8 +70,6 @@ public class ArticleItemMapper {
         final ArticleItem item = new ArticleItem();
 
         item.setAmount(postArticle.getAmount());
-        item.setBuyPrice(postArticle.getBuyPrice());
-        item.setSellPrice(postArticle.getSellPrice());
 
         return item;
     }
