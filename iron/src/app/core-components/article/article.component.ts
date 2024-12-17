@@ -1,17 +1,19 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {StatusComponent} from '../status/status.component';
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
   selector: 'ls-article',
   standalone: true,
   imports: [
-    StatusComponent
+    StatusComponent,
+    CurrencyPipe
   ],
   template: `
     <article>
       <h3>{{ article().title }}</h3>
       <div class="information">
-        <p class="price">{{ article().price }}</p>
+        <p class="price">{{ article().price | currency: 'EUR' }}</p>
         <div class="availability">
           @if (article().amountOrdered) {
             <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
@@ -66,8 +68,9 @@ export class ArticleComponent {
 }
 
 export type Article = {
+  id: number,
   title: string,
-  price: string,
+  price: number,
   amountWarehouse?: number,
   amountOrdered?: number;
 }

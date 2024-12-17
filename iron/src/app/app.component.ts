@@ -26,6 +26,5 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.store.createArticle("Hier ist ein neuer name")
-    this.store.nameToString();
   }
 }

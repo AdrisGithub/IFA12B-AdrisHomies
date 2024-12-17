@@ -1,6 +1,7 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
 import {ArticleService, DepositoryService, GetArticle, ServiceService} from '../gen';
+import {Article} from '../core-components/article/article.component';
 
 type BubatzState = {
   allArticles: GetArticle[]
@@ -32,13 +33,35 @@ export const BubatzStore = signalStore(
        }
     }
   }),
-  withComputed(({}) => ({
-        nameToString: computed(() => " ")
+  withComputed(({allArticles}) => ({
+    getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle)))
   })),
   withHooks({
     onInit({loadArticles}){
       // load all the Articles at startup
       loadArticles();
+
     }
   })
-)
+);
+
+function mapArticle(getArticle: GetArticle): Article {
+  let amountInWarehouse = 0;
+  let amountIsOrdered = 0;
+  const items = getArticle.items;
+  items.forEach(item => {
+    if (item.reihenNr===null){
+      amountIsOrdered = amountIsOrdered + item.amount;
+    }
+    else {
+      amountInWarehouse = amountInWarehouse + item.amount;
+    }
+  })
+  return {
+    id: getArticle.id,
+    title: getArticle.name,
+    price: getArticle.sellPrice,
+    amountWarehouse: amountInWarehouse,
+    amountOrdered: amountIsOrdered
+  };
+}
