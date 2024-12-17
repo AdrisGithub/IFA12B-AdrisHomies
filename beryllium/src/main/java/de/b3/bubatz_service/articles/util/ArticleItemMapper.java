@@ -5,7 +5,6 @@ import de.b3.bubatz_service.articles.db.entity.DepositorySpot;
 import de.b3.bubatz_service.generated.models.ArticleItem;
 import de.b3.bubatz_service.generated.models.PatchArticle;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -22,8 +21,6 @@ public class ArticleItemMapper {
 
         item.setAmount(entity.getAmount());
         item.setId(entity.getArticleItemId());
-        item.setBuyPrice(entity.getBuyPrice().floatValue());
-        item.setSellPrice(entity.getSellPrice().floatValue());
 
         final DepositorySpot spot = entity.getSpot();
 
@@ -37,13 +34,11 @@ public class ArticleItemMapper {
         return item;
     }
 
-    public static ArticleItemEntity map(PatchArticle patchArticle, BigDecimal sellPrice) {
+    public static ArticleItemEntity map(PatchArticle patchArticle) {
         ArticleItemEntity entity = new ArticleItemEntity();
 
         entity.setAmount(patchArticle.getAmount());
         entity.setSpot(null);
-        entity.setSellPrice(sellPrice);
-        entity.setBuyPrice(BigDecimal.valueOf(patchArticle.getBuyPrice()));
 
         return entity;
     }
@@ -59,8 +54,6 @@ public class ArticleItemMapper {
         spot.setRowNr(item.getReihenNr());
 
         entity.setSpot(spot);
-        entity.setSellPrice(BigDecimal.valueOf(item.getSellPrice()));
-        entity.setBuyPrice(BigDecimal.valueOf(item.getBuyPrice()));
 
         return entity;
     }
