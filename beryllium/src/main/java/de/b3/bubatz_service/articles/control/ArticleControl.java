@@ -55,8 +55,7 @@ public class ArticleControl {
                 () -> new EntityNotFoundException("Article with id " + patchArticle.getId() + " not found")
         );
 
-        BigDecimal sellPrice = article.getItems().stream().findFirst().get().getSellPrice();
-        ArticleItemEntity item = ArticleItemMapper.map(patchArticle, sellPrice);
+        ArticleItemEntity item = ArticleItemMapper.map(patchArticle);
         itemRepository.save(item);
         article.getItems().add(item);
         return ArticleMapper.map(repository.save(article));
