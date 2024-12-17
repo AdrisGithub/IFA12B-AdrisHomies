@@ -12,7 +12,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,17 +62,18 @@ public class ArticleControl {
 
         final List<PickupSpot> spots = new ArrayList<>();
         final List<ArticleItem> items = new ArrayList<>();
-        double totalPrice = 0;
+
 
         for (ArticleItem item : getArticle.getItems()) {
             if (item.getAmount() >= amount) {
                 amount -= item.getAmount();
-                totalPrice += item.getSellPrice();
                 spots.add(PickupSpotMapper.map(item));
             } else {
                 items.add(item);
             }
         }
+
+        double totalPrice = spots.size() * getArticle.getSellPrice();
 
         getArticle.setItems(items);
         final Article article = ArticleMapper.map(getArticle);
