@@ -3,6 +3,7 @@ package de.b3.bubatz_service.rest;
 import de.b3.bubatz_service.generated.models.Error;
 import de.b3.bubatz_service.rest.exceptions.InvalidAdditionalValuesPersistException;
 import de.b3.bubatz_service.rest.exceptions.InvalidAdditionalValuesReadException;
+import de.b3.bubatz_service.rest.exceptions.NegativeSalesPriceException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,17 @@ public class ExceptionHandlerAdvice {
         log.error("{}", ex.getMessage());
         return ResponseEntity.
                 status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
+    @ExceptionHandler(value = {NegativeSalesPriceException.class})
+    public ResponseEntity<Error> negativeSalesPriceException(NegativeSalesPriceException ex) {
+
+        final Error error = createError(ex.getMessage());
+
+        log.error("{}", ex.getMessage());
+        return ResponseEntity.
+                status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
 
