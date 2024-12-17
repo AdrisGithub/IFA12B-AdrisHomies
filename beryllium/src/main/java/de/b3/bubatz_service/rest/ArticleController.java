@@ -6,9 +6,12 @@ import de.b3.bubatz_service.generated.models.PatchArticle;
 import de.b3.bubatz_service.generated.models.PostArticle;
 import de.b3.bubatz_service.generated.api.ArticleApi;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +22,7 @@ public class ArticleController implements ArticleApi{
 
     @Override
     public ResponseEntity<GetArticle> createArticle(PostArticle postArticle) {
-        return null;
+        return ResponseEntity.status(CREATED).body(this.control.createArticle(postArticle));
     }
 
     @Override
