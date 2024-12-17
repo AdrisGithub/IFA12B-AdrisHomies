@@ -9,6 +9,7 @@ import de.b3.bubatz_service.articles.util.ArticleMapper;
 import de.b3.bubatz_service.generated.models.ArticleItem;
 import de.b3.bubatz_service.generated.models.GetArticle;
 import de.b3.bubatz_service.generated.models.PatchArticle;
+import de.b3.bubatz_service.generated.models.PostArticle;
 import de.b3.bubatz_service.generated.models.StoreArticle;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -59,6 +61,16 @@ public class ArticleControl {
         ArticleItemEntity item = ArticleItemMapper.map(patchArticle, sellPrice);
         itemRepository.save(item);
         article.getItems().add(item);
+        return ArticleMapper.map(repository.save(article));
+    }
+
+    public GetArticle createArticle(PostArticle postArticle) {
+
+        ArticleItem item = ArticleItemMapper.map(postArticle);
+        ArticleItemEntity itemEntity = this.itemRepository.save(ArticleItemMapper.map(item));
+
+        Article article = ArticleMapper.map(postArticle, itemEntity);
+
         return ArticleMapper.map(repository.save(article));
     }
 }

@@ -3,6 +3,7 @@ package de.b3.bubatz_service.articles.util;
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.articles.db.entity.DepositorySpot;
 import de.b3.bubatz_service.generated.models.ArticleItem;
+import de.b3.bubatz_service.generated.models.PostArticle;
 import de.b3.bubatz_service.generated.models.PatchArticle;
 
 import java.math.BigDecimal;
@@ -63,5 +64,15 @@ public class ArticleItemMapper {
         entity.setBuyPrice(BigDecimal.valueOf(item.getBuyPrice()));
 
         return entity;
+    }
+
+    public static ArticleItem map(PostArticle postArticle) {
+        final ArticleItem item = new ArticleItem();
+
+        item.setAmount(postArticle.getAmount());
+        item.setBuyPrice(postArticle.getBuyPrice());
+        item.setSellPrice(postArticle.getSellPrice());
+
+        return item;
     }
 }

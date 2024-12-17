@@ -12,7 +12,7 @@ import java.math.RoundingMode;
 public class Service {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

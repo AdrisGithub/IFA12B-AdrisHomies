@@ -11,7 +11,7 @@ import java.util.Objects;
 public class DepositorySpot {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer spotId;
 
     private Integer rowNr;
