@@ -348,16 +348,14 @@ components:
           type: integer
           format: int32
           example: 12
-        buyPrice:
-          type: number
-          format: float
-          example: 1.99
     GetArticle:
       type: object
       required:
         - id
         - name
         - description
+        - sellPrice
+        - buyPrice
         - infos
         - items
       properties:
@@ -371,6 +369,14 @@ components:
         description:
           type: string
           example: "Ein Ball halt"
+        buyPrice:
+          type: number
+          format: float
+          example: 1.99
+        sellPrice:
+          type: number
+          format: float
+          example: 0.99
         infos:
           $ref: '#/components/schemas/AdditionalInfos'
         items:
@@ -400,14 +406,6 @@ components:
           type: integer
           format: int32
           example: 200
-        buyPrice:
-          type: number
-          format: float
-          example: 1.99
-        sellPrice:
-          type: number
-          format: float
-          example: 0.99
     StoreArticle:
       type: object
       description: An Article Item that has arrived and needs to be stored somewhere
@@ -434,13 +432,18 @@ components:
       required:
         - totalPrice
         - article
+        - spots
       properties:
         totalPrice:
           type: number
-          format: float
+          format: double
           example: 123.99
         article:
           $ref: '#/components/schemas/GetArticle'
+        spots:
+          type: array
+          items:
+            $ref: '#/components/schemas/PickupSpot'
     SellArticle:
       type: object
       required:
@@ -450,6 +453,21 @@ components:
           type: integer
           format: int32
           example: 10
+    PickupSpot:
+      type: object
+      properties:
+        reihenNr:
+          type: integer
+          format: int32
+          example: 20
+        spaltenNr:
+          type: integer
+          format: int32
+          example: 23
+        amount:
+          type: integer
+          format: int32,
+          example: 100
     AdditionalInfos:
       type: object
       additionalProperties:

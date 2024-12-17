@@ -9,12 +9,16 @@ import de.b3.bubatz_service.articles.util.ArticleMapper;
 import de.b3.bubatz_service.generated.models.ArticleItem;
 import de.b3.bubatz_service.generated.models.GetArticle;
 import de.b3.bubatz_service.generated.models.PatchArticle;
+import de.b3.bubatz_service.generated.models.PostArticle;
 import de.b3.bubatz_service.generated.models.StoreArticle;
+import de.b3.bubatz_service.articles.util.PickupSpotMapper;
+import de.b3.bubatz_service.generated.models.GetArticleWithSellPrice;
+import de.b3.bubatz_service.generated.models.PickupSpot;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -50,15 +54,60 @@ public class ArticleControl {
     }
 
     public GetArticle patchArticle(PatchArticle patchArticle) {
+        final Article article = findArticleById(patchArticle.getId());
 
-        Article article = repository.findById(patchArticle.getId()).orElseThrow(
-                () -> new EntityNotFoundException("Article with id " + patchArticle.getId() + " not found")
-        );
-
-        BigDecimal sellPrice = article.getItems().stream().findFirst().get().getSellPrice();
-        ArticleItemEntity item = ArticleItemMapper.map(patchArticle, sellPrice);
+        ArticleItemEntity item = ArticleItemMapper.map(patchArticle);
         itemRepository.save(item);
         article.getItems().add(item);
+
         return ArticleMapper.map(repository.save(article));
+    }
+
+    public GetArticle createArticle(PostArticle postArticle) {
+
+        ArticleItem item = ArticleItemMapper.map(postArticle);
+        ArticleItemEntity itemEntity = this.itemRepository.save(ArticleItemMapper.map(item));
+
+        Article article = ArticleMapper.map(postArticle, itemEntity);
+
+        return ArticleMapper.map(repository.save(article));
+    }
+
+    public GetArticleWithSellPrice sellArticle(Integer id, Integer amount) {
+        final GetArticle getArticle = ArticleMapper.map(findArticleById(id));
+
+        final List<PickupSpot> spots = new ArrayList<>();
+        final List<ArticleItem> items = new ArrayList<>();
+
+
+        for (ArticleItem item : getArticle.getItems()) {
+            if (item.getAmount() >= amount) {
+                amount -= item.getAmount();
+                spots.add(PickupSpotMapper.map(item));
+            } else {
+                items.add(item);
+            }
+        }
+
+        double totalPrice = spots.size() * getArticle.getSellPrice();
+
+        getArticle.setItems(items);
+        final Article article = ArticleMapper.map(getArticle);
+        final Article saved = this.repository.save(article);
+        final GetArticle savedArticle = ArticleMapper.map(saved);
+
+        final GetArticleWithSellPrice articleWithSellPrice = new GetArticleWithSellPrice();
+        articleWithSellPrice.setArticle(savedArticle);
+        articleWithSellPrice.setTotalPrice(totalPrice);
+        articleWithSellPrice.setSpots(spots);
+
+        return articleWithSellPrice;
+    }
+
+
+    private Article findArticleById(Integer id){
+        return repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Article with id " + id + " not found")
+        );
     }
 }
