@@ -1,13 +1,14 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
-import {ArticleService, DepositoryService, ServiceService} from '../gen';
+import {ArticleService, DepositoryService, GetArticle, ServiceService} from '../gen';
+import {Article} from '../core-components/article/article.component';
 
 type BubatzState = {
-  name: string
+  allArticles: GetArticle[]
 };
 
 const initalState: BubatzState = {
-  name: ''
+  allArticles: []
 }
 
 export const BubatzStore = signalStore(
@@ -21,22 +22,45 @@ export const BubatzStore = signalStore(
     return {
        loadArticles(){
          // no need to call this manually
-         const articles = depository.getArticles();
-         patchState(store, {name: 'Hier muss dann irgendwann der aufruf gemappt werden'})
+         depository.getArticles().subscribe(articles => {
+         patchState(store, {allArticles: articles});
+         });
        },
        createArticle(name: string){
          // will be called manually
-         patchState(store, { name})
+         patchState(store, { })
        }
     }
   }),
-  withComputed(({name}) => ({
-        nameToString: computed(() => name.toString())
+  withComputed(({allArticles}) => ({
+    getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle)))
   })),
   withHooks({
     onInit({loadArticles}){
-      // load All the Articles at startup
+      // load all the Articles at startup
       loadArticles();
+
     }
   })
-)
+);
+
+function mapArticle(getArticle: GetArticle): Article {
+  let amountInWarehouse = 0;
+  let amountIsOrdered = 0;
+  const items = getArticle.items;
+  items.forEach(item => {
+    if (item.reihenNr===null){
+      amountIsOrdered = amountIsOrdered + item.amount;
+    }
+    else {
+      amountInWarehouse = amountInWarehouse + item.amount;
+    }
+  })
+  return {
+    id: getArticle.id,
+    title: getArticle.name,
+    price: getArticle.sellPrice,
+    amountWarehouse: amountInWarehouse,
+    amountOrdered: amountIsOrdered
+  };
+}
