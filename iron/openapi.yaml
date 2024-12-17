@@ -354,6 +354,8 @@ components:
         - id
         - name
         - description
+        - sellPrice
+        - buyPrice
         - infos
         - items
       properties:
@@ -434,7 +436,7 @@ components:
       properties:
         totalPrice:
           type: number
-          format: float
+          format: double
           example: 123.99
         article:
           $ref: '#/components/schemas/GetArticle'
