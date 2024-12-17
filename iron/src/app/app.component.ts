@@ -1,15 +1,14 @@
 import {Component, OnInit, ChangeDetectionStrategy, inject} from '@angular/core';
 import { ModalTestViewComponent } from './views/ModalTestView/ModalTestView.component';
 import {BubatzStore} from './store/ls-store';
-import {HomePageComponent} from './components/home-page/home-page.component';
 
 @Component({
   selector: 'ls-root',
   standalone: true,
-  imports: [ModalTestViewComponent, HomePageComponent],
+  imports: [ModalTestViewComponent],
   template: `
 
-    <ls-home-page/>
+    <ls-modal-test-view/>
 
   `,
   styles: `
