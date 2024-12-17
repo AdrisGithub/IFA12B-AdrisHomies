@@ -64,12 +64,12 @@ public class ArticleControl {
 
         final List<PickupSpot> spots = new ArrayList<>();
         final List<ArticleItem> items = new ArrayList<>();
-        double sellAmount = 0;
+        double totalPrice = 0;
 
         for (ArticleItem item : getArticle.getItems()) {
             if (item.getAmount() >= amount) {
                 amount -= item.getAmount();
-                sellAmount += item.getSellPrice();
+                totalPrice += item.getSellPrice();
                 spots.add(PickupSpotMapper.map(item));
             } else {
                 items.add(item);
@@ -83,7 +83,7 @@ public class ArticleControl {
 
         final GetArticleWithSellPrice articleWithSellPrice = new GetArticleWithSellPrice();
         articleWithSellPrice.setArticle(savedArticle);
-        articleWithSellPrice.setTotalPrice(sellAmount);
+        articleWithSellPrice.setTotalPrice(totalPrice);
         articleWithSellPrice.setSpots(spots);
 
         return articleWithSellPrice;
