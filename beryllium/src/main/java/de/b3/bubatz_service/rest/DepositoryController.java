@@ -2,7 +2,10 @@ package de.b3.bubatz_service.rest;
 
 import de.b3.bubatz_service.articles.control.ArticleControl;
 import de.b3.bubatz_service.generated.api.DepositoryApi;
-import de.b3.bubatz_service.generated.models.*;
+import de.b3.bubatz_service.generated.models.GetArticle;
+import de.b3.bubatz_service.generated.models.GetArticleWithSellPrice;
+import de.b3.bubatz_service.generated.models.StoreArticle;
+import de.b3.bubatz_service.generated.models.SellArticle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,7 +27,7 @@ public class DepositoryController implements DepositoryApi {
 
     @Override
     public ResponseEntity<GetArticleWithSellPrice> sellArticle(Integer id, SellArticle sellArticle) {
-        return null;
+        return ResponseEntity.ok(this.articleControl.sellArticle(id, sellArticle.getAmount()));
     }
 
     @Override
