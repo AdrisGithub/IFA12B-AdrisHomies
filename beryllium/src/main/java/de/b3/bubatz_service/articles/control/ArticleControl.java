@@ -6,8 +6,14 @@ import de.b3.bubatz_service.articles.db.entity.Article;
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.articles.util.ArticleItemMapper;
 import de.b3.bubatz_service.articles.util.ArticleMapper;
+import de.b3.bubatz_service.generated.models.ArticleItem;
+import de.b3.bubatz_service.generated.models.GetArticle;
+import de.b3.bubatz_service.generated.models.PatchArticle;
+import de.b3.bubatz_service.generated.models.PostArticle;
+import de.b3.bubatz_service.generated.models.StoreArticle;
 import de.b3.bubatz_service.articles.util.PickupSpotMapper;
-import de.b3.bubatz_service.generated.models.*;
+import de.b3.bubatz_service.generated.models.GetArticleWithSellPrice;
+import de.b3.bubatz_service.generated.models.PickupSpot;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -53,6 +59,16 @@ public class ArticleControl {
         ArticleItemEntity item = ArticleItemMapper.map(patchArticle);
         itemRepository.save(item);
         article.getItems().add(item);
+
+        return ArticleMapper.map(repository.save(article));
+    }
+
+    public GetArticle createArticle(PostArticle postArticle) {
+
+        ArticleItem item = ArticleItemMapper.map(postArticle);
+        ArticleItemEntity itemEntity = this.itemRepository.save(ArticleItemMapper.map(item));
+
+        Article article = ArticleMapper.map(postArticle, itemEntity);
 
         return ArticleMapper.map(repository.save(article));
     }

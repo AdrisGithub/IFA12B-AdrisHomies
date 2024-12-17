@@ -24,7 +24,6 @@ export const BubatzStore = signalStore(
          // no need to call this manually
          depository.getArticles().subscribe(articles => {
          patchState(store, {allArticles: articles});
-         console.log(articles);
          });
        },
        createArticle(name: string){

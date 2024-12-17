@@ -12,8 +12,9 @@ import java.util.Set;
 @Table(name = "ARTICLES")
 @Data
 public class Article {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
