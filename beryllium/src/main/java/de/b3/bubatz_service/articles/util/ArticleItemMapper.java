@@ -57,11 +57,13 @@ public class ArticleItemMapper {
         entity.setArticleItemId(item.getId());
         entity.setAmount(item.getAmount());
 
-        final DepositorySpot spot = new DepositorySpot();
-        spot.setColumnNr(item.getSpaltenNr());
-        spot.setRowNr(item.getReihenNr());
+        if (item.getSpaltenNr() != null && item.getReihenNr() != null){
+            final DepositorySpot spot = new DepositorySpot();
+            spot.setColumnNr(item.getSpaltenNr());
+            spot.setRowNr(item.getReihenNr());
 
-        entity.setSpot(spot);
+            entity.setSpot(spot);
+        }
 
         return entity;
     }
