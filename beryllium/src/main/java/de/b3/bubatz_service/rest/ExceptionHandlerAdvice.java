@@ -1,8 +1,10 @@
 package de.b3.bubatz_service.rest;
 
 import de.b3.bubatz_service.generated.models.Error;
+import de.b3.bubatz_service.rest.exceptions.DepositorySpotAlreadyOccupiedException;
 import de.b3.bubatz_service.rest.exceptions.InvalidAdditionalValuesPersistException;
 import de.b3.bubatz_service.rest.exceptions.InvalidAdditionalValuesReadException;
+import de.b3.bubatz_service.rest.exceptions.RequestExceedsDepositException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,10 +20,10 @@ public class ExceptionHandlerAdvice {
 
     public static final String INVALID_READ_ADD_VALUES_ERROR = "Beim Einlesen der Entität ist ein Fehler entstanden";
     public static final String INVALID_WRITE_ADD_VALUES_ERROR = "Beim Persistieren der Entität ist ein Fehler entstanden";
-    public static final String INVALID_ARTICLE_ID = "Es existiert kein Artikel mit dieser ID";
+    public static final String DEPOSITORY_SPOT_ALREADY_OCCUPIED = "Der Lagerplatz mit der ReihenNr: %s und SpaltenNr: %s ist schon belegt";
 
     @ExceptionHandler(value = {InvalidAdditionalValuesPersistException.class})
-    public ResponseEntity<Error> resourceNotFoundException(InvalidAdditionalValuesPersistException ex) {
+    public ResponseEntity<Error> invalidAdditionalValuesPersist(InvalidAdditionalValuesPersistException ex) {
 
         final Error error = createError(INVALID_WRITE_ADD_VALUES_ERROR);
 
@@ -31,8 +33,19 @@ public class ExceptionHandlerAdvice {
                 .body(error);
     }
 
+    @ExceptionHandler(value = {DepositorySpotAlreadyOccupiedException.class})
+    public ResponseEntity<Error> depositorySpotAlreadyOccupied(DepositorySpotAlreadyOccupiedException ex) {
+
+        final Error error = createError(String.format(DEPOSITORY_SPOT_ALREADY_OCCUPIED, ex.getRowNr(), ex.getColumnNr()));
+
+        log.error("{}", error.getDetail());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
     @ExceptionHandler(value = {InvalidAdditionalValuesReadException.class})
-    public ResponseEntity<Error> resourceNotFoundException(InvalidAdditionalValuesReadException ex) {
+    public ResponseEntity<Error> invalidAdditionalValuesRead(InvalidAdditionalValuesReadException ex) {
 
         final Error error = createError(INVALID_READ_ADD_VALUES_ERROR);
 
@@ -48,8 +61,19 @@ public class ExceptionHandlerAdvice {
         final Error error = createError(ex.getMessage());
 
         log.error("{}", ex.getMessage());
-        return ResponseEntity.
-                status(HttpStatus.NOT_FOUND)
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
+    @ExceptionHandler(value = {RequestExceedsDepositException.class})
+    public ResponseEntity<Error> requestExceedsDepositException(RequestExceedsDepositException ex) {
+
+        final Error error = createError(ex.getMessage());
+
+        log.error("{}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
 

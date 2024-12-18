@@ -2,6 +2,7 @@ package de.b3.bubatz_service.articles.control;
 
 import de.b3.bubatz_service.articles.db.ArticleItemRepository;
 import de.b3.bubatz_service.articles.db.ArticleRepository;
+import de.b3.bubatz_service.articles.db.DepositorySpotRepository;
 import de.b3.bubatz_service.articles.db.entity.Article;
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.articles.util.ArticleItemMapper;
@@ -14,6 +15,8 @@ import de.b3.bubatz_service.generated.models.StoreArticle;
 import de.b3.bubatz_service.articles.util.PickupSpotMapper;
 import de.b3.bubatz_service.generated.models.GetArticleWithSellPrice;
 import de.b3.bubatz_service.generated.models.PickupSpot;
+import de.b3.bubatz_service.rest.exceptions.DepositorySpotAlreadyOccupiedException;
+import de.b3.bubatz_service.rest.exceptions.RequestExceedsDepositException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -27,6 +30,7 @@ public class ArticleControl {
 
     private final ArticleRepository repository;
     private final ArticleItemRepository itemRepository;
+    private final DepositorySpotRepository spotRepository;
 
     public List<GetArticle> getAllArticles() {
         return this.repository.findAll()
@@ -36,6 +40,9 @@ public class ArticleControl {
     }
 
     public GetArticle storeArticle(StoreArticle storeArticle) {
+        if (depositSpotAlreadyOccupied(storeArticle.getReihenNr(), storeArticle.getSpaltenNr()))
+            throw new DepositorySpotAlreadyOccupiedException(storeArticle.getReihenNr(),storeArticle.getSpaltenNr());
+
         final ArticleItemEntity itemEntity = this.itemRepository.findById(storeArticle.getId())
                 .orElseThrow(() -> new EntityNotFoundException("ArticleItem with id " + storeArticle.getId() + " not found"));
 
@@ -53,6 +60,10 @@ public class ArticleControl {
                 .get();
     }
 
+    private boolean depositSpotAlreadyOccupied(Integer reihenNr, Integer spaltenNr) {
+        return this.spotRepository.findDepositorySpotByColumnNrAndRowNr(spaltenNr,reihenNr) != null;
+    }
+
     public GetArticle patchArticle(PatchArticle patchArticle) {
         final Article article = findArticleById(patchArticle.getId());
 
@@ -64,7 +75,6 @@ public class ArticleControl {
     }
 
     public GetArticle createArticle(PostArticle postArticle) {
-
         ArticleItem item = ArticleItemMapper.map(postArticle);
         ArticleItemEntity itemEntity = this.itemRepository.save(ArticleItemMapper.map(item));
 
@@ -74,14 +84,19 @@ public class ArticleControl {
     }
 
     public GetArticleWithSellPrice sellArticle(Integer id, Integer amount) {
-        final GetArticle getArticle = ArticleMapper.map(findArticleById(id));
+        Article article = findArticleById(id);
+
+        if (amount > totalAvailableItemAmount(id))
+            throw new RequestExceedsDepositException("Amount exceeds total available item amount");
+
+        final GetArticle getArticle = ArticleMapper.map(article);
 
         final List<PickupSpot> spots = new ArrayList<>();
         final List<ArticleItem> items = new ArrayList<>();
 
 
         for (ArticleItem item : getArticle.getItems()) {
-            if (item.getAmount() >= amount) {
+            if (amount >= item.getAmount() && isDeposited(item)) {
                 amount -= item.getAmount();
                 spots.add(PickupSpotMapper.map(item));
             } else {
@@ -92,7 +107,7 @@ public class ArticleControl {
         double totalPrice = spots.size() * getArticle.getSellPrice();
 
         getArticle.setItems(items);
-        final Article article = ArticleMapper.map(getArticle);
+        article = ArticleMapper.map(getArticle);
         final Article saved = this.repository.save(article);
         final GetArticle savedArticle = ArticleMapper.map(saved);
 
@@ -109,5 +124,13 @@ public class ArticleControl {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Article with id " + id + " not found")
         );
+    }
+
+    private int totalAvailableItemAmount(Integer Id) {
+        return repository.totalAmountOfArticleItemsByItemId(Id);
+    }
+
+    private boolean isDeposited(ArticleItem item){
+        return item.getReihenNr() != null && item.getSpaltenNr() != null;
     }
 }

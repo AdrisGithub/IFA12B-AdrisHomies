@@ -1,0 +1,35 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr min-content;
+  gap: 20px;
+}
+
+.instanzen {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 2;
+}
+
+.zusatz {
+  grid-row: 2 / span 2;
+}
+
+.buttons {
+  grid-column: 2 / span 1;
+  grid-row: 3 / span 1;
+  display: flex;
+  gap: 20px;
+}
+
+.beschreibung, .zusatz {
+    font-size: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+.list {
+    display: grid;
+    gap: 10px;
+}
