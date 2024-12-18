@@ -4,13 +4,11 @@ import {ArticleItem, ArticleService, DepositoryService, GetArticle, GetService, 
 import {Article, Article2} from '../core-components/article/article.component';
 import {Service} from '../core-components/service/service.component';
 
-
 type BubatzState = {
   allArticles: GetArticle[],
   allServices: GetService[],
   selectedInstance: ArticleItem | undefined,
   currentlyActiveArticle: GetArticle | undefined,
-  selectedArticle: number | undefined
 };
 
 const initalState: BubatzState = {
@@ -18,7 +16,6 @@ const initalState: BubatzState = {
   allServices: [],
   selectedInstance: undefined,
   currentlyActiveArticle: undefined,
-  selectedArticle: undefined
 }
 
 export const BubatzStore = signalStore(
@@ -56,11 +53,11 @@ export const BubatzStore = signalStore(
       }
     }
   }),
-  withComputed(({allArticles, allServices}) => ({
+  withComputed(({allArticles, allServices, currentlyActiveArticle}) => ({
     getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
     getMappedServices: computed(() => allServices().map(getService => mapService(getService))),
-    currentlyActiveArticle: computed<GetArticle | undefined>(() => allArticles()[2]),
-    currentlyActiveArticle2: computed<Article2 | undefined>(() => mapArticle2(allArticles()[0]))
+    currentlyActiveArticle: computed<GetArticle | undefined>(() => currentlyActiveArticle()),
+    currentlyActiveArticle2: computed<Article2 | undefined>(() => mapArticle2(currentlyActiveArticle()))
   })),
   withHooks({
     onInit({loadArticles, loadServices}){
@@ -103,7 +100,10 @@ function mapService(getService: GetService): Service {
   }
 }
 
-function mapArticle2(getArticle: GetArticle): Article2 {
+function mapArticle2(getArticle?: GetArticle): Article2 | undefined {
+  if (!getArticle){
+    return undefined;
+  }
   let amountInWarehouse = 0;
   let amountIsOrdered = 0;
   const items = getArticle.items;
