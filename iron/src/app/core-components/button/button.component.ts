@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'ls-button',
   standalone: true,
   imports: [],
+  host: {
+    '[style]': '"width: " +(fullWidth() ? "100%" : "max-content")',
+  },
   template: `
   
     <button type="button" (click)="onClick.emit()">
@@ -12,6 +15,10 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 
   `,
   styles: `
+
+    :host {
+      display: inline-block;
+    }
   
     button {
       padding: .3em .8em;
@@ -21,6 +28,9 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
       border-radius: 10px;
       font-size: 24px;
       cursor: pointer;
+      /* just to make sure */
+      display: inline;
+      width: 100%;
     }
 
   `,
@@ -28,4 +38,5 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 })
 export class ButtonComponent { 
   onClick = output();
+  fullWidth = input<boolean>(false);
 }
