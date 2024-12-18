@@ -1,17 +1,21 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
-import {ArticleService, DepositoryService, GetArticle, GetService, ServiceService} from '../gen';
+import {ArticleItem, ArticleService, DepositoryService, GetArticle, GetService, ServiceService} from '../gen';
 import {Article} from '../core-components/article/article.component';
 import {Service} from '../core-components/service/service.component';
 
 type BubatzState = {
-  allArticles: GetArticle[]
-  allServices: GetService[]
+  allArticles: GetArticle[],
+  allServices: GetService[],
+  selectedInstance: ArticleItem | undefined,
+  currentlyActiveArticle: GetArticle | undefined,
 };
 
 const initalState: BubatzState = {
   allArticles: [],
-  allServices: []
+  allServices: [],
+  selectedInstance: undefined,
+  currentlyActiveArticle: undefined
 }
 
 export const BubatzStore = signalStore(
@@ -37,12 +41,21 @@ export const BubatzStore = signalStore(
        createArticle(name: string){
          // will be called manually
          patchState(store, { })
+       },
+       selectArticle(articleId: number) {
+        patchState(store, () => {
+          const article = store.allArticles().find(a => a.id === articleId)
+          return {currentlyActiveArticle: article}
+        });
+       },
+       selectInstance(instance: ArticleItem) {
+          patchState(store, {selectedInstance: instance });
        }
     }
   }),
   withComputed(({allArticles, allServices}) => ({
     getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
-    getMappedServices: computed(() => allServices().map(getService => mapService(getService)))
+    getMappedServices: computed(() => allServices().map(getService => mapService(getService))),
   })),
   withHooks({
     onInit({loadArticles, loadServices}){

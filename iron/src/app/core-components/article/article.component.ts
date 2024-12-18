@@ -1,6 +1,9 @@
-import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {StatusComponent} from '../status/status.component';
 import {CurrencyPipe} from '@angular/common';
+import { ModalService } from '../../services/Modal.service';
+import { BubatzStore } from '../../store/ls-store';
+import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikeldetails.component';
 
 @Component({
   selector: 'ls-article',
@@ -10,7 +13,7 @@ import {CurrencyPipe} from '@angular/common';
     CurrencyPipe
   ],
   template: `
-    <article>
+    <article (click)="openDetails()">
       <h3>{{ article().title }}</h3>
       <div class="information">
         <p class="price">{{ article().price | currency: 'EUR' }}</p>
@@ -39,6 +42,7 @@ import {CurrencyPipe} from '@angular/common';
         font-family: Arial, sans-serif;
         width: 100%;
         box-sizing: border-box;
+        cursor: pointer;
       }
 
       div {
@@ -65,6 +69,15 @@ import {CurrencyPipe} from '@angular/common';
 
 export class ArticleComponent {
   article = input.required<Article>();
+
+  modalService = inject(ModalService);
+  store = inject(BubatzStore);
+
+  openDetails = () => {
+    console.log("click")
+    this.store.selectArticle(this.article().id);
+    this.modalService.openModal(ArtikeldetailsComponent)
+  }
 }
 
 export type Article = {
