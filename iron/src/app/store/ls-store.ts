@@ -71,9 +71,20 @@ export const BubatzStore = signalStore(
            return {currentlyActiveArticle: article}
          });
        },
+      sellArticle(articleId: number, amount: number) {
+         depository.sellArticle(articleId, {amount}).subscribe(value => {
+           const articles = store.allArticles().map (article => {
+             if (article.id == value.article.id) {
+                return value.article;
+             }
+             return article;
+           })
+           patchState(store, {allArticles: articles, pickupSpots: value.spots})
+         });
+      },
        selectInstance(instance: ArticleItem) {
          patchState(store, {selectedInstance: instance });
-       }
+       },
     }
   }),
   withComputed(({allArticles, allServices, currentlyActiveArticle, pickupSpots}) => ({

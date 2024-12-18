@@ -36,7 +36,7 @@ import {ArticleItem} from '../../gen';
             }
           </div>
           <div class="input">
-            <ls-input [displayText]="'gewünschte Verkaufsmenge:'" [fontSize]="20"></ls-input>
+            <ls-input (value)="amount=$event" [displayText]="'gewünschte Verkaufsmenge:'" [fontSize]="20"></ls-input>
           </div>
           <div class="button">
             <ls-button (onClick)="sellArticle()">Artikel verkaufen</ls-button>
@@ -54,10 +54,13 @@ export class ArtikelVerkaufenComponent implements ModalBase {
   modalServcie = inject(ModalService);
   store = inject(BubatzStore);
   article = this.store.currentlyActiveArticleWithAmounts;
+  amount: string | undefined;
 
   sellArticle() {
-    //TODO Backend-call
-    this.modalServcie.openModal(LagerplaetzeComponent)
+    if (this.amount) {
+      this.store.sellArticle(this.article()!.id, Number.parseInt(this.amount))
+      this.modalServcie.openModal(LagerplaetzeComponent)
+    }
   }
 }
 
