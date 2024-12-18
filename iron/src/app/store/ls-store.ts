@@ -33,7 +33,8 @@ export const BubatzStore = signalStore(
     }
   }),
   withComputed(({allArticles}) => ({
-    getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle)))
+    getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
+    currentlyActiveArticle: computed<GetArticle | undefined>(() => allArticles()[2])
   })),
   withHooks({
     onInit({loadArticles}){
