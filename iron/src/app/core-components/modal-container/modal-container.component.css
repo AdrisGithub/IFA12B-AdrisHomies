@@ -12,10 +12,10 @@
 header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: .7em;
 }
 
 button {
-  font-size: 46px;
   border: none;
   padding: 0;
   margin-left: 1em;
