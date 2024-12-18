@@ -83,6 +83,7 @@ export class ArticleComponent {
 
 export type Article = {
   id: number,
+  description: string,
   title: string,
   price: number,
   amountWarehouse?: number,

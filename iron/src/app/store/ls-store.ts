@@ -110,6 +110,7 @@ function mapArticle(getArticle: GetArticle): Article {
   })
   return {
     id: getArticle.id,
+    description: getArticle.description,
     title: getArticle.name,
     price: getArticle.sellPrice,
     amountWarehouse: amountInWarehouse,

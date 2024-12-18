@@ -15,24 +15,24 @@ import {ArticleItem} from '../../gen';
   imports: [ModalContainerComponent, BorderContainerComponent, StatusComponent, InputComponent, ButtonComponent],
   template: `
     <ls-modal-container [title]="'Artikel verkaufen'">
-      <h3>{{ testArticle.title }}</h3>
+      <h3>{{ article()?.title }}</h3>
       <div class="Container">
         <ls-border-container [title]="'Beschreibung'">
-          <p>{{ testArticle.description }}</p>
+          <p>{{ article()?.description }}</p>
         </ls-border-container>
       </div>
       <div class="Container">
         <ls-border-container [title]="'Artikel verkaufen'">
           <div class="availability">
-            @if (testArticle.amountOrdered) {
+            @if (article()?.amountOrdered) {
               <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
-                         [amount]="testArticle.amountOrdered" [fontSize]="20"></ls-status>
+                         [amount]="article()?.amountOrdered" [fontSize]="20"></ls-status>
             }
-            @if (!testArticle.amountWarehouse) {
+            @if (!article()?.amountWarehouse) {
               <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'" [fontSize]="20"></ls-status>
             } @else {
               <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
-                         [amount]="testArticle.amountWarehouse" [fontSize]="20"></ls-status>
+                         [amount]="article()?.amountWarehouse" [fontSize]="20"></ls-status>
             }
           </div>
           <div class="input">
@@ -53,18 +53,7 @@ export class ArtikelVerkaufenComponent implements ModalBase {
 
   modalServcie = inject(ModalService);
   store = inject(BubatzStore);
-
   article = this.store.currentlyActiveArticleWithAmounts;
-
-  testArticle : Article = {
-    id: 1,
-    title: 'Grünes T-Shirt',
-    description: 'lalala',
-    amountWarehouse: 10,
-    amountOrdered: 2,
-    items: [],
-}
-
 
   sellArticle() {
     //TODO Backend-call
@@ -72,13 +61,5 @@ export class ArtikelVerkaufenComponent implements ModalBase {
   }
 }
 
-export type Article = {
-  id: number,
-  title: string,
-  description: string,
-  amountWarehouse?: number,
-  amountOrdered?: number;
-  items: Array<ArticleItem>;
-}
 
 
