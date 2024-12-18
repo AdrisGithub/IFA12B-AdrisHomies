@@ -38,7 +38,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         </div>
       </article>
       <div class="container">
-        <ls-border-container [title]="'im Lager'">
+        <ls-border-container [title]="'im Lager'" style="height: 217.6px"> <!--es tut mir leid-->
           <ul>
             @for (item of article()?.items; track item.id) {
               @if (item.reihenNr != null) {
@@ -66,19 +66,20 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ul {
       list-style: none;
       padding: 0;
+      margin: 0;
       font-family: Arial, sans-serif;
     }
     li {
       background-color: var(--card-bg);
       border-radius: 10px;
       padding: 0.5em;
-      margin: 0.5em;
     }
     .container {
       display: flex;
       gap: 1em;
       align-items: center;
       flex-wrap: wrap;
+      margin-top: 1em;
     }
     .flex {
       display: flex;
