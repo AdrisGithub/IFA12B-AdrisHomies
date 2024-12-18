@@ -14,7 +14,6 @@ import de.b3.bubatz_service.generated.models.StoreArticle;
 import de.b3.bubatz_service.articles.util.PickupSpotMapper;
 import de.b3.bubatz_service.generated.models.GetArticleWithSellPrice;
 import de.b3.bubatz_service.generated.models.PickupSpot;
-import de.b3.bubatz_service.rest.exceptions.NegativeSalesPriceException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -65,10 +64,6 @@ public class ArticleControl {
     }
 
     public GetArticle createArticle(PostArticle postArticle) {
-
-        if(postArticle.getSellPrice() < 0)
-            throw new NegativeSalesPriceException();
-
         ArticleItem item = ArticleItemMapper.map(postArticle);
         ArticleItemEntity itemEntity = this.itemRepository.save(ArticleItemMapper.map(item));
 
