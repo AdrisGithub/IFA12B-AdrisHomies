@@ -6,11 +6,12 @@ import { BorderContainerComponent } from '../../core-components/BorderContainer/
 import { ButtonComponent } from '../../core-components/button/button.component';
 import { BubatzStore } from '../../store/ls-store';
 import { ArtikelNachbestellenComponent } from '../ArtikelNachbestellen/ArtikelNachbestellen.component';
+import { ArtikelInstanzComponent } from '../../components/ArtikelInstanz/ArtikelInstanz.component';
 
 @Component({
   selector: 'ls-artikeldetails',
   standalone: true,
-  imports: [ModalContainerComponent, BorderContainerComponent, ButtonComponent],
+  imports: [ModalContainerComponent, BorderContainerComponent, ButtonComponent, ArtikelInstanzComponent],
   template: `
 
   <ls-modal-container [title]="'Artikeldetails '+ article()?.name">
@@ -19,12 +20,21 @@ import { ArtikelNachbestellenComponent } from '../ArtikelNachbestellen/ArtikelNa
           <pre>{{ article()?.description }}</pre>
         </ls-border-container>
         <ls-border-container class="zusatz" title="Zusatzinformationen">
+          <table>
           @for (info of addInfos(); track info.key) {
-            {{ info.key }}: {{ info.value }}
+            <tr>
+              <td>{{ info.key }}:</td>
+              <td>{{ info.value }}</td>
+            </tr>
           }
+          </table>
         </ls-border-container>
         <ls-border-container class="instanzen" title="Instanzen">
-          <pre>test 123</pre>
+          <div class="list">
+            @for (item of article()?.items; track item.id) {
+              <ls-artikel-instanz [clickable]="true" [instanz]="item" />
+            }
+          </div>
         </ls-border-container>
         <div class="buttons">
         <ls-button [fullWidth]="true" (onClick)="openNachbestellenModal()">Nachbestellen</ls-button>
@@ -32,35 +42,12 @@ import { ArtikelNachbestellenComponent } from '../ArtikelNachbestellen/ArtikelNa
         </div>
     </section>
   </ls-modal-container>
-  
+
   `,
-  styles: `    
-    .grid-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr min-content;
-      gap: 20px;
-    }
-
-    .instanzen {
-      grid-column: 2 / span 1;
-      grid-row: 1 / span 2;
-    }
-
-    .zusatz {
-      grid-row: 2 / span 2;
-    }
-
-    .buttons {
-      grid-column: 2 / span 1;
-      grid-row: 3 / span 1;
-      display: flex;
-      gap: 20px;
-    }
-  `,
+  styleUrl: './Artikeldetails.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArtikeldetailsComponent implements ModalBase { 
+export class ArtikeldetailsComponent implements ModalBase {
 
   modalService = inject(ModalService);
   store = inject(BubatzStore);
