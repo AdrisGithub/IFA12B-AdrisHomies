@@ -1,11 +1,12 @@
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import { ModalContainerComponent } from "../../core-components/modal-container/modal-container.component";
 import { ButtonComponent } from "../../core-components/button/button.component";
-import { ModalBase } from '../../services/Modal.service';
+import {ModalBase, ModalService} from '../../services/Modal.service';
 import {BorderContainerComponent} from '../../core-components/BorderContainer/BorderContainer.component';
 import {StatusComponent} from '../../core-components/status/status.component';
 import {InputComponent} from '../../core-components/input/input.component';
 import {BubatzStore} from '../../store/ls-store';
+import {LagerplaetzeComponent} from '../Lagerplaetze/Lagerplaetze.component';
 
 @Component({
   selector: 'ls-artikel-verkaufen',
@@ -13,24 +14,24 @@ import {BubatzStore} from '../../store/ls-store';
   imports: [ModalContainerComponent, BorderContainerComponent, StatusComponent, InputComponent, ButtonComponent],
   template: `
     <ls-modal-container [title]="'Artikel verkaufen'">
-      <h3>{{ article.title }}</h3>
+      <h3>{{ article().name }}</h3>
       <div class="Container">
         <ls-border-container [title]="'Beschreibung'">
-          <p>{{ article.description }}</p>
+          <p>{{ article().description}}</p>
         </ls-border-container>
       </div>
       <div class="Container">
         <ls-border-container [title]="'Artikel verkaufen'">
           <div class="availability">
-            @if (article.amountOrdered) {
+            @if (article().amountOrdered) {
               <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
-                         [amount]="article.amountOrdered" [fontSize]="20"></ls-status>
+                         [amount]="article().amountOrdered" [fontSize]="20"></ls-status>
             }
-            @if (!article.amountWarehouse) {
+            @if (!article().amountWarehouse) {
               <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'" [fontSize]="20"></ls-status>
             } @else {
               <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
-                         [amount]="article.amountWarehouse" [fontSize]="20"></ls-status>
+                         [amount]="article().amountWarehouse" [fontSize]="20"></ls-status>
             }
           </div>
           <div class="input">
@@ -49,27 +50,17 @@ import {BubatzStore} from '../../store/ls-store';
 
 export class ArtikelVerkaufenComponent implements ModalBase {
 
+  modalServcie = inject(ModalService);
   store = inject(BubatzStore);
 
-  article : Article = {
-    id: 1,
-    title: 'Grünes T-Shirt',
-    description: 'Das ist ein grünes T-Shirt und wir wünschen euch frohe Weihnacht falalalalalalalala',
-    amountWarehouse: 20,
-    amountOrdered: 20,
-  }
+  article = this.store.currentlyActiveArticle;
+
 
   sellArticle() {
-
+    //TODO Backend-call
+    this.modalServcie.openModal(LagerplaetzeComponent)
   }
 }
 
-export type Article = {
-  id: number,
-  title: string,
-  description: string,
-  amountWarehouse?: number,
-  amountOrdered?: number;
-}
 
 

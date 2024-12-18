@@ -12,7 +12,7 @@ import {StatusComponent} from '../../core-components/status/status.component';
 @Component({
   selector: 'ls-artikel-einlagern',
   standalone: true,
-  imports: [ModalContainerComponent, ArticleComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent],
+  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent],
   template: `
     <ls-modal-container [title]="'Artikel einlagern'">
       <article>
@@ -124,6 +124,6 @@ import {StatusComponent} from '../../core-components/status/status.component';
 })
 export class ArtikelEinlagernComponent implements ModalBase {
   store = inject(BubatzStore);
-  article = this.store.currentlyActiveArticle2;
+  article = this.store.currentlyActiveArticle;
 
 }
