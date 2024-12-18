@@ -40,7 +40,7 @@ public class ExceptionHandlerAdvice {
 
         log.error("{}", error.getDetail());
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
 
