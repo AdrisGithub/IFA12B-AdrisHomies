@@ -9,23 +9,15 @@ import { ModalDisplayerComponent } from './core-components/modal-displayer/modal
   imports: [HomePageComponent, ModalDisplayerComponent],
   template: `
 
-    <ls-modal-displayer/> 
+    <ls-modal-displayer/>
     <ls-home-page/>
-
-  `,
-  styles: `
-
-
 
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit{
   title = 'bubatz-ui';
-
-  store = inject(BubatzStore);
-
   ngOnInit() {
-    this.store.createArticle("Hier ist ein neuer name")
+
   }
 }

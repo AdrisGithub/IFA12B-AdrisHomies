@@ -21,11 +21,6 @@ import {ArticleItem, PickupSpot} from '../../gen';
     </ls-border-container>
   </ls-modal-container>
   `,
-  styles: `
-    :host {
-      display: block;
-    }
-  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LagerplaetzeComponent implements ModalBase {

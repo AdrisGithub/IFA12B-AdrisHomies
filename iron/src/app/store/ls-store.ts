@@ -25,7 +25,7 @@ const initalState: BubatzState = {
   allServices: [],
   selectedInstance: undefined,
   currentlyActiveArticle: undefined,
-  pickupSpots : [{amount : 50, reihenNr : 10, spaltenNr: 5}],
+  pickupSpots : []
 }
 
 export const BubatzStore = signalStore(
