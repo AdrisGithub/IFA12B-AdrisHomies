@@ -2,6 +2,7 @@ package de.b3.bubatz_service.articles.control;
 
 import de.b3.bubatz_service.articles.db.ArticleItemRepository;
 import de.b3.bubatz_service.articles.db.ArticleRepository;
+import de.b3.bubatz_service.articles.db.DepositorySpotRepository;
 import de.b3.bubatz_service.articles.db.entity.Article;
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.articles.util.ArticleItemMapper;
@@ -14,6 +15,7 @@ import de.b3.bubatz_service.generated.models.StoreArticle;
 import de.b3.bubatz_service.articles.util.PickupSpotMapper;
 import de.b3.bubatz_service.generated.models.GetArticleWithSellPrice;
 import de.b3.bubatz_service.generated.models.PickupSpot;
+import de.b3.bubatz_service.rest.exceptions.DepositorySpotAlreadyOccupiedException;
 import de.b3.bubatz_service.rest.exceptions.RequestExceedsDepositException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class ArticleControl {
 
     private final ArticleRepository repository;
     private final ArticleItemRepository itemRepository;
+    private final DepositorySpotRepository spotRepository;
 
     public List<GetArticle> getAllArticles() {
         return this.repository.findAll()
@@ -37,6 +40,9 @@ public class ArticleControl {
     }
 
     public GetArticle storeArticle(StoreArticle storeArticle) {
+        if (depositSpotAlreadyOccupied(storeArticle.getReihenNr(), storeArticle.getSpaltenNr()))
+            throw new DepositorySpotAlreadyOccupiedException(storeArticle.getReihenNr(),storeArticle.getSpaltenNr());
+
         final ArticleItemEntity itemEntity = this.itemRepository.findById(storeArticle.getId())
                 .orElseThrow(() -> new EntityNotFoundException("ArticleItem with id " + storeArticle.getId() + " not found"));
 
@@ -52,6 +58,10 @@ public class ArticleControl {
         return this.repository.findArticleByItemsContains(entity)
                 .map(ArticleMapper::map)
                 .get();
+    }
+
+    private boolean depositSpotAlreadyOccupied(Integer reihenNr, Integer spaltenNr) {
+        return this.spotRepository.findDepositorySpotByColumnNrAndRowNr(spaltenNr,reihenNr) != null;
     }
 
     public GetArticle patchArticle(PatchArticle patchArticle) {
