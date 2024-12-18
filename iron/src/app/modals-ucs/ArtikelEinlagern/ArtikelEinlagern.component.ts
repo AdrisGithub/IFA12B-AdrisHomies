@@ -1,25 +1,52 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
 import { ModalContainerComponent } from "../../core-components/modal-container/modal-container.component";
 import { ModalBase } from '../../services/Modal.service';
-import {Article, ArticleComponent} from '../../core-components/article/article.component';
+import {ArticleComponent} from '../../core-components/article/article.component';
 import {BorderContainerComponent} from '../../core-components/BorderContainer/BorderContainer.component';
 import {InputComponent} from '../../core-components/input/input.component';
 import {ButtonComponent} from '../../core-components/button/button.component';
 import {BubatzStore} from '../../store/ls-store';
+import {CurrencyPipe} from '@angular/common';
+import {StatusComponent} from '../../core-components/status/status.component';
 
 @Component({
   selector: 'ls-artikel-einlagern',
   standalone: true,
-  imports: [ModalContainerComponent, ArticleComponent, BorderContainerComponent, InputComponent, ButtonComponent],
+  imports: [ModalContainerComponent, ArticleComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent],
   template: `
     <ls-modal-container [title]="'Artikel einlagern'">
-      <ls-article [article]="article()"></ls-article>
+      <article>
+        <div>
+        <h3>{{ article()?.title }}</h3>
+        <p class="verkaufspreis">Verkaufspreis</p>
+        </div>
+        <div class="information">
+          <p class="price">{{ article()?.price | currency: 'EUR' }}</p>
+          <div class="availability">
+            @if (article()?.amountOrdered) {
+              <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
+                         [amount]="article()?.amountOrdered"></ls-status>
+            }
+            @if (!article()?.amountWarehouse) {
+              <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'"></ls-status>
+            }
+            @else {
+              <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
+                         [amount]="article()?.amountWarehouse"></ls-status>
+            }
+          </div>
+        </div>
+      </article>
       <div class="container">
         <ls-border-container [title]="'im Lager'">
           <ul>
-            <li>Reihe 5 - Platz 10</li>
-            <li>Reihe 2 - Platz 8</li>
-            <li>Reihe 29 - Platz 31</li>
+            @for (item of article()?.items; track item.id) {
+              @if (item.reihenNr!=null){
+              <li>Reihe {{item.reihenNr}} - Platz {{item.spaltenNr}}</li>
+            }
+            } @empty {
+              <li>Keine Artikel verfügbar.</li>
+            }
           </ul>
         </ls-border-container>
         <form>
@@ -57,10 +84,46 @@ import {BubatzStore} from '../../store/ls-store';
       display: flex;
       justify-content: end;
     }
+
+    article {
+      background: var(--card-bg);
+      padding: 0.7em;
+      font-family: Arial, sans-serif;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    div {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    p {
+      font-size: 20px;
+    }
+
+    .information {
+      justify-content: space-between;
+      flex-direction: row-reverse;
+      margin-top: 0.4em;
+      text-align: center;
+    }
+
+    .availability {
+      gap: 10px;
+      margin-top: 0.2em;
+    }
+    .verkaufspreis {
+      color: var(--text-secondary);
+    }
+    .price {
+      font-size: 36px;
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArtikelEinlagernComponent implements ModalBase {
   store = inject(BubatzStore);
-  article = this.store.currentlyActiveArticle();
+  article = this.store.currentlyActiveArticle2;
+
 }
