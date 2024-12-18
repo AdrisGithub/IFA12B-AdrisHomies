@@ -42,15 +42,28 @@ export const BubatzStore = signalStore(
          // will be called manually
          patchState(store, { })
        },
-      selectArticle(articleId: number) {
-        patchState(store, () => {
-          const article = store.allArticles().find(a => a.id === articleId)
-          return {currentlyActiveArticle: article}
-        });
-      },
-      selectInstance(instance: ArticleItem) {
-        patchState(store, {selectedInstance: instance });
-      }
+       storeArticle(id: number, row: number, column: number){
+         depository.storeArticle({ id, reihenNr: row, spaltenNr: column}).subscribe(value => {
+
+           const articles = store.allArticles().map(article => {
+             if (article.id == value.id){
+               return value;
+             }
+             return article;
+           })
+
+           patchState(store, {allArticles: articles})
+         })
+       },
+       selectArticle(articleId: number) {
+         patchState(store, () => {
+           const article = store.allArticles().find(a => a.id === articleId)
+           return {currentlyActiveArticle: article}
+         });
+       },
+       selectInstance(instance: ArticleItem) {
+         patchState(store, {selectedInstance: instance });
+       }
     }
   }),
   withComputed(({allArticles, allServices, currentlyActiveArticle}) => ({
