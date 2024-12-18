@@ -1,14 +1,17 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
-import {ArticleService, DepositoryService, GetArticle, ServiceService} from '../gen';
+import {ArticleService, DepositoryService, GetArticle, GetService, ServiceService} from '../gen';
 import {Article} from '../core-components/article/article.component';
+import {Service} from '../core-components/service/service.component';
 
 type BubatzState = {
   allArticles: GetArticle[]
+  allServices: GetService[]
 };
 
 const initalState: BubatzState = {
-  allArticles: []
+  allArticles: [],
+  allServices: []
 }
 
 export const BubatzStore = signalStore(
@@ -26,20 +29,27 @@ export const BubatzStore = signalStore(
          patchState(store, {allArticles: articles});
          });
        },
+       loadServices(){
+         service.getServices().subscribe(services => {
+           patchState(store, {allServices: services})
+         })
+       },
        createArticle(name: string){
          // will be called manually
          patchState(store, { })
        }
     }
   }),
-  withComputed(({allArticles}) => ({
-    getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle)))
+  withComputed(({allArticles, allServices}) => ({
+    getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
+    getMappedServices: computed(() => allServices().map(getService => mapService(getService)))
   })),
   withHooks({
-    onInit({loadArticles}){
+    onInit({loadArticles, loadServices}){
       // load all the Articles at startup
       loadArticles();
-
+      // load all the Services at startup
+      loadServices()
     }
   })
 );
@@ -63,4 +73,14 @@ function mapArticle(getArticle: GetArticle): Article {
     amountWarehouse: amountInWarehouse,
     amountOrdered: amountIsOrdered
   };
+}
+
+function mapService(getService: GetService): Service {
+  return {
+    description: getService.description,
+    price: getService.price,
+    available: getService.available,
+    name: getService.name,
+    id: getService.id
+  }
 }
