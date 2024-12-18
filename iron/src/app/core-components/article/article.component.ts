@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {StatusComponent} from '../status/status.component';
 import {CurrencyPipe} from '@angular/common';
+import {ArticleItem} from '../../gen';
 import { ModalService } from '../../services/Modal.service';
 import { BubatzStore } from '../../store/ls-store';
 import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikeldetails.component';
@@ -86,4 +87,12 @@ export type Article = {
   price: number,
   amountWarehouse?: number,
   amountOrdered?: number;
+}
+export type Article2 = {
+  id: number,
+  title: string,
+  price: number,
+  amountWarehouse?: number,
+  amountOrdered?: number,
+  items: Array<ArticleItem>;
 }

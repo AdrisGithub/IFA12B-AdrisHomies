@@ -11,7 +11,7 @@ import {StatusComponent} from '../status/status.component';
   ],
   template: `
     <article>
-      <div>
+      <div class="left-box">
         <h3>{{ service().name }}</h3>
         <p class="description">{{service().description}}</p>
       </div>
@@ -34,6 +34,8 @@ import {StatusComponent} from '../status/status.component';
       font-family: Arial, sans-serif;
       width: 100%;
       box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
     }
 
     div {
@@ -53,6 +55,18 @@ import {StatusComponent} from '../status/status.component';
     .availability {
       gap: 10px;
       margin-top: 0.2em;
+    }
+    .left-box, .information {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+    .information {
+      align-items: flex-end;
+    }
+    .description {
+      font-size: 14px;
+      color: var(--text-secondary);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush

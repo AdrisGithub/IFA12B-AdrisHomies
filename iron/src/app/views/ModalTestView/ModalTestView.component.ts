@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import { ButtonComponent } from '../../core-components/button/button.component';
 import { ModalDisplayerComponent } from '../../core-components/modal-displayer/modal-displayer.component';
 import { ModalService } from '../../services/Modal.service';
@@ -10,17 +10,17 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
   imports: [ButtonComponent, ModalDisplayerComponent],
   template: `
 
-  <ls-modal-displayer/> 
+  <ls-modal-displayer/>
 
   <main class="flex-container">
     <h1>BuBATZ!</h1>
     <ls-button (onClick)="openModal()">Open Test-Modal!</ls-button>
     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero veritatis pariatur velit nobis nesciunt laudantium asperiores iusto beatae aperiam minima cupiditate et veniam ipsam mollitia molestiae commodi, doloremque officia debitis.</p>
   </main>
-  
+
   `,
   styles: `
-  
+
     .flex-container {
     display: flex;
     align-items: center;
@@ -41,8 +41,8 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalTestViewComponent { 
-  
+export class ModalTestViewComponent{
+
   modalOpen = signal<boolean>(true);
 
   modalService = inject(ModalService);
