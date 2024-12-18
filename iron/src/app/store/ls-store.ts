@@ -1,16 +1,21 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
-import {ArticleItem, ArticleService, DepositoryService, GetArticle, ServiceService} from '../gen';
+import {ArticleItem, ArticleService, DepositoryService, GetArticle, GetService, ServiceService} from '../gen';
 import {Article} from '../core-components/article/article.component';
+import {Service} from '../core-components/service/service.component';
 
 type BubatzState = {
   allArticles: GetArticle[],
-  selectedInstance: ArticleItem | undefined
+  allServices: GetService[],
+  selectedInstance: ArticleItem | undefined,
+  currentlyActiveArticle: GetArticle | undefined,
 };
 
 const initalState: BubatzState = {
   allArticles: [],
-  selectedInstance: undefined
+  allServices: [],
+  selectedInstance: undefined,
+  currentlyActiveArticle: undefined
 }
 
 export const BubatzStore = signalStore(
@@ -28,24 +33,36 @@ export const BubatzStore = signalStore(
          patchState(store, {allArticles: articles});
          });
        },
+       loadServices(){
+         service.getServices().subscribe(services => {
+           patchState(store, {allServices: services})
+         })
+       },
        createArticle(name: string){
          // will be called manually
          patchState(store, { })
+       },
+       selectArticle(articleId: number) {
+        patchState(store, () => {
+          const article = store.allArticles().find(a => a.id === articleId)
+          return {currentlyActiveArticle: article}
+        });
        },
        selectInstance(instance: ArticleItem) {
           patchState(store, {selectedInstance: instance });
        }
     }
   }),
-  withComputed(({allArticles}) => ({
+  withComputed(({allArticles, allServices}) => ({
     getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
-    currentlyActiveArticle: computed<GetArticle | undefined>(() => allArticles()[0]),
+    getMappedServices: computed(() => allServices().map(getService => mapService(getService))),
   })),
   withHooks({
-    onInit({loadArticles}){
+    onInit({loadArticles, loadServices}){
       // load all the Articles at startup
       loadArticles();
-
+      // load all the Services at startup
+      loadServices()
     }
   })
 );
@@ -69,4 +86,14 @@ function mapArticle(getArticle: GetArticle): Article {
     amountWarehouse: amountInWarehouse,
     amountOrdered: amountIsOrdered
   };
+}
+
+function mapService(getService: GetService): Service {
+  return {
+    description: getService.description,
+    price: getService.price,
+    available: getService.available,
+    name: getService.name,
+    id: getService.id
+  }
 }
