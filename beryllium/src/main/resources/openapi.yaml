@@ -260,6 +260,7 @@ components:
           example: "Massage"
         price:
           type: number
+          minimum: 0.01
           format: float
           example: 19.99
         description:
@@ -283,6 +284,7 @@ components:
           example: "Massage"
         price:
           type: number
+          minimum: 0.01
           format: float
           example: 19.99
         description:
@@ -319,9 +321,11 @@ components:
         buyPrice:
           type: number
           format: float
+          minimum: 0.01
           example: 1.99
         sellPrice:
           type: number
+          minimum: 0.01
           format: float
           example: 0.99
         description:
@@ -329,6 +333,7 @@ components:
           example: "Ein Ball halt"
         amount:
           type: integer
+          minimum: 1
           format: int32
           example: 12
         infos:
@@ -346,6 +351,7 @@ components:
           example: 1
         amount:
           type: integer
+          minimum: 1
           format: int32
           example: 12
     GetArticle:
@@ -371,10 +377,12 @@ components:
           example: "Ein Ball halt"
         buyPrice:
           type: number
+          minimum: 0.01
           format: float
           example: 1.99
         sellPrice:
           type: number
+          minimum: 0.01
           format: float
           example: 0.99
         infos:
@@ -396,14 +404,17 @@ components:
           example: 10
         reihenNr:
           type: integer
+          minimum: 1
           format: int32
           example: 13
         spaltenNr:
           type: integer
+          minimum: 1
           format: int32
           example: 23
         amount:
           type: integer
+          minimum: 1
           format: int32
           example: 200
     StoreArticle:
@@ -421,10 +432,12 @@ components:
           example: 10
         reihenNr:
           type: integer
+          minimum: 1
           format: int32
           example: 20
         spaltenNr:
           type: integer
+          minimum: 1
           format: int32
           example: 23
     GetArticleWithSellPrice:
@@ -451,6 +464,7 @@ components:
       properties:
         amount:
           type: integer
+          minimum: 1
           format: int32
           example: 10
     PickupSpot:
