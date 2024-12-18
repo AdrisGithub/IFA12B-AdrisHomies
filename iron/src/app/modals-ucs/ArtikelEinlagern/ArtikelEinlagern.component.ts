@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import { ModalContainerComponent } from "../../core-components/modal-container/modal-container.component";
-import { ModalBase } from '../../services/Modal.service';
+import {ModalBase, ModalService} from '../../services/Modal.service';
 import {ArticleComponent} from '../../core-components/article/article.component';
 import {BorderContainerComponent} from '../../core-components/BorderContainer/BorderContainer.component';
 import {InputComponent} from '../../core-components/input/input.component';
@@ -12,13 +12,13 @@ import {StatusComponent} from '../../core-components/status/status.component';
 @Component({
   selector: 'ls-artikel-einlagern',
   standalone: true,
-  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent],
+  imports: [ModalContainerComponent, ArticleComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
   template: `
     <ls-modal-container [title]="'Artikel einlagern'">
       <article>
         <div>
-        <h3>{{ article()?.title }}</h3>
-        <p class="verkaufspreis">Verkaufspreis</p>
+          <h3>{{ article()?.title }}</h3>
+          <p class="verkaufspreis">Verkaufspreis</p>
         </div>
         <div class="information">
           <p class="price">{{ article()?.price | currency: 'EUR' }}</p>
@@ -29,8 +29,7 @@ import {StatusComponent} from '../../core-components/status/status.component';
             }
             @if (!article()?.amountWarehouse) {
               <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'"></ls-status>
-            }
-            @else {
+            } @else {
               <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
                          [amount]="article()?.amountWarehouse"></ls-status>
             }
@@ -41,21 +40,21 @@ import {StatusComponent} from '../../core-components/status/status.component';
         <ls-border-container [title]="'im Lager'">
           <ul>
             @for (item of article()?.items; track item.id) {
-              @if (item.reihenNr!=null){
-              <li>Reihe {{item.reihenNr}} - Platz {{item.spaltenNr}}</li>
-            }
+              @if (item.reihenNr != null) {
+                <li>Reihe {{ item.reihenNr }} - Platz {{ item.spaltenNr }}</li>
+              }
             } @empty {
               <li>Keine Artikel verfügbar.</li>
             }
           </ul>
         </ls-border-container>
         <form>
-          <ls-input [icon]="'ladders'" [displayText]="'Reihe:'"/>
-          <ls-input [icon]="'container'" [displayText]="'Platz:'"/>
+          <ls-input [icon]="'ladders'" [displayText]="'Reihe:'" (value)="row = $event" />
+          <ls-input [icon]="'container'" [displayText]="'Platz:'" (value)="column = $event"/>
         </form>
       </div>
       <div class="flex">
-        <ls-button>einlagern</ls-button>
+        <ls-button (onClick)="storeArticle()">einlagern</ls-button>
       </div>
     </ls-modal-container>
   `,
@@ -123,7 +122,21 @@ import {StatusComponent} from '../../core-components/status/status.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArtikelEinlagernComponent implements ModalBase {
+  row?: string;
+  column?: string;
+
   store = inject(BubatzStore);
+  modalService = inject(ModalService);
   article = this.store.currentlyActiveArticle;
+
+  storeArticle = () => {
+    if (this.row && this.column){
+      const row = Number.parseInt(this.row);
+      const column = Number.parseInt(this.column);
+
+      this.store.storeArticle(this.store.selectedInstance()!.id, row, column)
+      this.modalService.clearStack();
+    }
+  }
 
 }
