@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ButtonComponent } from '../../core-components/button/button.component';
 import { ModalDisplayerComponent } from '../../core-components/modal-displayer/modal-displayer.component';
+import { Modal1Component } from '../../modals-ucs/example/modal1/modal1.component';
 import { ModalService } from '../../services/Modal.service';
-import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikeldetails.component';
 
 @Component({
   selector: 'ls-modal-test-view',
@@ -41,11 +41,11 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalTestViewComponent{
+export class ModalTestViewComponent {
 
   modalOpen = signal<boolean>(true);
 
   modalService = inject(ModalService);
 
-  openModal = () => { this.modalService.openModal(ArtikeldetailsComponent) };
+  openModal = () => { this.modalService.openModal(Modal1Component) };
 }

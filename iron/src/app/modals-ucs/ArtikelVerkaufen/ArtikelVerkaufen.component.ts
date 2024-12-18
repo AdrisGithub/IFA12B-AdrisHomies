@@ -14,30 +14,33 @@ import {BubatzStore} from '../../store/ls-store';
   template: `
     <ls-modal-container [title]="'Artikel verkaufen'">
       <h3>{{ article.title }}</h3>
-      <ls-border-container [title]="'Beschreibung'">
-        <p>{{ article.description }}</p>
+      <div class="Container">
+        <ls-border-container [title]="'Beschreibung'">
+          <p>{{ article.description }}</p>
+        </ls-border-container>
+      </div>
+      <div class="Container">
+        <ls-border-container [title]="'Artikel verkaufen'">
+          <div class="availability">
+            @if (article.amountOrdered) {
+              <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
+                         [amount]="article.amountOrdered" [fontSize]="20"></ls-status>
+            }
+            @if (!article.amountWarehouse) {
+              <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'" [fontSize]="20"></ls-status>
+            } @else {
+              <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
+                         [amount]="article.amountWarehouse" [fontSize]="20"></ls-status>
+            }
+          </div>
+          <div class="input">
+            <ls-input [displayText]="'gewünschte Verkaufsmenge:'" [fontSize]="20"></ls-input>
+          </div>
+          <div class="button">
+            <ls-button (onClick)="sellArticle()">Artikel verkaufen</ls-button>
+          </div>
       </ls-border-container>
-      <ls-border-container [title]="'Artikel verkaufen'">
-        <div class="availability">
-          @if (article.amountOrdered) {
-            <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
-                       [amount]="article.amountOrdered" [fontSize]="20"></ls-status>
-          }
-          @if (!article.amountWarehouse) {
-            <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'" [fontSize]="20"></ls-status>
-          }
-          @else {
-            <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
-                       [amount]="article.amountWarehouse" [fontSize]="20"></ls-status>
-          }
-        </div>
-        <div class="input">
-         <ls-input [displayText]="'gewünschte Verkaufsmenge:'" [fontSize]="20"></ls-input>
-        </div>
-        <div class="button">
-        <ls-button (onClick)="sellArticle()">Artikel verkaufen</ls-button>
-        </div>
-      </ls-border-container>
+      </div>
     </ls-modal-container>
   `,
   styleUrl: 'ArtikelVerkaufen.component.css',
