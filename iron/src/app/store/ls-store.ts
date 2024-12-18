@@ -1,14 +1,16 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
-import {ArticleService, DepositoryService, GetArticle, ServiceService} from '../gen';
+import {ArticleItem, ArticleService, DepositoryService, GetArticle, ServiceService} from '../gen';
 import {Article} from '../core-components/article/article.component';
 
 type BubatzState = {
-  allArticles: GetArticle[]
+  allArticles: GetArticle[],
+  selectedInstance: ArticleItem | undefined
 };
 
 const initalState: BubatzState = {
-  allArticles: []
+  allArticles: [],
+  selectedInstance: undefined
 }
 
 export const BubatzStore = signalStore(
@@ -29,12 +31,15 @@ export const BubatzStore = signalStore(
        createArticle(name: string){
          // will be called manually
          patchState(store, { })
+       },
+       selectInstance(instance: ArticleItem) {
+          patchState(store, {selectedInstance: instance });
        }
     }
   }),
   withComputed(({allArticles}) => ({
     getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
-    currentlyActiveArticle: computed<GetArticle | undefined>(() => allArticles()[2])
+    currentlyActiveArticle: computed<GetArticle | undefined>(() => allArticles()[0]),
   })),
   withHooks({
     onInit({loadArticles}){
