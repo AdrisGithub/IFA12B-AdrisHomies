@@ -5,6 +5,7 @@ input {
   padding: 0.5em;
   margin-bottom: 1em;
   color: var(--text);
+  width: 100%;
 }
 
 input:focus{
