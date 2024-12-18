@@ -1,14 +1,16 @@
 import {Component, OnInit, ChangeDetectionStrategy, inject} from '@angular/core';
 import {BubatzStore} from './store/ls-store';
 import {HomePageComponent} from './components/home-page/home-page.component';
+import { ModalDisplayerComponent } from './core-components/modal-displayer/modal-displayer.component';
 
 @Component({
   selector: 'ls-root',
   standalone: true,
-  imports: [HomePageComponent],
+  imports: [HomePageComponent, ModalDisplayerComponent],
   template: `
 
-    <ls-home-page></ls-home-page>
+    <ls-modal-displayer/> 
+    <ls-home-page/>
 
   `,
   styles: `

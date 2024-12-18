@@ -13,7 +13,6 @@ import {ServiceComponent} from '../../core-components/service/service.component'
     ServiceComponent
   ],
   template: `
-    <body>
     <header class="flex">
       <img src="logo.png" alt="Logo der Segitz-Therme">
       <div class="text">
@@ -38,7 +37,6 @@ import {ServiceComponent} from '../../core-components/service/service.component'
         </div>
       </ls-border-container>
     </div>
-    </body>
   `,
   styleUrl: 'home-page.component.css',
 })

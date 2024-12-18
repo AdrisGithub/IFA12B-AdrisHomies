@@ -32,7 +32,6 @@ ls-border-container {
 }
 .articles, .services {
   display: grid;
-  gap: 0.5em;
   height: 65vh;
   overflow-x: hidden;
   overflow-y: scroll;
