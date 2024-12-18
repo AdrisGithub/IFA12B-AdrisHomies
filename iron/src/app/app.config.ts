@@ -6,7 +6,7 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({eventCoalescing: true}),  {
     provide: BASE_PATH,
-    useValue: 'http://segitztherme.de:8080'
+    useValue: 'https://segitztherme.de:8080'
   },
     {
       provide: LOCALE_ID, useValue: 'de'
