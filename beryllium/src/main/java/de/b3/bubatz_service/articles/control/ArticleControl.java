@@ -86,7 +86,7 @@ public class ArticleControl {
 
 
         for (ArticleItem item : getArticle.getItems()) {
-            if (item.getAmount() >= amount) {
+            if (amount >= item.getAmount() && isDeposited(item)) {
                 amount -= item.getAmount();
                 spots.add(PickupSpotMapper.map(item));
             } else {
@@ -118,5 +118,9 @@ public class ArticleControl {
 
     private int totalAvailableItemAmount(Integer Id) {
         return repository.totalAmountOfArticleItemsByItemId(Id);
+    }
+
+    private boolean isDeposited(ArticleItem item){
+        return item.getReihenNr() != null && item.getSpaltenNr() != null;
     }
 }
