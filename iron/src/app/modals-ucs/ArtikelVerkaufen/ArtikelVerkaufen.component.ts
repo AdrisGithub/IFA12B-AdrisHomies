@@ -7,6 +7,7 @@ import {StatusComponent} from '../../core-components/status/status.component';
 import {InputComponent} from '../../core-components/input/input.component';
 import {BubatzStore} from '../../store/ls-store';
 import {LagerplaetzeComponent} from '../Lagerplaetze/Lagerplaetze.component';
+import {ArticleItem} from '../../gen';
 
 @Component({
   selector: 'ls-artikel-verkaufen',
@@ -14,24 +15,24 @@ import {LagerplaetzeComponent} from '../Lagerplaetze/Lagerplaetze.component';
   imports: [ModalContainerComponent, BorderContainerComponent, StatusComponent, InputComponent, ButtonComponent],
   template: `
     <ls-modal-container [title]="'Artikel verkaufen'">
-      <h3>{{ article().name }}</h3>
+      <h3>{{ testArticle.title }}</h3>
       <div class="Container">
         <ls-border-container [title]="'Beschreibung'">
-          <p>{{ article().description}}</p>
+          <p>{{ testArticle.description }}</p>
         </ls-border-container>
       </div>
       <div class="Container">
         <ls-border-container [title]="'Artikel verkaufen'">
           <div class="availability">
-            @if (article().amountOrdered) {
+            @if (testArticle.amountOrdered) {
               <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
-                         [amount]="article().amountOrdered" [fontSize]="20"></ls-status>
+                         [amount]="testArticle.amountOrdered" [fontSize]="20"></ls-status>
             }
-            @if (!article().amountWarehouse) {
+            @if (!testArticle.amountWarehouse) {
               <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'" [fontSize]="20"></ls-status>
             } @else {
               <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
-                         [amount]="article().amountWarehouse" [fontSize]="20"></ls-status>
+                         [amount]="testArticle.amountWarehouse" [fontSize]="20"></ls-status>
             }
           </div>
           <div class="input">
@@ -40,7 +41,7 @@ import {LagerplaetzeComponent} from '../Lagerplaetze/Lagerplaetze.component';
           <div class="button">
             <ls-button (onClick)="sellArticle()">Artikel verkaufen</ls-button>
           </div>
-      </ls-border-container>
+        </ls-border-container>
       </div>
     </ls-modal-container>
   `,
@@ -53,7 +54,16 @@ export class ArtikelVerkaufenComponent implements ModalBase {
   modalServcie = inject(ModalService);
   store = inject(BubatzStore);
 
-  article = this.store.currentlyActiveArticle;
+  article = this.store.currentlyActiveArticleWithAmounts;
+
+  testArticle : Article = {
+    id: 1,
+    title: 'Grünes T-Shirt',
+    description: 'lalala',
+    amountWarehouse: 10,
+    amountOrdered: 2,
+    items: [],
+}
 
 
   sellArticle() {
@@ -62,5 +72,13 @@ export class ArtikelVerkaufenComponent implements ModalBase {
   }
 }
 
+export type Article = {
+  id: number,
+  title: string,
+  description: string,
+  amountWarehouse?: number,
+  amountOrdered?: number;
+  items: Array<ArticleItem>;
+}
 
 

@@ -76,11 +76,14 @@ export const BubatzStore = signalStore(
        }
     }
   }),
-  withComputed(({allArticles, allServices, currentlyActiveArticle}) => ({
+  withComputed(({allArticles, allServices, currentlyActiveArticle, pickupSpots}) => ({
     getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
     getMappedServices: computed(() => allServices().map(getService => mapService(getService))),
     currentlyActiveArticle: computed<GetArticle | undefined>(() => currentlyActiveArticle()),
-    currentlyActiveArticleWithAmounts: computed<Article | undefined>(() => mapArticle(currentlyActiveArticle())),
+    currentlyActiveArticleWithAmounts: computed<Article | undefined>(() => {
+      const a = currentlyActiveArticle();
+      return a ? mapArticle(a) : undefined;
+    }),
     getPickupSpots: computed<PickupSpot[]> (() => pickupSpots())
   })),
   withHooks({
@@ -93,10 +96,7 @@ export const BubatzStore = signalStore(
   })
 );
 
-function mapArticle(getArticle?: GetArticle): Article | undefined{
-  if (!getArticle) {
-    return undefined;
-  }
+function mapArticle(getArticle: GetArticle): Article {
   let amountInWarehouse = 0;
   let amountIsOrdered = 0;
   const items = getArticle.items;

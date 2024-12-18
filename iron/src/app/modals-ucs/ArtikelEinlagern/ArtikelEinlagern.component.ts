@@ -8,11 +8,12 @@ import {ButtonComponent} from '../../core-components/button/button.component';
 import {BubatzStore} from '../../store/ls-store';
 import {CurrencyPipe} from '@angular/common';
 import {StatusComponent} from '../../core-components/status/status.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'ls-artikel-einlagern',
   standalone: true,
-  imports: [ModalContainerComponent, ArticleComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
+  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
   template: `
     <ls-modal-container [title]="'Artikel einlagern'">
       <article>
@@ -127,7 +128,7 @@ export class ArtikelEinlagernComponent implements ModalBase {
 
   store = inject(BubatzStore);
   modalService = inject(ModalService);
-  article = this.store.currentlyActiveArticle;
+  article = this.store.currentlyActiveArticleWithAmounts;
 
   storeArticle = () => {
     if (this.row && this.column){
