@@ -55,7 +55,7 @@ public class ExceptionHandlerAdvice {
     }
 
     @ExceptionHandler(value = {RequestExceedsDepositException.class})
-    public ResponseEntity<Error> arithmeticException(ArithmeticException ex) {
+    public ResponseEntity<Error> requestExceedsDepositException(RequestExceedsDepositException ex) {
 
         final Error error = createError(ex.getMessage());
 

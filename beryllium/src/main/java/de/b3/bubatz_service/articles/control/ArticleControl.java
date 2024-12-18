@@ -77,7 +77,7 @@ public class ArticleControl {
     public GetArticleWithSellPrice sellArticle(Integer id, Integer amount) {
         Article article = findArticleById(id);
 
-        if (amount > totalAvailableItemAmount(article))
+        if (amount > totalAvailableItemAmount(id))
             throw new RequestExceedsDepositException("Amount exceeds total available item amount");
 
         final GetArticle getArticle = ArticleMapper.map(article);
@@ -117,11 +117,7 @@ public class ArticleControl {
         );
     }
 
-    private int totalAvailableItemAmount(Article article) {
-        int count = 0;
-        for (ArticleItemEntity item : article.getItems()) {
-            count += item.getAmount();
-        }
-        return count;
+    private int totalAvailableItemAmount(Integer Id) {
+        return repository.totalAmountOfArticleItemsByItemId(Id);
     }
 }
