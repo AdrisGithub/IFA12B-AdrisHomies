@@ -14,6 +14,7 @@ import de.b3.bubatz_service.generated.models.StoreArticle;
 import de.b3.bubatz_service.articles.util.PickupSpotMapper;
 import de.b3.bubatz_service.generated.models.GetArticleWithSellPrice;
 import de.b3.bubatz_service.generated.models.PickupSpot;
+import de.b3.bubatz_service.rest.exceptions.RequestExceedsDepositException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -74,7 +75,12 @@ public class ArticleControl {
     }
 
     public GetArticleWithSellPrice sellArticle(Integer id, Integer amount) {
-        final GetArticle getArticle = ArticleMapper.map(findArticleById(id));
+        Article article = findArticleById(id);
+
+        if (amount > totalAvailableItemAmount(id))
+            throw new RequestExceedsDepositException("Amount exceeds total available item amount");
+
+        final GetArticle getArticle = ArticleMapper.map(article);
 
         final List<PickupSpot> spots = new ArrayList<>();
         final List<ArticleItem> items = new ArrayList<>();
@@ -92,7 +98,7 @@ public class ArticleControl {
         double totalPrice = spots.size() * getArticle.getSellPrice();
 
         getArticle.setItems(items);
-        final Article article = ArticleMapper.map(getArticle);
+        article = ArticleMapper.map(getArticle);
         final Article saved = this.repository.save(article);
         final GetArticle savedArticle = ArticleMapper.map(saved);
 
@@ -109,5 +115,9 @@ public class ArticleControl {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Article with id " + id + " not found")
         );
+    }
+
+    private int totalAvailableItemAmount(Integer Id) {
+        return repository.totalAmountOfArticleItemsByItemId(Id);
     }
 }
