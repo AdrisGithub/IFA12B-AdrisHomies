@@ -65,7 +65,6 @@ public class ArticleControl {
     }
 
     public GetArticle createArticle(PostArticle postArticle) {
-
         ArticleItem item = ArticleItemMapper.map(postArticle);
         ArticleItemEntity itemEntity = this.itemRepository.save(ArticleItemMapper.map(item));
 
