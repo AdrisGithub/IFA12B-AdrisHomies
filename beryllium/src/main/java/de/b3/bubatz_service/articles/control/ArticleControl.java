@@ -122,6 +122,6 @@ public class ArticleControl {
     }
 
     private boolean isDeposited(ArticleItem item){
-        return item.getReihenNr() == null || item.getSpaltenNr() == null;
+        return item.getReihenNr() != null && item.getSpaltenNr() != null;
     }
 }
