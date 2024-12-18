@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import { ModalContainerComponent } from "../../core-components/modal-container/modal-container.component";
 import { ModalBase } from '../../services/Modal.service';
 import {Article, ArticleComponent} from '../../core-components/article/article.component';
 import {BorderContainerComponent} from '../../core-components/BorderContainer/BorderContainer.component';
 import {InputComponent} from '../../core-components/input/input.component';
 import {ButtonComponent} from '../../core-components/button/button.component';
+import {BubatzStore} from '../../store/ls-store';
 
 @Component({
   selector: 'ls-artikel-einlagern',
@@ -12,7 +13,7 @@ import {ButtonComponent} from '../../core-components/button/button.component';
   imports: [ModalContainerComponent, ArticleComponent, BorderContainerComponent, InputComponent, ButtonComponent],
   template: `
     <ls-modal-container [title]="'Artikel einlagern'">
-      <ls-article [article]="article"></ls-article>
+      <ls-article [article]="article()"></ls-article>
       <div class="container">
         <ls-border-container [title]="'im Lager'">
           <ul>
@@ -60,11 +61,6 @@ import {ButtonComponent} from '../../core-components/button/button.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArtikelEinlagernComponent implements ModalBase {
-  article: Article = {
-    title: "Grünes T-Shirt",
-    price: 3.00,
-    amountOrdered: 5,
-    amountWarehouse: 28,
-    id: 1
-  }
+  store = inject(BubatzStore);
+  article = this.store.currentlyActiveArticle();
 }

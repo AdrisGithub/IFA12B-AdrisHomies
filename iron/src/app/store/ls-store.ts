@@ -1,6 +1,6 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
-import {ArticleService, DepositoryService, GetArticle, ServiceService} from '../gen';
+import {ArticleService, DepositoryService, GetArticle, PostArticle, ServiceService, StoreArticle} from '../gen';
 import {Article} from '../core-components/article/article.component';
 
 type BubatzState = {
@@ -41,8 +41,7 @@ export const BubatzStore = signalStore(
     }
   }),
   withComputed(({allArticles}) => ({
-    getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
-    currentlyActiveArticle: computed<GetArticle | undefined>(() => allArticles()[2])
+    getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle)))
   })),
   withHooks({
     onInit({loadArticles}){
