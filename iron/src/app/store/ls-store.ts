@@ -1,7 +1,7 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
 import {ArticleItem, ArticleService, DepositoryService, GetArticle, GetService, ServiceService} from '../gen';
-import {Article} from '../core-components/article/article.component';
+import {Article, Article2} from '../core-components/article/article.component';
 import {Service} from '../core-components/service/service.component';
 
 type BubatzState = {
@@ -15,7 +15,7 @@ const initalState: BubatzState = {
   allArticles: [],
   allServices: [],
   selectedInstance: undefined,
-  currentlyActiveArticle: undefined
+  currentlyActiveArticle: undefined,
 }
 
 export const BubatzStore = signalStore(
@@ -42,20 +42,22 @@ export const BubatzStore = signalStore(
          // will be called manually
          patchState(store, { })
        },
-       selectArticle(articleId: number) {
+      selectArticle(articleId: number) {
         patchState(store, () => {
           const article = store.allArticles().find(a => a.id === articleId)
           return {currentlyActiveArticle: article}
         });
-       },
-       selectInstance(instance: ArticleItem) {
-          patchState(store, {selectedInstance: instance });
-       }
+      },
+      selectInstance(instance: ArticleItem) {
+        patchState(store, {selectedInstance: instance });
+      }
     }
   }),
-  withComputed(({allArticles, allServices}) => ({
+  withComputed(({allArticles, allServices, currentlyActiveArticle}) => ({
     getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
     getMappedServices: computed(() => allServices().map(getService => mapService(getService))),
+    currentlyActiveArticle: computed<GetArticle | undefined>(() => currentlyActiveArticle()),
+    currentlyActiveArticle2: computed<Article2 | undefined>(() => mapArticle2(currentlyActiveArticle()))
   })),
   withHooks({
     onInit({loadArticles, loadServices}){
@@ -96,4 +98,29 @@ function mapService(getService: GetService): Service {
     name: getService.name,
     id: getService.id
   }
+}
+
+function mapArticle2(getArticle?: GetArticle): Article2 | undefined {
+  if (!getArticle){
+    return undefined;
+  }
+  let amountInWarehouse = 0;
+  let amountIsOrdered = 0;
+  const items = getArticle.items;
+  items.forEach(item => {
+    if (item.reihenNr===null){
+      amountIsOrdered = amountIsOrdered + item.amount;
+    }
+    else {
+      amountInWarehouse = amountInWarehouse + item.amount;
+    }
+  })
+  return {
+    id: getArticle.id,
+    title: getArticle.name,
+    price: getArticle.sellPrice,
+    amountWarehouse: amountInWarehouse,
+    amountOrdered: amountIsOrdered,
+    items: getArticle.items
+  };
 }

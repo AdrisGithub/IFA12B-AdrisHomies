@@ -42,12 +42,12 @@ import { ArtikelInstanzComponent } from '../../components/ArtikelInstanz/Artikel
         </div>
     </section>
   </ls-modal-container>
-  
+
   `,
   styleUrl: './Artikeldetails.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArtikeldetailsComponent implements ModalBase { 
+export class ArtikeldetailsComponent implements ModalBase {
 
   modalService = inject(ModalService);
   store = inject(BubatzStore);

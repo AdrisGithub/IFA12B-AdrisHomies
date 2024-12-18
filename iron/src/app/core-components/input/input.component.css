@@ -1,0 +1,23 @@
+input {
+  border: 1px solid var(--text);
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  color: var(--text);
+  width: 100%;
+}
+
+input:focus{
+  outline: none;
+}
+
+img {
+  height: 25px;
+}
+
+.description {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
