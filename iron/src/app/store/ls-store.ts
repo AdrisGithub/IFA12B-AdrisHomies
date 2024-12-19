@@ -7,6 +7,7 @@ import {
   GetArticle,
   GetService, PatchArticle,
   PickupSpot,
+  PostArticle,
   ServiceService
 } from '../gen';
 import {Article} from '../core-components/article/article.component';
@@ -50,9 +51,10 @@ export const BubatzStore = signalStore(
            patchState(store, {allServices: services})
          })
        },
-       createArticle(name: string){
-         // will be called manually
-         patchState(store, { })
+       createArticle(newArticle: PostArticle){
+         article.createArticle(newArticle).subscribe(createdArticle => {
+          patchState(store, { allArticles: [...store.allArticles(), createdArticle]})
+         })
        },
        storeArticle(id: number, row: number, column: number){
          depository.storeArticle({ id, reihenNr: row, spaltenNr: column}).subscribe(value => {

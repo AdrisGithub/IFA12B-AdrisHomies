@@ -8,13 +8,20 @@ import {NgStyle} from '@angular/common';
     NgStyle
   ],
   template: `
-    <div class="description">
-      @if (icon()) {
-        <img src="./{{icon()}}.svg" alt="{{icon()}} icon">
+    <div [class]="[fullHeight() && 'full-height']">
+      <div class="description">
+        @if (icon()) {
+          <img src="./{{icon()}}.svg" alt="{{icon()}} icon">
+        }
+        <span [ngStyle]="{'font-size': fontSize()+'px'}" >{{ displayText() }}</span>
+      </div>
+      @if (fullHeight()) {
+        <textarea (input)="testInput($event)"></textarea>
       }
-      <span [ngStyle]="{'font-size': fontSize()+'px'}" >{{ displayText() }}</span>
+      @else {
+        <input type="text" (input)="testInput($event)">
+      }
     </div>
-    <input type="text" (input)="testInput($event)">
   `,
   styleUrl: './input.component.css'
 })
@@ -22,6 +29,8 @@ export class InputComponent {
   icon = input<IconType>();
   displayText = input.required<string>();
   fontSize =input(26)
+  fullHeight = input<boolean>(false);
+
   value = output<string>()
 
 
