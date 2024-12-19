@@ -3,8 +3,9 @@ import {BorderContainerComponent} from '../../core-components/BorderContainer/Bo
 import {ArticleComponent} from '../../core-components/article/article.component';
 import {BubatzStore} from '../../store/ls-store';
 import {ServiceComponent} from '../../core-components/service/service.component';
-import {ButtonComponent} from '../../core-components/button/button.component';
-import {ModalService} from '../../services/Modal.service';
+import { ButtonComponent } from "../../core-components/button/button.component";
+import { ModalService } from '../../services/Modal.service';
+import { NeuerArtikelComponent } from '../../modals-ucs/NeuerArtikel/NeuerArtikel.component';
 import {ArtikelVerkaufenComponent} from '../../modals-ucs/ArtikelVerkaufen/ArtikelVerkaufen.component';
 import {ArtikelNachbestellenComponent} from '../../modals-ucs/ArtikelNachbestellen/ArtikelNachbestellen.component';
 
@@ -16,7 +17,7 @@ import {ArtikelNachbestellenComponent} from '../../modals-ucs/ArtikelNachbestell
     ArticleComponent,
     ServiceComponent,
     ButtonComponent
-  ],
+],
   template: `
     <header class="flex">
       <img src="logo.png" alt="Logo der Segitz-Therme">
@@ -28,14 +29,14 @@ import {ArtikelNachbestellenComponent} from '../../modals-ucs/ArtikelNachbestell
     </header>
     <div class="home-container flex">
       <ls-border-container [title]="'Waren'">
-          <ls-button [fullWidth]="true" (onClick)="createArticle()">neuen Artikel anlegen</ls-button>
-          <div class="article-items">
-            @for (article of articles(); track article.id) {
-              <div class="item">
-                <ls-article [article]="article"></ls-article>
-              </div>
-            }
-          </div>
+        <ls-button [fullWidth]="true" (onClick)="openNewArticleModal()">neuen Artikel anlegen</ls-button>
+        <div class="article-items">
+          @for (article of articles(); track article.id) {
+            <div class="item">
+              <ls-article [article]="article"></ls-article>
+            </div>
+          }
+        </div>
       </ls-border-container>
       <ls-border-container [title]="'Dienstleistungen'">
           <ls-button [fullWidth]="true" (onClick)="createService()">neue Dienstleistung anlegen</ls-button>
@@ -52,14 +53,13 @@ import {ArtikelNachbestellenComponent} from '../../modals-ucs/ArtikelNachbestell
   styleUrl: 'home-page.component.css',
 })
 export class HomePageComponent {
-  modalService = inject(ModalService);
   store = inject(BubatzStore);
+  modalService = inject(ModalService);
+
   articles = this.store.getMappedArticles;
   services = this.store.getMappedServices;
 
-  createArticle() {
-    this.modalService.openModal(ArtikelVerkaufenComponent)
-  }
+  openNewArticleModal = () => { this.modalService.openModal(NeuerArtikelComponent); }
 
   createService() {
     this.modalService.openModal(ArtikelNachbestellenComponent)

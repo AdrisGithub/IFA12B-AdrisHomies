@@ -1,0 +1,10 @@
+<div [class]="['container', colorClass]">
+  <div class="icon-container">
+    <img src="{{icon}}.svg" alt="status icon">
+  </div>
+  <div class="text-container">
+    <p class="title">{{ toast().message }}</p>
+    <p>{{ toast().detail }}</p>
+  </div>
+  <button><img src="./x.svg" alt="close button"></button>
+</div>

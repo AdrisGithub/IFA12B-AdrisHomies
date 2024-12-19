@@ -9,6 +9,7 @@ import {BubatzStore} from '../../store/ls-store';
 import {CurrencyPipe} from '@angular/common';
 import {StatusComponent} from '../../core-components/status/status.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'ls-artikel-einlagern',
@@ -130,15 +131,28 @@ export class ArtikelEinlagernComponent implements ModalBase {
 
   store = inject(BubatzStore);
   modalService = inject(ModalService);
+  toast = inject(ToastService);
   article = this.store.currentlyActiveArticleWithAmounts;
 
   storeArticle = () => {
     if (this.row && this.column){
+
       const row = Number.parseInt(this.row);
+      if (Number.isNaN(this.row)){
+        this.toast.addToast({detail: 'Eingabe Fehler', message: 'Die Reiheneingabe ist keine valide Zahl',severity: "warning"})
+        return;
+      }
+
       const column = Number.parseInt(this.column);
+      if (Number.isNaN(this.column)){
+        this.toast.addToast({detail: 'Eingabe Fehler', message: 'Die Spalteneingabe ist keine valide Zahl',severity: "warning"})
+        return;
+      }
 
       this.store.storeArticle(this.store.selectedInstance()!.id, row, column)
       this.modalService.clearStack();
+    }else {
+      this.toast.addToast({detail: 'Eingabe Fehler', message: 'Die Spalteneingabe oder Reiheneingabe muss befüllt sein',severity: "warning"})
     }
   }
 

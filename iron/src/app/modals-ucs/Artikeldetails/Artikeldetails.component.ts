@@ -67,4 +67,4 @@ export class ArtikeldetailsComponent implements ModalBase {
 
 }
 
-type Pair = {key: string, value: string}
+export type Pair = {key: string, value: string}
