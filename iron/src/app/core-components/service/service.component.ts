@@ -1,6 +1,10 @@
-import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {CurrencyPipe} from '@angular/common';
 import {StatusComponent} from '../status/status.component';
+import {ArtikeldetailsComponent} from '../../modals-ucs/Artikeldetails/Artikeldetails.component';
+import {ModalService} from '../../services/Modal.service';
+import {BubatzStore} from '../../store/ls-store';
+import {ServiceDetailsComponent} from '../../modals-ucs/Servicedetails/Servicedetails.component';
 
 @Component({
   selector: 'ls-service',
@@ -10,11 +14,10 @@ import {StatusComponent} from '../status/status.component';
     StatusComponent
   ],
   template: `
-    <article>
+    <article (click)="openDetails()">
       <h1>{{ service().name }}</h1>
       <div class="bottomRow">
-      <!--<p class="description">{{ service().description }}</p>-->
-        <p class="description">Hallo, das hier ist eine sehr, sehr, sehr, sehr, sehr lange Beschreibung</p>
+      <p class="description">{{ service().description }}</p>
       <div class="information">
           @if (service().available) {
             <div class="availabilty">
@@ -81,6 +84,14 @@ import {StatusComponent} from '../status/status.component';
 })
 export class ServiceComponent {
   service = input.required<Service>()
+
+  modalService = inject(ModalService);
+  store = inject(BubatzStore);
+
+  openDetails = () => {
+    this.store.selectService(this.service().id);
+    this.modalService.openModal(ServiceDetailsComponent)
+  }
 }
 
 export type Service = {

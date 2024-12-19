@@ -39,7 +39,7 @@ import {ArticleItem} from '../../gen';
             <ls-input (value)="amount=$event" [displayText]="'gewünschte Verkaufsmenge:'" [fontSize]="20"></ls-input>
           </div>
           <div class="button">
-            <ls-button (onClick)="sellArticle()">Artikel verkaufen</ls-button>
+            <ls-button [fullWidth]="true" (onClick)="sellArticle()">Artikel verkaufen</ls-button>
           </div>
         </ls-border-container>
       </div>
