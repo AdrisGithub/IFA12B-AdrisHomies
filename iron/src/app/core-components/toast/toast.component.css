@@ -1,11 +1,11 @@
 .green{
-  background-color: greenyellow;
+  background-color: var(--status-green);
 }
 .red{
-  background-color: orangered;
+  background-color: var(--status-red);
 }
 .yellow{
-  background-color: yellow;
+  background-color: var(--status-orange);
 }
 .blue{
   background-color: deepskyblue;
@@ -19,6 +19,7 @@ img {
 .icon-container {
   border-radius: 1000px;
   height: 25px;
+  width: 25px;
   padding: 0.5em;
   background-color: white;
   display: flex;
