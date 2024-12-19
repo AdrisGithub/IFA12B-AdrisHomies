@@ -17,6 +17,7 @@ type BubatzState = {
   allServices: GetService[],
   selectedInstance: ArticleItem | undefined,
   currentlyActiveArticle: GetArticle | undefined,
+  currentlyActiveService: GetService | undefined,
   pickupSpots : PickupSpot[],
 };
 
@@ -25,6 +26,7 @@ const initalState: BubatzState = {
   allServices: [],
   selectedInstance: undefined,
   currentlyActiveArticle: undefined,
+  currentlyActiveService: undefined,
   pickupSpots : []
 }
 
@@ -71,6 +73,33 @@ export const BubatzStore = signalStore(
            return {currentlyActiveArticle: article}
          });
        },
+      selectService(serviceId: number) {
+        patchState(store, () => {
+          const service = store.allServices().find(service => service.id === serviceId);
+          return {currentlyActiveService: service}
+        })
+      },
+      changeServiceAvailability(serviceId: number, desiredState: boolean) {
+        service.bookService(serviceId, {id: serviceId, state: desiredState}).subscribe(() => {
+
+          patchState(store, () => {
+            const service = store.currentlyActiveService()!;
+
+            service.available = !service.available;
+
+            return {currentlyActiveService: service}
+          })
+
+          const services = store.allServices().map (service => {
+            if (service.id == serviceId) {
+              service.available = desiredState;
+              return service;
+            }
+            return service;
+          })
+          patchState(store, {allServices: services})
+        })
+      },
       sellArticle(articleId: number, amount: number) {
          depository.sellArticle(articleId, {amount}).subscribe(value => {
            const articles = store.allArticles().map (article => {
