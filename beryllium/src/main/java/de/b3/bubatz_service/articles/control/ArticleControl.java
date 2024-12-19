@@ -105,7 +105,7 @@ public class ArticleControl {
             if (amount >= item.getAmount()) {
                 amount -= item.getAmount();
                 spots.add(PickupSpotMapper.map(item));
-            } else {
+            } else if (amount != 0){
                 item.setAmount(item.getAmount() - amount);
                 items.add(item);
 
