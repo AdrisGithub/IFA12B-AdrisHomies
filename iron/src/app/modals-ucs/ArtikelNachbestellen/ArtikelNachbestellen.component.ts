@@ -8,6 +8,7 @@ import {StatusComponent} from '../../core-components/status/status.component';
 import {BubatzStore} from '../../store/ls-store';
 import {LagerplaetzeComponent} from '../Lagerplaetze/Lagerplaetze.component';
 import {PatchArticle} from '../../gen';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'ls-artikel-nachbestellen',
@@ -52,6 +53,7 @@ export class ArtikelNachbestellenComponent implements ModalBase {
 
   modalservice = inject(ModalService);
   store = inject(BubatzStore);
+  toast = inject(ToastService);
   article = this.store.currentlyActiveArticleWithAmounts;
   amount : string | undefined;
 
@@ -59,6 +61,8 @@ export class ArtikelNachbestellenComponent implements ModalBase {
     if (this.amount) {
       const particle : PatchArticle = {id: this.article()!.id, amount: Number.parseInt(this.amount)};
       this.store.reorderArticle(particle);
+    } else{
+      this.toast.addToast({severity: "warning", message: 'Eingabe Fehler', detail: 'Die Anzahl der Artikel muss angegeben werden'})
     }
     this.modalservice.clearStack();
   }
