@@ -96,6 +96,7 @@ public class ArticleControl {
         final List<PickupSpot> spots = new ArrayList<>();
         final List<ArticleItem> items = new ArrayList<>();
 
+        double totalPrice = amount * getArticle.getSellPrice();
 
         for (ArticleItem item : getArticle.getItems()) {
             if (!isDeposited(item)){
@@ -114,8 +115,6 @@ public class ArticleControl {
                 amount = 0;
             }
         }
-
-        double totalPrice = spots.size() * getArticle.getSellPrice();
 
         getArticle.setItems(items);
         article = ArticleMapper.map(getArticle);
