@@ -94,20 +94,29 @@ public class ArticleControl {
         final List<PickupSpot> spots = new ArrayList<>();
         final List<ArticleItem> items = new ArrayList<>();
 
+        double totalPrice = amount * getArticle.getSellPrice();
 
         for (ArticleItem item : getArticle.getItems()) {
-            if (amount >= item.getAmount() && isDeposited(item)) {
+            if (!isDeposited(item)){
+                items.add(item);
+                continue;
+            }
+            if (amount >= item.getAmount()) {
                 amount -= item.getAmount();
                 spots.add(PickupSpotMapper.map(item));
-            } else {
+            } else if (amount != 0){
+                item.setAmount(item.getAmount() - amount);
                 items.add(item);
+
+                spots.add(PickupSpotMapper.map(item, amount));
+
+                amount = 0;
             }
         }
 
-        double totalPrice = spots.size() * getArticle.getSellPrice();
-
         getArticle.setItems(items);
         article = ArticleMapper.map(getArticle);
+
         final Article saved = this.repository.save(article);
         final GetArticle savedArticle = ArticleMapper.map(saved);
 

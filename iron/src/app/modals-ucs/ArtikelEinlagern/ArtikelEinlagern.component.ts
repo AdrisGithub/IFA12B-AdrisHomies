@@ -9,11 +9,12 @@ import {BubatzStore} from '../../store/ls-store';
 import {CurrencyPipe} from '@angular/common';
 import {StatusComponent} from '../../core-components/status/status.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'ls-artikel-einlagern',
   standalone: true,
-  imports: [ModalContainerComponent, ArticleComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
+  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
   template: `
     <ls-modal-container [title]="'Artikel einlagern'">
       <article>
@@ -50,8 +51,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
           </ul>
         </ls-border-container>
         <form>
-          <ls-input [icon]="'ladders'" [displayText]="'Reihe:'" (value)="row = $event" />
+          <ls-input [icon]="'shelf'" [displayText]="'Reihe:'" (value)="row = $event" />
+          <div style="margin-top: 1em">
           <ls-input [icon]="'container'" [displayText]="'Platz:'" (value)="column = $event"/>
+          </div>
         </form>
       </div>
       <div class="flex">
@@ -66,25 +69,25 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ul {
       list-style: none;
       padding: 0;
+      margin: 0;
       font-family: Arial, sans-serif;
     }
     li {
       background-color: var(--card-bg);
       border-radius: 10px;
       padding: 0.5em;
-      margin: 0.5em;
     }
     .container {
       display: flex;
+      margin-bottom: 1em;
       gap: 1em;
-      align-items: center;
       flex-wrap: wrap;
+      margin-top: 1em;
     }
     .flex {
       display: flex;
       justify-content: end;
     }
-
     article {
       background: var(--card-bg);
       padding: 0.7em;
@@ -128,15 +131,28 @@ export class ArtikelEinlagernComponent implements ModalBase {
 
   store = inject(BubatzStore);
   modalService = inject(ModalService);
-  article = this.store.currentlyActiveArticle2;
+  toast = inject(ToastService);
+  article = this.store.currentlyActiveArticleWithAmounts;
 
   storeArticle = () => {
     if (this.row && this.column){
+
       const row = Number.parseInt(this.row);
+      if (Number.isNaN(this.row)){
+        this.toast.addToast({detail: 'Eingabe Fehler', message: 'Die Reiheneingabe ist keine valide Zahl',severity: "warning"})
+        return;
+      }
+
       const column = Number.parseInt(this.column);
+      if (Number.isNaN(this.column)){
+        this.toast.addToast({detail: 'Eingabe Fehler', message: 'Die Spalteneingabe ist keine valide Zahl',severity: "warning"})
+        return;
+      }
 
       this.store.storeArticle(this.store.selectedInstance()!.id, row, column)
       this.modalService.clearStack();
+    }else {
+      this.toast.addToast({detail: 'Eingabe Fehler', message: 'Die Spalteneingabe oder Reiheneingabe muss befüllt sein',severity: "warning"})
     }
   }
 
