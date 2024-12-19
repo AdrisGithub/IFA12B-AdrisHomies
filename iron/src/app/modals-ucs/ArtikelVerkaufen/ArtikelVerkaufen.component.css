@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+ls-modal-container {
+  width: 30vw;
+}
+
+.Container {
+  margin-top: 1em;
+}
+
+p {
+  font-size: 20px;
+}
+
+.availability {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 0.5em;
+}
+
+div {
+  padding-right: 0.5em;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+}
+
+
