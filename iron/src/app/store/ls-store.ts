@@ -66,8 +66,14 @@ export const BubatzStore = signalStore(
          })
        },
        createArticle(newArticle: PostArticle){
-        article.createArticle(newArticle).subscribe(createdArticle => {
-          patchState(store, { allArticles: [...store.allArticles(), createdArticle]})
+        article.createArticle(newArticle).subscribe({
+          next: createdArticle => {
+            patchState(store, { allArticles: [...store.allArticles(), createdArticle]})
+          },
+          error: err => {
+            console.error(err)
+            toast.addToast({message: 'Server Fehler', detail: 'Artikel konnten nicht angelegt werden', severity: 'error'})
+          }
         })
       },
        storeArticle(id: number, row: number, column: number){
