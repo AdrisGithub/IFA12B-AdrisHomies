@@ -14,4 +14,12 @@ public class PickupSpotMapper {
 
         return spot;
     }
+
+    public static PickupSpot map(ArticleItem item, Integer amount){
+        final PickupSpot spot = PickupSpotMapper.map(item);
+
+        spot.setAmount(amount);
+
+        return spot;
+    }
 }
