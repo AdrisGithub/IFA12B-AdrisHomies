@@ -6,15 +6,16 @@ header {
   background: var(--card-bg);
 }
 img {
-  height: 3.5em;
+  height: 5em;
 }
 .text {
   margin-left: 1em;
 }
 p {
   font-family: Kodchasan, sans-serif;
+  font-size: 20px;
 }
-h4 {
+h2 {
   font-family: Julius Sans One, sans-serif;
 }
 /* ************************************* */
@@ -25,41 +26,47 @@ h4 {
 }
 .home-container {
   justify-content: center;
-  margin-top: 3em;
+  margin-top: 2em;
+  gap: 3em;
 }
 ls-border-container {
-  width: 35vw;
+  width: 30vw;
 }
-.articles, .services {
-  display: grid;
-  height: 65vh;
+
+ls-button {
+  margin: 1em 0;
+}
+
+.article-items, .service-items {
+  height: 70vh;
   overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-gutter: stable;
 }
 
+
 .item {
-  margin-right: 0.5em;
+  margin: 0 0.5em 1.3em 0.5em;
 }
 
 /* ************************************* */
 /* ************ SCROLL-BAR ************* */
 /* ************************************* */
 
-.articles::-webkit-scrollbar,
-.services::-webkit-scrollbar {
+.article-items::-webkit-scrollbar,
+.service-items::-webkit-scrollbar {
   width: 8px;
 }
 
 
-.articles::-webkit-scrollbar-track,
-.services::-webkit-scrollbar-track {
+.article-items::-webkit-scrollbar-track,
+.service-items::-webkit-scrollbar-track {
   width: 8px;
   border-radius: 15px;
 }
 
-.articles::-webkit-scrollbar-thumb,
-.services::-webkit-scrollbar-thumb{
+.article-items::-webkit-scrollbar-thumb,
+.service-items::-webkit-scrollbar-thumb{
   -webkit-box-shadow: inset 0 0 6px var(--border);
   background: var(--bg);
   border-radius: 15px;
