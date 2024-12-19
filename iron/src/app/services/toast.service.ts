@@ -28,7 +28,7 @@ export class ToastService {
   }
 
   removeToast(toastId: number){
-    const toasts = this.toasts.value.filter(toast => toast.id === toastId);
+    const toasts = this.toasts.value.filter(toast => toast.id !== toastId);
     this.toasts.next(toasts);
   }
 
