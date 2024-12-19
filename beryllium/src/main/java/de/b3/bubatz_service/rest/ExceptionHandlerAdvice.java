@@ -18,7 +18,7 @@ public class ExceptionHandlerAdvice {
     public static final String INVALID_READ_ADD_VALUES_ERROR = "Beim Einlesen der Entität ist ein Fehler entstanden";
     public static final String INVALID_WRITE_ADD_VALUES_ERROR = "Beim Persistieren der Entität ist ein Fehler entstanden";
     public static final String DEPOSITORY_SPOT_ALREADY_OCCUPIED = "Der Lagerplatz mit der ReihenNr: %s und SpaltenNr: %s ist schon belegt";
-    public static final String IDS_DO_NOT_MATCH = "Die IDs stimmen nicht überein: %s != %s";
+    public static final String IDS_DO_NOT_MATCH = "Die IDs stimmen nicht überein: %s =/= %s";
 
     @ExceptionHandler(value = {InvalidAdditionalValuesPersistException.class})
     public ResponseEntity<Error> invalidAdditionalValuesPersist(InvalidAdditionalValuesPersistException ex) {
