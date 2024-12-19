@@ -1,7 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {BorderContainerComponent} from '../../core-components/BorderContainer/BorderContainer.component';
 import {ArticleComponent} from '../../core-components/article/article.component';
-import {Article, ArticleComponent} from '../../core-components/article/article.component';
 import {BubatzStore} from '../../store/ls-store';
 import {ServiceComponent} from '../../core-components/service/service.component';
 
@@ -10,7 +9,6 @@ import {ServiceComponent} from '../../core-components/service/service.component'
   standalone: true,
   imports: [
     BorderContainerComponent,
-    ArticleComponent
     ArticleComponent,
     ServiceComponent
   ],
@@ -27,14 +25,18 @@ import {ServiceComponent} from '../../core-components/service/service.component'
       <ls-border-container [title]="'Waren'">
         <div class="articles">
           @for (article of articles(); track article.id) {
-            <ls-article class="item" [article]="article"></ls-article>
+            <div class="item">
+                <ls-article [article]="article"></ls-article>
+            </div>
           }
         </div>
       </ls-border-container>
       <ls-border-container [title]="'Dienstleistungen'">
         <div class="services">
           @for (service of services(); track service.id) {
-            <ls-service [service]="service"></ls-service>
+            <div class="item">
+                <ls-service [service]="service"></ls-service>
+            </div>
           }
         </div>
       </ls-border-container>

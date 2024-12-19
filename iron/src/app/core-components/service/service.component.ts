@@ -11,18 +11,21 @@ import {StatusComponent} from '../status/status.component';
   ],
   template: `
     <article>
-      <div class="left-box">
-        <h3>{{ service().name }}</h3>
-        <p class="description">{{service().description}}</p>
-      </div>
+      <h1>{{ service().name }}</h1>
+      <div class="bottomRow">
+      <!--<p class="description">{{ service().description }}</p>-->
+        <p class="description">Hallo, das hier ist eine sehr, sehr, sehr, sehr, sehr lange Beschreibung</p>
       <div class="information">
-        <p class="price">{{ service().price | currency: 'EUR' }}</p>
-        <div class="availability">
           @if (service().available) {
-            <ls-status [displayText]="'aktiv'" [statusColour]="'green'"></ls-status>
+            <div class="availabilty">
+            <ls-status [displayText]="'verfügbar'" [statusColour]="'green'" [fontSize]="18"></ls-status>
+            </div>
           } @else {
-            <ls-status [displayText]="'nicht verfügbar'" [statusColour]="'red'"></ls-status>
+            <div class="availabilty">
+            <ls-status [displayText]="'gebucht'" [statusColour]="'red'" [fontSize]="18"></ls-status>
+            </div>
           }
+        <p class="price">{{ service().price | currency: 'EUR' }}</p>
         </div>
       </div>
     </article>
@@ -30,43 +33,48 @@ import {StatusComponent} from '../status/status.component';
   styles: `
     article {
       background: var(--card-bg);
-      padding: 0.7em;
+      padding: 1em 1.5em;
       font-family: Arial, sans-serif;
       width: 100%;
       box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
+      cursor: pointer;
     }
 
-    div {
-      display: flex;
+
+    .bottomRow {
+      margin-top: 0.7em;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
 
     p {
-      font-size: 20px;
+      font-size: 25px;
+    }
+
+    .price {
+      justify-self: end;
+    }
+
+    .availabilty {
+      text-align: left;
+      margin: 0 0.5em;
     }
 
     .information {
-      justify-content: space-between;
-      margin-top: 0.4em;
-      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: auto 0;
     }
 
-    .availability {
-      gap: 10px;
-      margin-top: 0.2em;
-    }
-    .left-box, .information {
-      display: flex;
-      justify-content: space-between;
-      flex-direction: column;
-    }
-    .information {
-      align-items: flex-end;
-    }
     .description {
-      font-size: 14px;
+      font-size: 18px;
       color: var(--text-secondary);
+      margin: auto 0.5em auto 0;
+      width: 13em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush

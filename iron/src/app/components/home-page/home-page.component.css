@@ -26,20 +26,20 @@ h4 {
 .home-container {
   justify-content: center;
   margin-top: 3em;
+  gap: 3em;
 }
 ls-border-container {
-  width: 35vw;
+  width: 30vw;
 }
 .articles, .services {
-  display: grid;
-  height: 65vh;
+  height: 80vh;
   overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-gutter: stable;
 }
 
 .item {
-  margin-right: 0.5em;
+  margin: 0 0.5em 1.3em 0.5em;
 }
 
 /* ************************************* */
