@@ -38,7 +38,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         </div>
       </article>
       <div class="container">
-        <ls-border-container [title]="'im Lager'" style="height: 217.6px"> <!--es tut mir leid-->
+        <ls-border-container [title]="'im Lager'"> <!--es tut mir leid-->
           <ul>
             @for (item of article()?.items; track item.id) {
               @if (item.reihenNr != null) {
@@ -51,7 +51,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         </ls-border-container>
         <form>
           <ls-input [icon]="'ladders'" [displayText]="'Reihe:'" (value)="row = $event" />
+          <div style="margin-top: 1em">
           <ls-input [icon]="'container'" [displayText]="'Platz:'" (value)="column = $event"/>
+          </div>
         </form>
       </div>
       <div class="flex">
@@ -76,8 +78,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     }
     .container {
       display: flex;
+      margin-bottom: 1em;
       gap: 1em;
-      align-items: center;
       flex-wrap: wrap;
       margin-top: 1em;
     }
@@ -85,7 +87,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
       display: flex;
       justify-content: end;
     }
-
     article {
       background: var(--card-bg);
       padding: 0.7em;
