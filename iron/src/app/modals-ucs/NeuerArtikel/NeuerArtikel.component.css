@@ -50,4 +50,29 @@ input:focus{
 .close-icon {
     width: 15px;
     margin: auto 0 auto 10px;
+    cursor: pointer;
+}
+
+.plus {
+    width: 30px;
+}
+
+.plus-text {
+    color: var(--text-secondary);
+    font-size: 20px;
+}
+
+button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
 }
