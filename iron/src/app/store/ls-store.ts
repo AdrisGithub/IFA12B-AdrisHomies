@@ -43,18 +43,26 @@ export const BubatzStore = signalStore(
     return {
        loadArticles(){
          // no need to call this manually
-         depository.getArticles().subscribe(articles => {
-         patchState(store, {allArticles: articles});
+         depository.getArticles().subscribe({
+           next: articles => {
+             patchState(store, {allArticles: articles});
+           },
+           error: err => {
+             console.error(err)
+             toast.addToast({message: 'Server Fehler', detail: 'Artikel konnten nicht geladen werden', severity: 'error'})
+           }
          });
        },
        loadServices(){
-         service.getServices().subscribe(services => {
-           patchState(store, {allServices: services})
+         service.getServices().subscribe({
+           next: services => {
+             patchState(store, {allServices: services});
+           },
+           error: err => {
+             console.error(err)
+             toast.addToast({message: 'Server Fehler', detail: 'Dienstleistungen konnten nicht geladen werden', severity: 'error'})
+           }
          })
-       },
-       createArticle(name: string){
-         // will be called manually
-         patchState(store, { })
        },
        storeArticle(id: number, row: number, column: number){
          depository.storeArticle({ id, reihenNr: row, spaltenNr: column}).subscribe(value => {
