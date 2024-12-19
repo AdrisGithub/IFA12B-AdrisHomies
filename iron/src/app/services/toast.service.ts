@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, tap} from 'rxjs';
-import {Toast} from '../core-components/toast/toast';
+import {Toast, ToastWithoutId} from '../core-components/toast/toast';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +8,15 @@ import {Toast} from '../core-components/toast/toast';
 export class ToastService {
 
   private toasts: BehaviorSubject<Toast[]> = new BehaviorSubject<Toast[]>([]);
+  private id: number = 0;
 
-
-  addToast(toast: Toast){
+  addToast(toast: ToastWithoutId){
     const toasts = this.toasts.value;
-    toasts.push(toast)
+
+    const withId = toast as Toast;
+    withId.id = this.id++;
+    toasts.push(withId)
+
     this.toasts.next(toasts)
   }
 

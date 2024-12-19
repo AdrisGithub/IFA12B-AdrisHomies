@@ -5,6 +5,7 @@ import {BorderContainerComponent} from '../../core-components/BorderContainer/Bo
 import {ButtonComponent} from '../../core-components/button/button.component';
 import {ModalContainerComponent} from '../../core-components/modal-container/modal-container.component';
 import {StatusComponent} from '../../core-components/status/status.component';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'ls-servicedetails',
@@ -64,6 +65,7 @@ export class ServiceDetailsComponent{
 
   modalService = inject(ModalService);
   store = inject(BubatzStore);
+  toasts = inject(ToastService);
   detector = inject(ChangeDetectorRef);
 
   service = this.store.currentlyActiveService;
