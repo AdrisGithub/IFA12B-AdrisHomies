@@ -50,7 +50,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
           </ul>
         </ls-border-container>
         <form>
-          <ls-input [icon]="'ladders'" [displayText]="'Reihe:'" (value)="row = $event" />
+          <ls-input [icon]="'shelf'" [displayText]="'Reihe:'" (value)="row = $event" />
           <div style="margin-top: 1em">
           <ls-input [icon]="'container'" [displayText]="'Platz:'" (value)="column = $event"/>
           </div>
