@@ -69,6 +69,7 @@ export const BubatzStore = signalStore(
         article.createArticle(newArticle).subscribe({
           next: createdArticle => {
             patchState(store, { allArticles: [...store.allArticles(), createdArticle]})
+            toast.addToast({message: 'Erfolgreich angelegt' , detail: 'Artikel wurde erfolgreich angelegt' ,severity: "success"})
           },
           error: err => {
             console.error(err)
@@ -88,6 +89,7 @@ export const BubatzStore = signalStore(
              })
 
              patchState(store, {allArticles: articles})
+             toast.addToast({message: 'Erfolgreich eingelagert' , detail: 'Artikel wurde erfolgreich eingelagert' ,severity: "success"})
            },
            error: err => {
              console.error(err)
@@ -127,6 +129,7 @@ export const BubatzStore = signalStore(
               return service;
             })
             patchState(store, {allServices: services})
+            toast.addToast({message: 'Erfolgreich gebucht' , detail: 'Dienstleistungsbuchung wurde erfolgreich vermerkt' ,severity: "success"})
           },
           error: err => {
             console.error(err)
@@ -144,6 +147,7 @@ export const BubatzStore = signalStore(
                return article;
              })
              patchState(store, {allArticles: articles, pickupSpots: value.spots})
+             toast.addToast({message: 'Erfolgreich verkauft' , detail: 'Artikel wurde erfolgreich verkauft' ,severity: "success"})
            },
            error: err => {
              console.error(err)
@@ -162,6 +166,7 @@ export const BubatzStore = signalStore(
             })
 
             patchState(store, {allArticles: articles})
+            toast.addToast({message: 'Erfolgreich nachbestellt' , detail: 'Artikel wurde erfolgreich nachbestellt' ,severity: "success"})
           },
           error: err => {
             console.error(err)
