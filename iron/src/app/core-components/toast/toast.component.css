@@ -1,11 +1,11 @@
 .green{
-  background-color: greenyellow;
+  background-color: var(--status-green);
 }
 .red{
-  background-color: orangered;
+  background-color: var(--status-red);
 }
 .yellow{
-  background-color: yellow;
+  background-color: var(--status-orange);
 }
 .blue{
   background-color: deepskyblue;
