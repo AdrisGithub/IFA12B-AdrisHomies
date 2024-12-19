@@ -11,7 +11,7 @@ import {ToastService} from './services/toast.service';
   imports: [HomePageComponent, ModalDisplayerComponent, AsyncPipe, ToastComponent],
   template: `
     @for (toast of toasts.getToasts() | async; track toast.id) {
-      <ls-toast [text]="toast.message" [icon]="'x'"></ls-toast>
+      <ls-toast [toast]="toast"></ls-toast>
     }
     <ls-modal-displayer/>
     <ls-home-page/>
