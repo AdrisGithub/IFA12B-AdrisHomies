@@ -19,6 +19,7 @@ img {
 .icon-container {
   border-radius: 1000px;
   height: 25px;
+  width: 25px;
   padding: 0.5em;
   background-color: white;
   display: flex;
