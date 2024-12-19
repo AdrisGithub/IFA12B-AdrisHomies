@@ -39,7 +39,7 @@ import {PatchArticle} from '../../gen';
             <ls-input (value)="amount=$event" [displayText]="'gewünschte Bestellmenge:'" [fontSize]="20"></ls-input>
           </div>
           <div class="button">
-            <ls-button (onClick)="restock()">Artikel bestellen</ls-button>
+            <ls-button [fullWidth]="true" (onClick)="restock()">Artikel bestellen</ls-button>
           </div>
         </ls-border-container>
       </div>
