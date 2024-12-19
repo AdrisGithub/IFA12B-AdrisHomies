@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, tap} from 'rxjs';
-import {Toast} from '../core-components/toasts/toast';
+import {Toast} from '../core-components/toast/toast';
 
 @Injectable({
   providedIn: 'root'
