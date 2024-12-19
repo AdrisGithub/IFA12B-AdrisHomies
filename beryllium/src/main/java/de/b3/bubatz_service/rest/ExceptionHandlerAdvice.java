@@ -1,10 +1,7 @@
 package de.b3.bubatz_service.rest;
 
 import de.b3.bubatz_service.generated.models.Error;
-import de.b3.bubatz_service.rest.exceptions.DepositorySpotAlreadyOccupiedException;
-import de.b3.bubatz_service.rest.exceptions.InvalidAdditionalValuesPersistException;
-import de.b3.bubatz_service.rest.exceptions.InvalidAdditionalValuesReadException;
-import de.b3.bubatz_service.rest.exceptions.RequestExceedsDepositException;
+import de.b3.bubatz_service.rest.exceptions.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +18,7 @@ public class ExceptionHandlerAdvice {
     public static final String INVALID_READ_ADD_VALUES_ERROR = "Beim Einlesen der Entität ist ein Fehler entstanden";
     public static final String INVALID_WRITE_ADD_VALUES_ERROR = "Beim Persistieren der Entität ist ein Fehler entstanden";
     public static final String DEPOSITORY_SPOT_ALREADY_OCCUPIED = "Der Lagerplatz mit der ReihenNr: %s und SpaltenNr: %s ist schon belegt";
+    public static final String IDS_DO_NOT_MATCH = "Die IDs stimmen nicht überein: %s != %s";
 
     @ExceptionHandler(value = {InvalidAdditionalValuesPersistException.class})
     public ResponseEntity<Error> invalidAdditionalValuesPersist(InvalidAdditionalValuesPersistException ex) {
@@ -70,6 +68,17 @@ public class ExceptionHandlerAdvice {
     public ResponseEntity<Error> requestExceedsDepositException(RequestExceedsDepositException ex) {
 
         final Error error = createError(ex.getMessage());
+
+        log.error("{}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler(value = {IdsNotMatchingException.class})
+    public ResponseEntity<Error> idsNotMatchingException(IdsNotMatchingException ex) {
+
+        final Error error = createError(String.format(IDS_DO_NOT_MATCH, ex.getFirst(), ex.getSecond()));
 
         log.error("{}", ex.getMessage());
         return ResponseEntity
