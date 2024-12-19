@@ -5,7 +5,7 @@ import {
   ArticleService,
   DepositoryService,
   GetArticle,
-  GetService,
+  GetService, PatchArticle,
   PickupSpot,
   ServiceService
 } from '../gen';
@@ -111,7 +111,19 @@ export const BubatzStore = signalStore(
            patchState(store, {allArticles: articles, pickupSpots: value.spots})
          });
       },
-       selectInstance(instance: ArticleItem) {
+      reorderArticle(particle : PatchArticle) {
+        article.reorderArticle(particle).subscribe(value => {
+          const articles = store.allArticles().map(article => {
+            if (article.id == value.id){
+              return value;
+            }
+            return article;
+          })
+
+          patchState(store, {allArticles: articles})
+        })
+      },
+      selectInstance(instance: ArticleItem) {
          patchState(store, {selectedInstance: instance });
        },
     }
