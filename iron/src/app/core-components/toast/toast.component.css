@@ -1,0 +1,45 @@
+.green{
+  background-color: greenyellow;
+}
+.red{
+  background-color: orangered;
+}
+.yellow{
+  background-color: yellow;
+}
+.blue{
+  background-color: deepskyblue;
+}
+
+img {
+  height: 100%;
+  min-height: 25px;
+}
+
+.icon-container {
+  border-radius: 1000px;
+  height: 25px;
+  padding: 0.5em;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title{
+  font-weight: bold;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+}
+.text-container{
+  width: 100%;
+  margin-left: 1em;
+}
+button {
+  all:unset;
+  cursor: pointer;
+}
