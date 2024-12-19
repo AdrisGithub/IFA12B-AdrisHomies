@@ -38,7 +38,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         </div>
       </article>
       <div class="container">
-        <ls-border-container [title]="'im Lager'"> <!--es tut mir leid-->
+        <ls-border-container [title]="'im Lager'">
           <ul>
             @for (item of article()?.items; track item.id) {
               @if (item.reihenNr != null) {
