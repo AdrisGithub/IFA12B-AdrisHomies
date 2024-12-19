@@ -13,7 +13,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 @Component({
   selector: 'ls-artikel-einlagern',
   standalone: true,
-  imports: [ModalContainerComponent, ArticleComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
+  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
   template: `
     <ls-modal-container [title]="'Artikel einlagern'">
       <article>
@@ -50,8 +50,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
           </ul>
         </ls-border-container>
         <form>
-          <ls-input [icon]="'ladders'" [displayText]="'Reihe:'" (value)="row = $event" />
+          <ls-input [icon]="'shelf'" [displayText]="'Reihe:'" (value)="row = $event" />
+          <div style="margin-top: 1em">
           <ls-input [icon]="'container'" [displayText]="'Platz:'" (value)="column = $event"/>
+          </div>
         </form>
       </div>
       <div class="flex">
@@ -66,25 +68,25 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ul {
       list-style: none;
       padding: 0;
+      margin: 0;
       font-family: Arial, sans-serif;
     }
     li {
       background-color: var(--card-bg);
       border-radius: 10px;
       padding: 0.5em;
-      margin: 0.5em;
     }
     .container {
       display: flex;
+      margin-bottom: 1em;
       gap: 1em;
-      align-items: center;
       flex-wrap: wrap;
+      margin-top: 1em;
     }
     .flex {
       display: flex;
       justify-content: end;
     }
-
     article {
       background: var(--card-bg);
       padding: 0.7em;
@@ -128,7 +130,7 @@ export class ArtikelEinlagernComponent implements ModalBase {
 
   store = inject(BubatzStore);
   modalService = inject(ModalService);
-  article = this.store.currentlyActiveArticle2;
+  article = this.store.currentlyActiveArticleWithAmounts;
 
   storeArticle = () => {
     if (this.row && this.column){
