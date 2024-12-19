@@ -1,25 +1,26 @@
-import { ChangeDetectionStrategy, Component, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { ModalBase } from '../../services/Modal.service';
 import { ModalContainerComponent } from '../../core-components/modal-container/modal-container.component';
 import { BorderContainerComponent } from '../../core-components/BorderContainer/BorderContainer.component';
 import { InputComponent } from '../../core-components/input/input.component';
 import { Pair } from '../Artikeldetails/Artikeldetails.component';
-InputComponent
+import { BubatzStore } from '../../store/ls-store';
+import { ButtonComponent } from '../../core-components/button/button.component';
 
 @Component({
   selector: 'ls-neuer-artikel',
   standalone: true,
-  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent],
+  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent],
   template: `
   
   <ls-modal-container title="Neuen Artikel anlegen">
     <div class="grid-container">
-      <ls-border-container title="Grunddaten">
+      <ls-border-container class="grunddaten-border" title="Grunddaten">
         <div class="grunddaten">
-          <ls-input class="input-component" [fontSize]="20" displayText="Name:" />
-          <ls-input class="input-component" [fontSize]="20" displayText="Menge:" />
-          <ls-input class="input-component" [fontSize]="20" displayText="Preis:" />
-          <ls-input class="input-component" [fullHeight]="true" [fontSize]="20" displayText="Beschreibung:" />
+          <ls-input class="input-component" (value)="name.set($event)" [fontSize]="20" displayText="Name:" />
+          <ls-input class="input-component" (value)="menge.set($event)" [fontSize]="20" displayText="Menge:" />
+          <ls-input class="input-component" (value)="preis.set($event)" [fontSize]="20" displayText="Preis:" />
+          <ls-input class="input-component" (value)="beschreibung.set($event)" [fullHeight]="true" [fontSize]="20" displayText="Beschreibung:" />
         </div>
       </ls-border-container>
       <ls-border-container title="Artikelinfos">
@@ -40,6 +41,7 @@ InputComponent
           </button>
         </div>
       </ls-border-container>
+      <ls-button [fullWidth]="true" class="save-button" (onClick)="this.saveArticle()">Anlegen</ls-button>
     </div>
   </ls-modal-container>
   
@@ -48,6 +50,13 @@ InputComponent
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NeuerArtikelComponent implements ModalBase {
+
+  store = inject(BubatzStore);
+
+  name = signal<string>('');
+  menge = signal<string>('');
+  preis = signal<string>('');
+  beschreibung = signal<string>('');
 
   inputs = signal<Pair[]>([ { key: '', value: '' } ]);
 
@@ -75,6 +84,24 @@ export class NeuerArtikelComponent implements ModalBase {
     this.inputs.update(pairs => pairs.toSpliced(idx, 1))
   }
 
-  eff = effect(() => console.log(this.inputs()))
+  saveArticle = () => {
+    this.store.createArticle({
+      name: this.name(),
+      amount: parseInt(this.menge()),
+      buyPrice: 69,
+      sellPrice: parseFloat(this.preis()),
+      description: this.beschreibung(),
+      infos: this.mapInfos(this.inputs())
 
+    })
+  } 
+
+  mapInfos = (pairs: Pair[]): { [key: string]: string }  => {
+    const infos: { [key: string]: string } = {}
+    pairs.forEach(pair => infos[pair.key] = pair.value)
+    return infos;
+  }
+
+  //eff = effect(() => console.log(this.inputs()))
+  eff2 = effect(() => console.log(this.name()))
 }
