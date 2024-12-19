@@ -19,13 +19,11 @@ import de.b3.bubatz_service.rest.exceptions.DepositorySpotAlreadyOccupiedExcepti
 import de.b3.bubatz_service.rest.exceptions.RequestExceedsDepositException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ArticleControl {
@@ -96,6 +94,7 @@ public class ArticleControl {
         final List<PickupSpot> spots = new ArrayList<>();
         final List<ArticleItem> items = new ArrayList<>();
 
+        double totalPrice = amount * getArticle.getSellPrice();
 
         for (ArticleItem item : getArticle.getItems()) {
             if (!isDeposited(item)){
@@ -105,7 +104,7 @@ public class ArticleControl {
             if (amount >= item.getAmount()) {
                 amount -= item.getAmount();
                 spots.add(PickupSpotMapper.map(item));
-            } else {
+            } else if (amount != 0){
                 item.setAmount(item.getAmount() - amount);
                 items.add(item);
 
@@ -115,11 +114,9 @@ public class ArticleControl {
             }
         }
 
-        double totalPrice = spots.size() * getArticle.getSellPrice();
-
         getArticle.setItems(items);
         article = ArticleMapper.map(getArticle);
-        log.info("{}",article);
+
         final Article saved = this.repository.save(article);
         final GetArticle savedArticle = ArticleMapper.map(saved);
 

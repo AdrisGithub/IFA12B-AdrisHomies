@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, ɵnoSideEffects } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { ModalContainerComponent } from "../../core-components/modal-container/modal-container.component";
 import { ModalBase, ModalService } from '../../services/Modal.service';
 import { ArtikelVerkaufenComponent } from '../ArtikelVerkaufen/ArtikelVerkaufen.component';
@@ -17,7 +17,7 @@ import { ArtikelInstanzComponent } from '../../components/ArtikelInstanz/Artikel
   <ls-modal-container [title]="'Artikeldetails '+ article()?.name">
     <section class="grid-container">
         <ls-border-container class="beschreibung" title="Beschreibung">
-          <pre>{{ article()?.description }}</pre>
+          <p>{{ article()?.description }}</p>
         </ls-border-container>
         <ls-border-container class="zusatz" title="Zusatzinformationen">
           <table>

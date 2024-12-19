@@ -1,6 +1,10 @@
-import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {CurrencyPipe} from '@angular/common';
 import {StatusComponent} from '../status/status.component';
+import {ArtikeldetailsComponent} from '../../modals-ucs/Artikeldetails/Artikeldetails.component';
+import {ModalService} from '../../services/Modal.service';
+import {BubatzStore} from '../../store/ls-store';
+import {ServiceDetailsComponent} from '../../modals-ucs/Servicedetails/Servicedetails.component';
 
 @Component({
   selector: 'ls-service',
@@ -10,7 +14,7 @@ import {StatusComponent} from '../status/status.component';
     StatusComponent
   ],
   template: `
-    <article>
+    <article (click)="openDetails()">
       <div class="left-box">
         <h3>{{ service().name }}</h3>
         <p class="description">{{service().description}}</p>
@@ -73,6 +77,14 @@ import {StatusComponent} from '../status/status.component';
 })
 export class ServiceComponent {
   service = input.required<Service>()
+
+  modalService = inject(ModalService);
+  store = inject(BubatzStore);
+
+  openDetails = () => {
+    this.store.selectService(this.service().id);
+    this.modalService.openModal(ServiceDetailsComponent)
+  }
 }
 
 export type Service = {
