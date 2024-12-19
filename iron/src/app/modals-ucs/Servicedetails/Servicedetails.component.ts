@@ -10,8 +10,7 @@ import {StatusComponent} from '../../core-components/status/status.component';
   selector: 'ls-servicedetails',
   standalone: true,
   template: `
-    <ls-modal-container [title]="'Servicedetails'">
-      <h3>{{ service()!.name }}</h3>
+    <ls-modal-container [title]="service()!.name">
       <div class="availability">
         @if (service()!.available) {
           <ls-status [displayText]="'verfügbar'" [statusColour]="'green'"></ls-status>
@@ -19,12 +18,12 @@ import {StatusComponent} from '../../core-components/status/status.component';
           <ls-status [displayText]="'gebucht'" [statusColour]="'red'"></ls-status>
         }
       </div>
-      <div class="Container">
+      <div class="container">
         <ls-border-container [title]="'Beschreibung'">
           <p>{{ service()!.description }}</p>
         </ls-border-container>
       </div>
-      <div class="Container">
+      <div class="container">
         <ls-border-container class="zusatz" title="Zusatzinformationen">
           <table>
             @for (info of addInfos(); track info.key) {
@@ -37,9 +36,9 @@ import {StatusComponent} from '../../core-components/status/status.component';
         </ls-border-container>
         <div class="button">
           @if (service()!.available) {
-            <ls-button (onClick)="bookService()">buchen</ls-button>
+            <ls-button [fullWidth]="true" (onClick)="bookService()">buchen</ls-button>
           } @else {
-            <ls-button (onClick)="unbookService()">freigeben</ls-button>
+            <ls-button [fullWidth]="true" (onClick)="unbookService()">freigeben</ls-button>
           }
         </div>
       </div>
@@ -52,6 +51,13 @@ import {StatusComponent} from '../../core-components/status/status.component';
     StatusComponent,
   ],
   styles: `
+    .container {
+      margin-top: 1em;
+      min-width: 30vw;
+    }
+    .button {
+      margin-top: 1em;
+    }
   `
 })
 export class ServiceDetailsComponent{
