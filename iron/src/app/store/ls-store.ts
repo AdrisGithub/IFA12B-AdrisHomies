@@ -11,6 +11,7 @@ import {
 } from '../gen';
 import {Article} from '../core-components/article/article.component';
 import {Service} from '../core-components/service/service.component';
+import {ToastService} from '../services/toast.service';
 
 type BubatzState = {
   allArticles: GetArticle[],
@@ -37,6 +38,7 @@ export const BubatzStore = signalStore(
     const article = inject(ArticleService);
     const service = inject(ServiceService);
     const depository = inject(DepositoryService);
+    const toast = inject(ToastService);
 
     return {
        loadArticles(){
