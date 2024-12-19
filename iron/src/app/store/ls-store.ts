@@ -65,16 +65,22 @@ export const BubatzStore = signalStore(
          })
        },
        storeArticle(id: number, row: number, column: number){
-         depository.storeArticle({ id, reihenNr: row, spaltenNr: column}).subscribe(value => {
+         depository.storeArticle({ id, reihenNr: row, spaltenNr: column}).subscribe({
+           next: value => {
 
-           const articles = store.allArticles().map(article => {
-             if (article.id == value.id){
-               return value;
-             }
-             return article;
-           })
+             const articles = store.allArticles().map(article => {
+               if (article.id == value.id){
+                 return value;
+               }
+               return article;
+             })
 
-           patchState(store, {allArticles: articles})
+             patchState(store, {allArticles: articles})
+           },
+           error: err => {
+             console.error(err)
+             toast.addToast({message: 'Server Fehler', detail: 'Artikel konnten nicht eingelagert werden', severity: 'error'})
+           }
          })
        },
        selectArticle(articleId: number) {
@@ -90,52 +96,70 @@ export const BubatzStore = signalStore(
         })
       },
       changeServiceAvailability(serviceId: number, desiredState: boolean) {
-        service.bookService(serviceId, {id: serviceId, state: desiredState}).subscribe(() => {
+        service.bookService(serviceId, {id: serviceId, state: desiredState}).subscribe({
+          next: () => {
 
-          patchState(store, () => {
-            const service = store.currentlyActiveService()!;
+            patchState(store, () => {
+              const service = store.currentlyActiveService()!;
 
-            service.available = !service.available;
+              service.available = !service.available;
 
-            return {currentlyActiveService: service}
-          })
+              return {currentlyActiveService: service}
+            })
 
-          const services = store.allServices().map (service => {
-            if (service.id == serviceId) {
-              service.available = desiredState;
+            const services = store.allServices().map (service => {
+              if (service.id == serviceId) {
+                service.available = desiredState;
+                return service;
+              }
               return service;
-            }
-            return service;
-          })
-          patchState(store, {allServices: services})
+            })
+            patchState(store, {allServices: services})
+          },
+          error: err => {
+            console.error(err)
+            toast.addToast({message: 'Server Fehler', detail: 'Dienstleistungsbuchungen konnte nicht geändert werden', severity: 'error'})
+          }
         })
       },
       sellArticle(articleId: number, amount: number) {
-         depository.sellArticle(articleId, {amount}).subscribe(value => {
-           const articles = store.allArticles().map (article => {
-             if (article.id == value.article.id) {
-                return value.article;
-             }
-             return article;
-           })
-           patchState(store, {allArticles: articles, pickupSpots: value.spots})
+         depository.sellArticle(articleId, {amount}).subscribe({
+           next: value => {
+             const articles = store.allArticles().map (article => {
+               if (article.id == value.article.id) {
+                 return value.article;
+               }
+               return article;
+             })
+             patchState(store, {allArticles: articles, pickupSpots: value.spots})
+           },
+           error: err => {
+             console.error(err)
+             toast.addToast({message: 'Server Fehler', detail: 'Artikel konnte nicht verkauft werden', severity: 'error'})
+           }
          });
       },
       reorderArticle(particle : PatchArticle) {
-        article.reorderArticle(particle).subscribe(value => {
-          const articles = store.allArticles().map(article => {
-            if (article.id == value.id){
-              return value;
-            }
-            return article;
-          })
+        article.reorderArticle(particle).subscribe({
+          next: value => {
+            const articles = store.allArticles().map(article => {
+              if (article.id == value.id){
+                return value;
+              }
+              return article;
+            })
 
-          patchState(store, {allArticles: articles})
+            patchState(store, {allArticles: articles})
+          },
+          error: err => {
+            console.error(err)
+            toast.addToast({message: 'Server Fehler', detail: 'Artikel konnte nicht erneut gebucht werden', severity: 'error'})
+          }
         })
       },
       selectInstance(instance: ArticleItem) {
          patchState(store, {selectedInstance: instance });
-       },
+      }
     }
   }),
   withComputed(({allArticles, allServices, currentlyActiveArticle, pickupSpots}) => ({
