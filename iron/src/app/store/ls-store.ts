@@ -1,7 +1,15 @@
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {computed, inject} from '@angular/core';
-import {ArticleItem, ArticleService, DepositoryService, GetArticle, GetService, ServiceService} from '../gen';
-import {Article, Article2} from '../core-components/article/article.component';
+import {
+  ArticleItem,
+  ArticleService,
+  DepositoryService,
+  GetArticle,
+  GetService,
+  PickupSpot,
+  ServiceService
+} from '../gen';
+import {Article} from '../core-components/article/article.component';
 import {Service} from '../core-components/service/service.component';
 
 type BubatzState = {
@@ -9,6 +17,7 @@ type BubatzState = {
   allServices: GetService[],
   selectedInstance: ArticleItem | undefined,
   currentlyActiveArticle: GetArticle | undefined,
+  pickupSpots : PickupSpot[],
 };
 
 const initalState: BubatzState = {
@@ -16,6 +25,7 @@ const initalState: BubatzState = {
   allServices: [],
   selectedInstance: undefined,
   currentlyActiveArticle: undefined,
+  pickupSpots : []
 }
 
 export const BubatzStore = signalStore(
@@ -42,22 +52,50 @@ export const BubatzStore = signalStore(
          // will be called manually
          patchState(store, { })
        },
-      selectArticle(articleId: number) {
-        patchState(store, () => {
-          const article = store.allArticles().find(a => a.id === articleId)
-          return {currentlyActiveArticle: article}
-        });
+       storeArticle(id: number, row: number, column: number){
+         depository.storeArticle({ id, reihenNr: row, spaltenNr: column}).subscribe(value => {
+
+           const articles = store.allArticles().map(article => {
+             if (article.id == value.id){
+               return value;
+             }
+             return article;
+           })
+
+           patchState(store, {allArticles: articles})
+         })
+       },
+       selectArticle(articleId: number) {
+         patchState(store, () => {
+           const article = store.allArticles().find(a => a.id === articleId)
+           return {currentlyActiveArticle: article}
+         });
+       },
+      sellArticle(articleId: number, amount: number) {
+         depository.sellArticle(articleId, {amount}).subscribe(value => {
+           const articles = store.allArticles().map (article => {
+             if (article.id == value.article.id) {
+                return value.article;
+             }
+             return article;
+           })
+           patchState(store, {allArticles: articles, pickupSpots: value.spots})
+         });
       },
-      selectInstance(instance: ArticleItem) {
-        patchState(store, {selectedInstance: instance });
-      }
+       selectInstance(instance: ArticleItem) {
+         patchState(store, {selectedInstance: instance });
+       },
     }
   }),
-  withComputed(({allArticles, allServices, currentlyActiveArticle}) => ({
+  withComputed(({allArticles, allServices, currentlyActiveArticle, pickupSpots}) => ({
     getMappedArticles: computed(() => allArticles().map(getArticle => mapArticle(getArticle))),
     getMappedServices: computed(() => allServices().map(getService => mapService(getService))),
     currentlyActiveArticle: computed<GetArticle | undefined>(() => currentlyActiveArticle()),
-    currentlyActiveArticle2: computed<Article2 | undefined>(() => mapArticle2(currentlyActiveArticle()))
+    currentlyActiveArticleWithAmounts: computed<Article | undefined>(() => {
+      const a = currentlyActiveArticle();
+      return a ? mapArticle(a) : undefined;
+    }),
+    getPickupSpots: computed<PickupSpot[]> (() => pickupSpots())
   })),
   withHooks({
     onInit({loadArticles, loadServices}){
@@ -83,10 +121,12 @@ function mapArticle(getArticle: GetArticle): Article {
   })
   return {
     id: getArticle.id,
+    description: getArticle.description,
     title: getArticle.name,
     price: getArticle.sellPrice,
     amountWarehouse: amountInWarehouse,
-    amountOrdered: amountIsOrdered
+    amountOrdered: amountIsOrdered,
+    items: getArticle.items
   };
 }
 
@@ -98,29 +138,4 @@ function mapService(getService: GetService): Service {
     name: getService.name,
     id: getService.id
   }
-}
-
-function mapArticle2(getArticle?: GetArticle): Article2 | undefined {
-  if (!getArticle){
-    return undefined;
-  }
-  let amountInWarehouse = 0;
-  let amountIsOrdered = 0;
-  const items = getArticle.items;
-  items.forEach(item => {
-    if (item.reihenNr===null){
-      amountIsOrdered = amountIsOrdered + item.amount;
-    }
-    else {
-      amountInWarehouse = amountInWarehouse + item.amount;
-    }
-  })
-  return {
-    id: getArticle.id,
-    title: getArticle.name,
-    price: getArticle.sellPrice,
-    amountWarehouse: amountInWarehouse,
-    amountOrdered: amountIsOrdered,
-    items: getArticle.items
-  };
 }

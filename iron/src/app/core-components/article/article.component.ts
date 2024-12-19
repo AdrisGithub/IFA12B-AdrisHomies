@@ -83,16 +83,10 @@ export class ArticleComponent {
 
 export type Article = {
   id: number,
+  description: string,
   title: string,
   price: number,
   amountWarehouse?: number,
   amountOrdered?: number;
-}
-export type Article2 = {
-  id: number,
-  title: string,
-  price: number,
-  amountWarehouse?: number,
-  amountOrdered?: number,
   items: Array<ArticleItem>;
 }
