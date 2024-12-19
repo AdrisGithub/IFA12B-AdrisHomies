@@ -29,7 +29,7 @@ public class Article {
     @Column(precision = 5, scale = 2)
     private BigDecimal sellPrice;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "articleId")
     private Set<ArticleItemEntity> items;
 
