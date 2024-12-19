@@ -140,11 +140,13 @@ export class ArtikelEinlagernComponent implements ModalBase {
       const row = Number.parseInt(this.row);
       if (Number.isNaN(this.row)){
         this.toast.addToast({detail: 'Eingabe Fehler', message: 'Die Reiheneingabe ist keine valide Zahl',severity: "warning"})
+        return;
       }
 
       const column = Number.parseInt(this.column);
       if (Number.isNaN(this.column)){
         this.toast.addToast({detail: 'Eingabe Fehler', message: 'Die Spalteneingabe ist keine valide Zahl',severity: "warning"})
+        return;
       }
 
       this.store.storeArticle(this.store.selectedInstance()!.id, row, column)
