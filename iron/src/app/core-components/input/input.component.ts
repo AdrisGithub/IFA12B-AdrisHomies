@@ -39,4 +39,4 @@ export class InputComponent {
   }
 }
 
-export type IconType = "shelf" | "x" | "container" | "plus-sign";
+export type IconType = "shelf" | "x" | "container" | "plus-sign" | "arrow" | "i" | "check" | "!";

@@ -8,6 +8,7 @@ import {InputComponent} from '../../core-components/input/input.component';
 import {BubatzStore} from '../../store/ls-store';
 import {LagerplaetzeComponent} from '../Lagerplaetze/Lagerplaetze.component';
 import {ArticleItem} from '../../gen';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'ls-artikel-verkaufen',
@@ -53,6 +54,7 @@ export class ArtikelVerkaufenComponent implements ModalBase {
 
   modalServcie = inject(ModalService);
   store = inject(BubatzStore);
+  toast = inject(ToastService);
   article = this.store.currentlyActiveArticleWithAmounts;
   amount: string | undefined;
 
@@ -60,6 +62,8 @@ export class ArtikelVerkaufenComponent implements ModalBase {
     if (this.amount) {
       this.store.sellArticle(this.article()!.id, Number.parseInt(this.amount))
       this.modalServcie.openModal(LagerplaetzeComponent)
+    } else {
+      this.toast.addToast({severity: "warning", message: 'Eingabe Fehler', detail: 'Die Anzahl der Artikel muss angegeben werden'})
     }
   }
 }

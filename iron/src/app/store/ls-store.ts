@@ -12,6 +12,7 @@ import {
 } from '../gen';
 import {Article} from '../core-components/article/article.component';
 import {Service} from '../core-components/service/service.component';
+import {ToastService} from '../services/toast.service';
 
 type BubatzState = {
   allArticles: GetArticle[],
@@ -38,35 +39,62 @@ export const BubatzStore = signalStore(
     const article = inject(ArticleService);
     const service = inject(ServiceService);
     const depository = inject(DepositoryService);
+    const toast = inject(ToastService);
 
     return {
        loadArticles(){
          // no need to call this manually
-         depository.getArticles().subscribe(articles => {
-         patchState(store, {allArticles: articles});
+         depository.getArticles().subscribe({
+           next: articles => {
+             patchState(store, {allArticles: articles});
+           },
+           error: err => {
+             console.error(err)
+             toast.addToast({message: 'Server Fehler', detail: 'Artikel konnten nicht geladen werden', severity: 'error'})
+           }
          });
        },
        loadServices(){
-         service.getServices().subscribe(services => {
-           patchState(store, {allServices: services})
+         service.getServices().subscribe({
+           next: services => {
+             patchState(store, {allServices: services});
+           },
+           error: err => {
+             console.error(err)
+             toast.addToast({message: 'Server Fehler', detail: 'Dienstleistungen konnten nicht geladen werden', severity: 'error'})
+           }
          })
        },
        createArticle(newArticle: PostArticle){
-         article.createArticle(newArticle).subscribe(createdArticle => {
-          patchState(store, { allArticles: [...store.allArticles(), createdArticle]})
-         })
-       },
+        article.createArticle(newArticle).subscribe({
+          next: createdArticle => {
+            patchState(store, { allArticles: [...store.allArticles(), createdArticle]})
+            toast.addToast({message: 'Erfolgreich angelegt' , detail: 'Artikel wurde erfolgreich angelegt' ,severity: "success"})
+          },
+          error: err => {
+            console.error(err)
+            toast.addToast({message: 'Server Fehler', detail: 'Artikel konnten nicht angelegt werden', severity: 'error'})
+          }
+        })
+      },
        storeArticle(id: number, row: number, column: number){
-         depository.storeArticle({ id, reihenNr: row, spaltenNr: column}).subscribe(value => {
+         depository.storeArticle({ id, reihenNr: row, spaltenNr: column}).subscribe({
+           next: value => {
 
-           const articles = store.allArticles().map(article => {
-             if (article.id == value.id){
-               return value;
-             }
-             return article;
-           })
+             const articles = store.allArticles().map(article => {
+               if (article.id == value.id){
+                 return value;
+               }
+               return article;
+             })
 
-           patchState(store, {allArticles: articles})
+             patchState(store, {allArticles: articles})
+             toast.addToast({message: 'Erfolgreich eingelagert' , detail: 'Artikel wurde erfolgreich eingelagert' ,severity: "success"})
+           },
+           error: err => {
+             console.error(err)
+             toast.addToast({message: 'Server Fehler', detail: 'Artikel konnten nicht eingelagert werden', severity: 'error'})
+           }
          })
        },
        selectArticle(articleId: number) {
@@ -82,52 +110,72 @@ export const BubatzStore = signalStore(
         })
       },
       changeServiceAvailability(serviceId: number, desiredState: boolean) {
-        service.bookService(serviceId, {id: serviceId, state: desiredState}).subscribe(() => {
+        service.bookService(serviceId, {id: serviceId, state: desiredState}).subscribe({
+          next: () => {
 
-          patchState(store, () => {
-            const service = store.currentlyActiveService()!;
+            patchState(store, () => {
+              const service = store.currentlyActiveService()!;
 
-            service.available = !service.available;
+              service.available = !service.available;
 
-            return {currentlyActiveService: service}
-          })
+              return {currentlyActiveService: service}
+            })
 
-          const services = store.allServices().map (service => {
-            if (service.id == serviceId) {
-              service.available = desiredState;
+            const services = store.allServices().map(service => {
+              if (service.id == serviceId) {
+                service.available = desiredState;
+                return service;
+              }
               return service;
-            }
-            return service;
-          })
-          patchState(store, {allServices: services})
+            })
+            patchState(store, {allServices: services})
+          },
+          error: err => {
+            console.error(err)
+            toast.addToast({message: 'Server Fehler', detail: 'Dienstleistungsbuchung konnten nicht geändert werden', severity: 'error'})
+          }
         })
       },
       sellArticle(articleId: number, amount: number) {
-         depository.sellArticle(articleId, {amount}).subscribe(value => {
-           const articles = store.allArticles().map (article => {
-             if (article.id == value.article.id) {
-                return value.article;
-             }
-             return article;
-           })
-           patchState(store, {allArticles: articles, pickupSpots: value.spots})
+         depository.sellArticle(articleId, {amount}).subscribe({
+           next: value => {
+             const articles = store.allArticles().map (article => {
+               if (article.id == value.article.id) {
+                 return value.article;
+               }
+               return article;
+             })
+             patchState(store, {allArticles: articles, pickupSpots: value.spots})
+             toast.addToast({message: 'Erfolgreich verkauft' , detail: 'Artikel wurde erfolgreich verkauft' ,severity: "success"})
+           },
+           error: err => {
+             console.error(err)
+             toast.addToast({message: 'Server Fehler', detail: 'Artikel konnte nicht verkauft werden', severity: 'error'})
+           }
          });
       },
       reorderArticle(particle : PatchArticle) {
-        article.reorderArticle(particle).subscribe(value => {
-          const articles = store.allArticles().map(article => {
-            if (article.id == value.id){
-              return value;
-            }
-            return article;
-          })
+        article.reorderArticle(particle).subscribe({
+          next: value => {
+            const articles = store.allArticles().map(article => {
+              if (article.id == value.id){
+                return value;
+              }
+              return article;
+            })
 
-          patchState(store, {allArticles: articles})
+            patchState(store, {allArticles: articles})
+            toast.addToast({message: 'Erfolgreich nachbestellt' , detail: 'Artikel wurde erfolgreich nachbestellt' ,severity: "success"})
+          },
+          error: err => {
+            console.error(err)
+            toast.addToast({message: 'Server Fehler', detail: 'Artikel konnte nicht erneut gebucht werden', severity: 'error'})
+          }
         })
       },
       selectInstance(instance: ArticleItem) {
          patchState(store, {selectedInstance: instance });
-       },
+      }
     }
   }),
   withComputed(({allArticles, allServices, currentlyActiveArticle, pickupSpots}) => ({

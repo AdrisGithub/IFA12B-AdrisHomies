@@ -6,13 +6,14 @@ import { InputComponent } from '../../core-components/input/input.component';
 import { Pair } from '../Artikeldetails/Artikeldetails.component';
 import { BubatzStore } from '../../store/ls-store';
 import { ButtonComponent } from '../../core-components/button/button.component';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'ls-neuer-artikel',
   standalone: true,
   imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent],
   template: `
-  
+
   <ls-modal-container title="Neuen Artikel anlegen">
     <div class="grid-container">
       <ls-border-container class="grunddaten-border" title="Grunddaten">
@@ -44,7 +45,7 @@ import { ButtonComponent } from '../../core-components/button/button.component';
       <ls-button [fullWidth]="true" class="save-button" (onClick)="this.saveArticle()">Anlegen</ls-button>
     </div>
   </ls-modal-container>
-  
+
   `,
   styleUrl: './NeuerArtikel.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,6 +53,7 @@ import { ButtonComponent } from '../../core-components/button/button.component';
 export class NeuerArtikelComponent implements ModalBase {
 
   store = inject(BubatzStore);
+  toast = inject(ToastService);
 
   name = signal<string>('');
   menge = signal<string>('');
@@ -85,16 +87,25 @@ export class NeuerArtikelComponent implements ModalBase {
   }
 
   saveArticle = () => {
+    const amount = parseInt(this.menge());
+    if (isNaN(amount)){
+      this.toast.addToast({message: 'Eingabe Fehler', detail: 'Die Menge muss eine Zahl sein', severity: "warning"})
+      return;
+    }
+    const sellPrice = parseFloat(this.preis());
+    if (isNaN(sellPrice)){
+      this.toast.addToast({message: 'Eingabe Fehler', detail: 'Der Verkaufspreis muss eine Zahl sein', severity: "warning"})
+      return;
+    }
     this.store.createArticle({
       name: this.name(),
-      amount: parseInt(this.menge()),
+      amount,
       buyPrice: 69,
-      sellPrice: parseFloat(this.preis()),
+      sellPrice,
       description: this.beschreibung(),
       infos: this.mapInfos(this.inputs())
-
     })
-  } 
+  }
 
   mapInfos = (pairs: Pair[]): { [key: string]: string }  => {
     const infos: { [key: string]: string } = {}
