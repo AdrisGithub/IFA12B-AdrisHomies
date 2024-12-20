@@ -129,7 +129,7 @@ export const BubatzStore = signalStore(
               return service;
             })
             patchState(store, {allServices: services})
-            toast.addToast({message: 'Erfolgreiche Dienstleistungsbuchung', detail: 'Dienstleistungsbuchung wurde geändert', severity: 'error'})
+            toast.addToast({message: 'Erfolgreiche Dienstleistungsbuchung', detail: 'Dienstleistungsbuchung wurde geändert', severity: 'success'})
           },
           error: err => {
             console.error(err)
