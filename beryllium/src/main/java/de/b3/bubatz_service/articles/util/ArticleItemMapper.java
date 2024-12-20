@@ -1,7 +1,6 @@
 package de.b3.bubatz_service.articles.util;
 
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
-import de.b3.bubatz_service.articles.db.entity.DepositorySpot;
 import de.b3.bubatz_service.generated.models.ArticleItem;
 import de.b3.bubatz_service.generated.models.PostArticle;
 import de.b3.bubatz_service.generated.models.PatchArticle;
@@ -29,15 +28,8 @@ public class ArticleItemMapper {
 
         item.setAmount(entity.getAmount());
         item.setId(entity.getArticleItemId());
-
-        final DepositorySpot spot = entity.getSpot();
-
-        if (spot == null)
-            // Item in Transit
-            return item;
-
-        item.setSpaltenNr(spot.getColumnNr());
-        item.setReihenNr(spot.getRowNr());
+        item.setSpaltenNr(entity.getColumnNr());
+        item.setReihenNr(entity.getRowNr());
 
         return item;
     }
@@ -46,7 +38,8 @@ public class ArticleItemMapper {
         ArticleItemEntity entity = new ArticleItemEntity();
 
         entity.setAmount(patchArticle.getAmount());
-        entity.setSpot(null);
+        entity.setRowNr(null);
+        entity.setColumnNr(null);
 
         return entity;
     }
@@ -58,11 +51,8 @@ public class ArticleItemMapper {
         entity.setAmount(item.getAmount());
 
         if (item.getSpaltenNr() != null && item.getReihenNr() != null){
-            final DepositorySpot spot = new DepositorySpot();
-            spot.setColumnNr(item.getSpaltenNr());
-            spot.setRowNr(item.getReihenNr());
-
-            entity.setSpot(spot);
+            entity.setColumnNr(item.getSpaltenNr());
+            entity.setRowNr(item.getReihenNr());
         }
 
         return entity;
