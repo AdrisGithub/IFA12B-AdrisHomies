@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
-import { ModalBase } from '../../services/Modal.service';
+import { ModalBase, ModalService } from '../../services/Modal.service';
 import { ModalContainerComponent } from '../../core-components/modal-container/modal-container.component';
 import { BorderContainerComponent } from '../../core-components/BorderContainer/BorderContainer.component';
 import { InputComponent } from '../../core-components/input/input.component';
@@ -54,6 +54,7 @@ export class NeuerArtikelComponent implements ModalBase {
 
   store = inject(BubatzStore);
   toast = inject(ToastService);
+  modalService = inject(ModalService);
 
   name = signal<string>('');
   menge = signal<string>('');
@@ -104,12 +105,14 @@ export class NeuerArtikelComponent implements ModalBase {
       sellPrice,
       description: this.beschreibung(),
       infos: this.mapInfos(this.inputs())
-    })
+    });
+
+    this.modalService.clearStack();
   }
 
   mapInfos = (pairs: Pair[]): { [key: string]: string }  => {
     const infos: { [key: string]: string } = {}
-    pairs.forEach(pair => infos[pair.key] = pair.value)
+    pairs.forEach(pair => pair.key && (infos[pair.key] = pair.value))
     return infos;
   }
 }
