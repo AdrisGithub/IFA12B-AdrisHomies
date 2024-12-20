@@ -15,22 +15,22 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
   ],
   template: `
     <article (click)="openDetails()">
-      <h3>{{ article().title }}</h3>
+      <h1>{{ article().title }}</h1>
       <div class="information">
-        <p class="price">{{ article().price | currency: 'EUR' }}</p>
         <div class="availability">
-          @if (article().amountOrdered) {
-            <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
-                       [amount]="article().amountOrdered"></ls-status>
-          }
           @if (!article().amountWarehouse) {
-            <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'"></ls-status>
+            <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'" [fontSize]="18"></ls-status>
           }
           @else {
             <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
-                       [amount]="article().amountWarehouse"></ls-status>
+                       [amount]="article().amountWarehouse" [fontSize]="18"></ls-status>
+          }
+          @if (article().amountOrdered) {
+            <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
+                       [amount]="article().amountOrdered" [fontSize]="18"></ls-status>
           }
         </div>
+        <p class="price">{{ article().price | currency: 'EUR' }}</p>
       </div>
     </article>
 
@@ -39,7 +39,7 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
     `
       article {
         background: var(--card-bg);
-        padding: 0.7em;
+        padding: 1em 1.5em;
         font-family: Arial, sans-serif;
         width: 100%;
         box-sizing: border-box;
@@ -51,12 +51,12 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
       }
 
       p {
-        font-size: 20px;
+        font-size: 25px;
       }
 
       .information {
         justify-content: space-between;
-        margin-top: 0.4em;
+        margin-top: 0.7em;
         text-align: center;
       }
 

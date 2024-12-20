@@ -1,0 +1,51 @@
+.green{
+  background-color: var(--status-green);
+  border: solid 4px hsl(126.93, 88.24%, 30%);
+}
+.red{
+  background-color: var(--status-red);
+  border: solid 4px hsl(9.07, 88.24%, 30%);
+}
+.yellow{
+  background-color: var(--status-orange);
+  border: solid 4px hsl(43.93, 100%, 26.86%);
+}
+.blue{
+  background-color: deepskyblue;
+  border: solid 4px hsl(195.06, 100%, 30%);
+}
+
+img {
+  height: 100%;
+  min-height: 25px;
+}
+
+.icon-container {
+  border-radius: 1000px;
+  height: 25px;
+  width: 25px;
+  padding: 0.5em;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title{
+  font-weight: bold;
+}
+.container {
+  color: var(--text-inverted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+}
+.text-container{
+  width: 100%;
+  margin-left: 1em;
+}
+button {
+  all:unset;
+  cursor: pointer;
+}
