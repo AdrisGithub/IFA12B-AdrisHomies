@@ -22,7 +22,7 @@ export class ToastComponent implements OnInit{
           this.colorClass = "green";
           break;
         case "error":
-          this.icon = "x"
+          this.icon = "lightning"
           this.colorClass = "red";
           break;
         case "info":
