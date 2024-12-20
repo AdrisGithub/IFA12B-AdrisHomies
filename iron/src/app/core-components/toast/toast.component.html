@@ -6,5 +6,5 @@
     <p class="title">{{ toast().message }}</p>
     <p>{{ toast().detail }}</p>
   </div>
-  <button><img src="./x.svg" alt="close button"></button>
+  <button (click)="close.emit()"><img src="./x-inverted.svg" alt="close button"></button>
 </div>

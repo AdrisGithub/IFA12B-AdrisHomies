@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {HomePageComponent} from './components/home-page/home-page.component';
 import { ModalDisplayerComponent } from './core-components/modal-displayer/modal-displayer.component';
 import {AsyncPipe} from '@angular/common';
@@ -11,7 +11,7 @@ import {ToastService} from './services/toast.service';
   imports: [HomePageComponent, ModalDisplayerComponent, AsyncPipe, ToastComponent],
   template: `
     @for (toast of toasts.getToasts() | async; track toast.id) {
-      <ls-toast [toast]="toast"></ls-toast>
+      <ls-toast (close)="closeToast(toast.id)" [toast]="toast"></ls-toast>
     }
     <ls-modal-displayer/>
     <ls-home-page/>
@@ -20,6 +20,10 @@ import {ToastService} from './services/toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
+
+  closeToast(id: number) {
+     this.toasts.removeToast(id);
+  }
 
   title = 'bubatz-ui';
   toasts = inject(ToastService);

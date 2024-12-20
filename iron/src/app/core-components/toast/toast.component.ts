@@ -1,4 +1,4 @@
-import {Component, input, OnInit} from '@angular/core';
+import {Component, input, OnInit, output} from '@angular/core';
 import {IconType} from '../input/input.component';
 import {Toast} from './toast';
 
@@ -11,6 +11,7 @@ import {Toast} from './toast';
 })
 export class ToastComponent implements OnInit{
   toast = input.required<Toast>();
+  close = output();
   icon: IconType | undefined;
   colorClass: string |undefined;
 
@@ -22,7 +23,7 @@ export class ToastComponent implements OnInit{
           this.colorClass = "green";
           break;
         case "error":
-          this.icon = "x"
+          this.icon = "lightning"
           this.colorClass = "red";
           break;
         case "info":
