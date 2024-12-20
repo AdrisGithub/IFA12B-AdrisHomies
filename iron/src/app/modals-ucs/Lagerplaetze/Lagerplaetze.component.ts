@@ -21,6 +21,13 @@ import {ArticleItem, PickupSpot} from '../../gen';
     </ls-border-container>
   </ls-modal-container>
   `,
+  styles: `
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LagerplaetzeComponent implements ModalBase {
