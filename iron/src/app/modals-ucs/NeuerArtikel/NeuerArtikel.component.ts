@@ -101,7 +101,4 @@ export class NeuerArtikelComponent implements ModalBase {
     pairs.forEach(pair => infos[pair.key] = pair.value)
     return infos;
   }
-
-  //eff = effect(() => console.log(this.inputs()))
-  eff2 = effect(() => console.log(this.name()))
 }
