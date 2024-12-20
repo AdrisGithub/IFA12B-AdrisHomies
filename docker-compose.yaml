@@ -1,0 +1,13 @@
+services:
+  beryllium:
+    build:
+      context: beryllium
+    ports:
+      - "8080:8080"
+  iron:
+    build:
+      context: iron
+    ports:
+      - "80:80"
+    depends_on:
+      - beryllium
