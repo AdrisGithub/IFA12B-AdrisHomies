@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 42 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-979.096,-230.393)">
+        <g id="warn">
+            <g id="_-" serif:id="!" transform="matrix(-1,-1.22465e-16,5.90314e-17,-0.482028,1745.67,406.394)">
+                <g transform="matrix(-1,2.54062e-16,-1.22465e-16,-2.07457,1659.53,856.277)">
+                    <ellipse cx="913.614" cy="266.605" rx="2.118" ry="2.118" style="fill:rgb(193,192,188);"/>
+                </g>
+                <g transform="matrix(-1,2.54062e-16,-1.13257e-16,-1.91859,1646.44,863.159)">
+                    <rect x="899.853" y="272.353" width="1.359" height="13.903" style="fill:rgb(193,192,188);stroke:rgb(193,192,188);stroke-width:2.6px;"/>
+                </g>
+            </g>
+            <g id="triangle" transform="matrix(-0.858154,1.27638e-15,-1.27638e-15,-0.858154,1559.83,655.007)">
+                <path d="M674.392,454.624L630.906,454.624L630.906,454.808L652.649,492.469L652.649,492.284L674.392,454.624" style="fill:none;stroke:rgb(193,192,188);stroke-width:4.66px;"/>
+            </g>
+        </g>
+    </g>
+</svg>

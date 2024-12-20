@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 37 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
-    <g transform="matrix(1,0,0,1,-935.697,-233.407)">
-        <g id="check" transform="matrix(1.07814,0.188667,-0.188667,1.07814,214.783,-232.725)">
-            <g transform="matrix(-0.378126,0.593857,-0.843522,-0.537095,1375.6,171.845)">
-                <path d="M674.392,454.624L630.906,454.624" style="fill:none;stroke:rgb(193,192,188);stroke-width:4.23px;"/>
-            </g>
-            <g transform="matrix(0.260017,0.281531,-0.734618,0.678481,895.729,-170.154)">
-                <path d="M674.392,454.624L630.906,454.624" style="fill:none;stroke:rgb(193,192,188);stroke-width:4.83px;"/>
-            </g>
+    <g transform="matrix(1,0,0,1,-936.103,-233.407)">
+        <g id="container">
+        </g>
+        <g id="ladders">
+        </g>
+        <g id="x">
+        </g>
+        <g id="warn">
+        </g>
+        <g id="i">
+        </g>
+        <g id="check" transform="matrix(-0.519715,0.568923,-0.808105,-0.738209,1665.45,212.078)">
+            <path d="M671.727,468.063L674.392,454.624L630.906,454.624L674.392,454.624" style="fill:none;stroke:rgb(193,192,188);stroke-width:4.23px;"/>
+        </g>
+        <g id="add">
+        </g>
+        <g id="arrow">
+        </g>
+        <g id="lightning">
         </g>
     </g>
 </svg>
