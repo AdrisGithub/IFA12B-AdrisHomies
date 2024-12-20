@@ -21,13 +21,13 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
           @if (!article().amountWarehouse) {
             <ls-status [statusColour]="'red'" [displayText]="'nicht verfügbar'" [fontSize]="18"></ls-status>
           }
-          @if (article().amountOrdered) {
-            <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
-                       [amount]="article().amountOrdered" [fontSize]="18"></ls-status>
-          }
           @else {
             <ls-status [statusColour]="'green'" [displayText]="'verfügbar'"
                        [amount]="article().amountWarehouse" [fontSize]="18"></ls-status>
+          }
+          @if (article().amountOrdered) {
+            <ls-status [statusColour]="'orange'" [displayText]="'nachbestellt'"
+                       [amount]="article().amountOrdered" [fontSize]="18"></ls-status>
           }
         </div>
         <p class="price">{{ article().price | currency: 'EUR' }}</p>
