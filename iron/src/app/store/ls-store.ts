@@ -121,20 +121,14 @@ export const BubatzStore = signalStore(
               return {currentlyActiveService: service}
             })
 
-            const services = store.allServices().map (service => {
-              if (service.id == serviceId) {
-                service.available = desiredState;
-                return service;
-              }
+          const services = store.allServices().map (service => {
+            if (service.id == serviceId) {
+              service.available = desiredState;
               return service;
-            })
-            patchState(store, {allServices: services})
-            toast.addToast({message: 'Erfolgreich gebucht' , detail: 'Dienstleistungsbuchung wurde erfolgreich vermerkt' ,severity: "success"})
-          },
-          error: err => {
-            console.error(err)
-            toast.addToast({message: 'Server Fehler', detail: 'Dienstleistungsbuchungen konnte nicht geändert werden', severity: 'error'})
-          }
+            }
+            return service;
+          })
+          patchState(store, {allServices: services})
         })
       },
       sellArticle(articleId: number, amount: number) {
