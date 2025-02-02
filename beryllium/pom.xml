@@ -17,6 +17,7 @@
 
 	<properties>
 		<java.version>21</java.version>
+		<openapi-generator-maven-plugin.version>7.10.0</openapi-generator-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -77,7 +78,7 @@
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>7.10.0</version>
+				<version>${openapi-generator-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
