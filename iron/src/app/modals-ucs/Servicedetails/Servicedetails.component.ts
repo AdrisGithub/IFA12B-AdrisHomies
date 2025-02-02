@@ -7,9 +7,8 @@ import {ModalContainerComponent} from '../../core-components/modal-container/mod
 import {StatusComponent} from '../../core-components/status/status.component';
 
 @Component({
-  selector: 'ls-servicedetails',
-  standalone: true,
-  template: `
+    selector: 'ls-servicedetails',
+    template: `
     <ls-modal-container [title]="service()!.name">
       <div class="availability">
         @if (service()!.available) {
@@ -44,13 +43,13 @@ import {StatusComponent} from '../../core-components/status/status.component';
       </div>
     </ls-modal-container>
   `,
-  imports: [
-    BorderContainerComponent,
-    ButtonComponent,
-    ModalContainerComponent,
-    StatusComponent,
-  ],
-  styles: `
+    imports: [
+        BorderContainerComponent,
+        ButtonComponent,
+        ModalContainerComponent,
+        StatusComponent,
+    ],
+    styles: `
     .container {
       margin-top: 1em;
       min-width: 30vw;
@@ -85,4 +84,4 @@ export class ServiceDetailsComponent{
   };
 }
 
-type Pair = {key: string, value: string}
+interface Pair {key: string, value: string}

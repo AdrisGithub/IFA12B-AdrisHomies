@@ -8,7 +8,7 @@ import {Toast, ToastWithoutId} from '../core-components/toast/toast';
 export class ToastService {
 
   private toasts: BehaviorSubject<Toast[]> = new BehaviorSubject<Toast[]>([]);
-  private id: number = 0;
+  private id = 0;
 
   addToast(toast: ToastWithoutId){
     const toasts = this.toasts.value;

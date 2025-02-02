@@ -10,15 +10,14 @@ import {ArtikelVerkaufenComponent} from '../../modals-ucs/ArtikelVerkaufen/Artik
 import {ArtikelNachbestellenComponent} from '../../modals-ucs/ArtikelNachbestellen/ArtikelNachbestellen.component';
 
 @Component({
-  selector: 'ls-home-page',
-  standalone: true,
-  imports: [
-    BorderContainerComponent,
-    ArticleComponent,
-    ServiceComponent,
-    ButtonComponent
-],
-  template: `
+    selector: 'ls-home-page',
+    imports: [
+        BorderContainerComponent,
+        ArticleComponent,
+        ServiceComponent,
+        ButtonComponent
+    ],
+    template: `
     <header class="flex">
       <img src="logo.png" alt="Logo der Segitz-Therme">
       <div class="text">
@@ -50,7 +49,7 @@ import {ArtikelNachbestellenComponent} from '../../modals-ucs/ArtikelNachbestell
       </ls-border-container>
     </div>
   `,
-  styleUrl: 'home-page.component.css',
+    styleUrl: 'home-page.component.css'
 })
 export class HomePageComponent {
   store = inject(BubatzStore);

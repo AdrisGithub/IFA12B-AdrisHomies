@@ -1,7 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 
-export type ModalBase = {};
+export interface ModalBase {}
 
 type ModalType = Type<ModalBase>;
 

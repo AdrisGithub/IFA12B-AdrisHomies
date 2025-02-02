@@ -2,16 +2,15 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  selector: 'ls-border-container',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'ls-border-container',
+    imports: [CommonModule],
+    template: `
     <div class="container">
       <div class="float" [ngStyle]="{'font-size': fontSize()+'px'}"> {{ title() }}</div>
       <ng-content/>
     </div>
   `,
-  styles: `
+    styles: `
 
     .container {
       border: solid 1px var(--border);
@@ -32,7 +31,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       padding: 0 10px;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BorderContainerComponent {
 

@@ -2,18 +2,16 @@ import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, viewC
 import { ModalService } from '../../services/Modal.service';
 
 @Component({
-  selector: 'ls-modal-displayer',
-  standalone: true,
-  imports: [],
-
-  template: `
+    selector: 'ls-modal-displayer',
+    imports: [],
+    template: `
   <dialog (click)="modalService.closeModal()" #lsModal data-modal>
     <div (click)="$event.stopPropagation()">
       <div class="modal-attach-container" #container></div>
     </div>
   </dialog>
   `,
-  styles: `
+    styles: `
   
   dialog {
     border: none;
@@ -26,7 +24,7 @@ import { ModalService } from '../../services/Modal.service';
   }
 
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalDisplayerComponent {
   container = viewChild('container', { read: ViewContainerRef });

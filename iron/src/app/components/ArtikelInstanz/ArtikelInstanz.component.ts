@@ -6,10 +6,9 @@ import { ArtikelEinlagernComponent } from '../../modals-ucs/ArtikelEinlagern/Art
 import { BubatzStore } from '../../store/ls-store';
 
 @Component({
-  selector: 'ls-artikel-instanz',
-  standalone: true,
-  imports: [StatusComponent],
-  template: `
+    selector: 'ls-artikel-instanz',
+    imports: [StatusComponent],
+    template: `
   
     <div [class]="['instanz', clickable() && isInOrder() && 'clickable']" (click)="handleClick()">
       <span class="amount">
@@ -30,7 +29,7 @@ import { BubatzStore } from '../../store/ls-store';
     </div>
 
   `,
-  styles: `
+    styles: `
     :host {
       display: inline block;
     }
@@ -73,7 +72,7 @@ import { BubatzStore } from '../../store/ls-store';
 }
 
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArtikelInstanzComponent { 
   instanz = input.required<ArticleItem>();
