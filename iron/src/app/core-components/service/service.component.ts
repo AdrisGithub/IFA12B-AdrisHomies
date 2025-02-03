@@ -7,13 +7,12 @@ import {BubatzStore} from '../../store/ls-store';
 import {ServiceDetailsComponent} from '../../modals-ucs/Servicedetails/Servicedetails.component';
 
 @Component({
-  selector: 'ls-service',
-  standalone: true,
-  imports: [
-    CurrencyPipe,
-    StatusComponent
-  ],
-  template: `
+    selector: 'ls-service',
+    imports: [
+        CurrencyPipe,
+        StatusComponent
+    ],
+    template: `
     <article (click)="openDetails()">
       <h1>{{ service().name }}</h1>
       <div class="bottomRow">
@@ -33,7 +32,7 @@ import {ServiceDetailsComponent} from '../../modals-ucs/Servicedetails/Servicede
       </div>
     </article>
   `,
-  styles: `
+    styles: `
     article {
       background: var(--card-bg);
       padding: 1em 1.5em;
@@ -80,7 +79,7 @@ import {ServiceDetailsComponent} from '../../modals-ucs/Servicedetails/Servicede
       text-overflow: ellipsis;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ServiceComponent {
   service = input.required<Service>()
@@ -94,7 +93,7 @@ export class ServiceComponent {
   }
 }
 
-export type Service = {
+export interface Service {
   id: number,
   name: string,
   description: string,

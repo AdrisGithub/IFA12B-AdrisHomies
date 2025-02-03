@@ -3,11 +3,10 @@ import {IconType} from '../input/input.component';
 import {Toast} from './toast';
 
 @Component({
-  selector: 'ls-toast',
-  standalone: true,
-  imports: [],
-  templateUrl: './toast.component.html',
-  styleUrl: './toast.component.css'
+    selector: 'ls-toast',
+    imports: [],
+    templateUrl: './toast.component.html',
+    styleUrl: './toast.component.css'
 })
 export class ToastComponent implements OnInit{
   toast = input.required<Toast>();

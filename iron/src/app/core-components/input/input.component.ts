@@ -2,12 +2,11 @@ import {Component, input, output} from '@angular/core';
 import {NgStyle} from '@angular/common';
 
 @Component({
-  selector: 'ls-input',
-  standalone: true,
-  imports: [
-    NgStyle
-  ],
-  template: `
+    selector: 'ls-input',
+    imports: [
+        NgStyle
+    ],
+    template: `
     <div [class]="[fullHeight() && 'full-height']">
       <div class="description">
         @if (icon()) {
@@ -23,7 +22,7 @@ import {NgStyle} from '@angular/common';
       }
     </div>
   `,
-  styleUrl: './input.component.css'
+    styleUrl: './input.component.css'
 })
 export class InputComponent {
   icon = input<IconType>();

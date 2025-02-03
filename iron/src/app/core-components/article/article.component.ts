@@ -7,13 +7,12 @@ import { BubatzStore } from '../../store/ls-store';
 import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikeldetails.component';
 
 @Component({
-  selector: 'ls-article',
-  standalone: true,
-  imports: [
-    StatusComponent,
-    CurrencyPipe
-  ],
-  template: `
+    selector: 'ls-article',
+    imports: [
+        StatusComponent,
+        CurrencyPipe
+    ],
+    template: `
     <article (click)="openDetails()">
       <h1>{{ article().title }}</h1>
       <div class="information">
@@ -35,8 +34,7 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
     </article>
 
   `,
-  styles:
-    `
+    styles: `
       article {
         background: var(--card-bg);
         padding: 1em 1.5em;
@@ -65,7 +63,7 @@ import { ArtikeldetailsComponent } from '../../modals-ucs/Artikeldetails/Artikel
         margin-top: 0.2em;
       }
     `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ArticleComponent {
@@ -81,12 +79,12 @@ export class ArticleComponent {
   }
 }
 
-export type Article = {
+export interface Article {
   id: number,
   description: string,
   title: string,
   price: number,
   amountWarehouse?: number,
   amountOrdered?: number;
-  items: Array<ArticleItem>;
+  items: ArticleItem[];
 }

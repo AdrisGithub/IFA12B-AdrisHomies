@@ -7,10 +7,9 @@ import {BubatzStore} from '../../store/ls-store';
 import {ArticleItem, PickupSpot} from '../../gen';
 
 @Component({
-  selector: 'ls-lagerplaetze',
-  standalone: true,
-  imports: [ModalContainerComponent, ArtikelInstanzComponent, BorderContainerComponent],
-  template: `
+    selector: 'ls-lagerplaetze',
+    imports: [ModalContainerComponent, ArtikelInstanzComponent, BorderContainerComponent],
+    template: `
   <ls-modal-container [title]="'Lagerplätze'">
     <ls-border-container class="instanzen" title="hier abholen">
       <div class="list">
@@ -21,7 +20,7 @@ import {ArticleItem, PickupSpot} from '../../gen';
     </ls-border-container>
   </ls-modal-container>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LagerplaetzeComponent implements ModalBase {
 

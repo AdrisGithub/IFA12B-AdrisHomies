@@ -9,10 +9,9 @@ import { ArtikelNachbestellenComponent } from '../ArtikelNachbestellen/ArtikelNa
 import { ArtikelInstanzComponent } from '../../components/ArtikelInstanz/ArtikelInstanz.component';
 
 @Component({
-  selector: 'ls-artikeldetails',
-  standalone: true,
-  imports: [ModalContainerComponent, BorderContainerComponent, ButtonComponent, ArtikelInstanzComponent],
-  template: `
+    selector: 'ls-artikeldetails',
+    imports: [ModalContainerComponent, BorderContainerComponent, ButtonComponent, ArtikelInstanzComponent],
+    template: `
 
   <ls-modal-container [title]="'Artikeldetails '+ article()?.name">
     <section class="grid-container">
@@ -44,8 +43,8 @@ import { ArtikelInstanzComponent } from '../../components/ArtikelInstanz/Artikel
   </ls-modal-container>
 
   `,
-  styleUrl: './Artikeldetails.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrl: './Artikeldetails.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArtikeldetailsComponent implements ModalBase {
 
@@ -67,4 +66,4 @@ export class ArtikeldetailsComponent implements ModalBase {
 
 }
 
-export type Pair = {key: string, value: string}
+export interface Pair {key: string, value: string}

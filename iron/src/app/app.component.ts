@@ -6,10 +6,9 @@ import {ToastComponent} from './core-components/toast/toast.component';
 import {ToastService} from './services/toast.service';
 
 @Component({
-  selector: 'ls-root',
-  standalone: true,
-  imports: [HomePageComponent, ModalDisplayerComponent, AsyncPipe, ToastComponent],
-  template: `
+    selector: 'ls-root',
+    imports: [HomePageComponent, ModalDisplayerComponent, AsyncPipe, ToastComponent],
+    template: `
     @for (toast of toasts.getToasts() | async; track toast.id) {
       <ls-toast (close)="closeToast(toast.id)" [toast]="toast"></ls-toast>
     }
@@ -17,7 +16,7 @@ import {ToastService} from './services/toast.service';
     <ls-home-page/>
 
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
 

@@ -2,7 +2,7 @@ export type Toast = {
   id: number,
 } & ToastWithoutId;
 
-export type ToastWithoutId = {
+export interface ToastWithoutId {
   detail: string,
   message: string,
   severity: 'warning' | 'error' | 'info' | 'success'
