@@ -17,7 +17,11 @@ import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(
+        originPatterns = {"*"},
+        maxAge = 1209600L,
+        allowedHeaders = {"origin","content-type","accept","authorization"}
+)
 public class ServiceController implements ServiceApi {
 
     private final ServiceControl control;
