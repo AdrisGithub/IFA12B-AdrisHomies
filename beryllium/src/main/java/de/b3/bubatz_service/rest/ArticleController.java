@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(
-        originPatterns = {"*"},
+        origins = "*",
         maxAge = 1209600L,
         allowedHeaders = {"origin","content-type","accept","authorization"}
 )
