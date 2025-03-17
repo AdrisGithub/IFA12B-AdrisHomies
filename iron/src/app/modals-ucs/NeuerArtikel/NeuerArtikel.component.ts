@@ -9,10 +9,9 @@ import { ButtonComponent } from '../../core-components/button/button.component';
 import {ToastService} from '../../services/toast.service';
 
 @Component({
-  selector: 'ls-neuer-artikel',
-  standalone: true,
-  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent],
-  template: `
+    selector: 'ls-neuer-artikel',
+    imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent],
+    template: `
 
   <ls-modal-container title="Neuen Artikel anlegen">
     <div class="grid-container">
@@ -47,8 +46,8 @@ import {ToastService} from '../../services/toast.service';
   </ls-modal-container>
 
   `,
-  styleUrl: './NeuerArtikel.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrl: './NeuerArtikel.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NeuerArtikelComponent implements ModalBase {
 
@@ -66,7 +65,7 @@ export class NeuerArtikelComponent implements ModalBase {
   manageInputChangeEvent = (type: "key" | "value", index: number, event: any) => {
     this.inputs.update(pairs => {
       const newPairs = [...pairs];
-      let currentPair = {...newPairs[index]};
+      const currentPair = {...newPairs[index]};
 
       currentPair[type] = event.target.value;
 
@@ -110,8 +109,8 @@ export class NeuerArtikelComponent implements ModalBase {
     this.modalService.clearStack();
   }
 
-  mapInfos = (pairs: Pair[]): { [key: string]: string }  => {
-    const infos: { [key: string]: string } = {}
+  mapInfos = (pairs: Pair[]): Record<string, string>  => {
+    const infos: Record<string, string> = {}
     pairs.forEach(pair => pair.key && (infos[pair.key] = pair.value))
     return infos;
   }

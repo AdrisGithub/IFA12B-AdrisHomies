@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 @Component({
-  selector: 'ls-button',
-  standalone: true,
-  imports: [],
-  host: {
-    '[style]': '"width: " +(fullWidth() ? "100%" : "max-content")',
-  },
-  template: `
+    selector: 'ls-button',
+    imports: [],
+    host: {
+        '[style]': '"width: " +(fullWidth() ? "100%" : "max-content")',
+    },
+    template: `
   
     <button type="button" (click)="onClick.emit()">
       <ng-content/> 
     </button>
 
   `,
-  styles: `
+    styles: `
 
     :host {
       display: inline-block;
@@ -34,7 +33,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
     }
 
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonComponent { 
   onClick = output();

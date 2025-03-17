@@ -14,14 +14,14 @@ import {Article} from '../core-components/article/article.component';
 import {Service} from '../core-components/service/service.component';
 import {ToastService} from '../services/toast.service';
 
-type BubatzState = {
+interface BubatzState {
   allArticles: GetArticle[],
   allServices: GetService[],
   selectedInstance: ArticleItem | undefined,
   currentlyActiveArticle: GetArticle | undefined,
   currentlyActiveService: GetService | undefined,
   pickupSpots : PickupSpot[],
-};
+}
 
 const initalState: BubatzState = {
   allArticles: [],

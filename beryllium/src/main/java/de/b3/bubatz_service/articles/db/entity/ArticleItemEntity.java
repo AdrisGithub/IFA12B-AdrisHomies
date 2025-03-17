@@ -14,17 +14,18 @@ public class ArticleItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer articleItemId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "spotId", referencedColumnName = "spotId")
-    private DepositorySpot spot;
+    private Integer rowNr;
+
+    private Integer columnNr;
 
     private Integer amount;
 
     @Override
     public String toString() {
-        return "ArticleItem{" +
+        return "ArticleItemEntity{" +
                 "articleItemId=" + articleItemId +
-                ", spot=" + spot +
+                ", rowNr=" + rowNr +
+                ", columnNr=" + columnNr +
                 ", amount=" + amount +
                 '}';
     }
@@ -32,13 +33,11 @@ public class ArticleItemEntity {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ArticleItemEntity that)) return false;
-        return Objects.equals(articleItemId, that.articleItemId) &&
-                Objects.equals(spot, that.spot) &&
-                Objects.equals(amount, that.amount);
+        return Objects.equals(articleItemId, that.articleItemId) && Objects.equals(rowNr, that.rowNr) && Objects.equals(columnNr, that.columnNr) && Objects.equals(amount, that.amount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(articleItemId, spot, amount);
+        return Objects.hash(articleItemId, rowNr, columnNr, amount);
     }
 }

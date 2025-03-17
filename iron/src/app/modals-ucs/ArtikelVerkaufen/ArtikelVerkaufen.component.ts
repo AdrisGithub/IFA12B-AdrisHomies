@@ -11,10 +11,9 @@ import {ArticleItem} from '../../gen';
 import {ToastService} from '../../services/toast.service';
 
 @Component({
-  selector: 'ls-artikel-verkaufen',
-  standalone: true,
-  imports: [ModalContainerComponent, BorderContainerComponent, StatusComponent, InputComponent, ButtonComponent],
-  template: `
+    selector: 'ls-artikel-verkaufen',
+    imports: [ModalContainerComponent, BorderContainerComponent, StatusComponent, InputComponent, ButtonComponent],
+    template: `
     <ls-modal-container [title]="'Artikel verkaufen'">
       <h3>{{ article()?.title }}</h3>
       <div class="Container">
@@ -46,8 +45,8 @@ import {ToastService} from '../../services/toast.service';
       </div>
     </ls-modal-container>
   `,
-  styleUrl: 'ArtikelVerkaufen.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrl: 'ArtikelVerkaufen.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ArtikelVerkaufenComponent implements ModalBase {

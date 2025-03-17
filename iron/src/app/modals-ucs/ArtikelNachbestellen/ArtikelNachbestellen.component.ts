@@ -11,10 +11,9 @@ import {PatchArticle} from '../../gen';
 import {ToastService} from '../../services/toast.service';
 
 @Component({
-  selector: 'ls-artikel-nachbestellen',
-  standalone: true,
-  imports: [ModalContainerComponent, BorderContainerComponent, ButtonComponent, InputComponent, StatusComponent],
-  template: `
+    selector: 'ls-artikel-nachbestellen',
+    imports: [ModalContainerComponent, BorderContainerComponent, ButtonComponent, InputComponent, StatusComponent],
+    template: `
     <ls-modal-container [title]="'Artikel nachbestellen'">
       <h3>{{ article()?.title }}</h3>
       <div class="Container">
@@ -46,8 +45,8 @@ import {ToastService} from '../../services/toast.service';
       </div>
     </ls-modal-container>
   `,
-  styleUrl: 'ArtikelNachbestellen.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrl: 'ArtikelNachbestellen.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArtikelNachbestellenComponent implements ModalBase {
 

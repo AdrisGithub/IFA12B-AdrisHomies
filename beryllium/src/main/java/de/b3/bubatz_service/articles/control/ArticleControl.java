@@ -2,7 +2,6 @@ package de.b3.bubatz_service.articles.control;
 
 import de.b3.bubatz_service.articles.db.ArticleItemRepository;
 import de.b3.bubatz_service.articles.db.ArticleRepository;
-import de.b3.bubatz_service.articles.db.DepositorySpotRepository;
 import de.b3.bubatz_service.articles.db.entity.Article;
 import de.b3.bubatz_service.articles.db.entity.ArticleItemEntity;
 import de.b3.bubatz_service.articles.util.ArticleItemMapper;
@@ -30,7 +29,7 @@ public class ArticleControl {
 
     private final ArticleRepository repository;
     private final ArticleItemRepository itemRepository;
-    private final DepositorySpotRepository spotRepository;
+
 
     public List<GetArticle> getAllArticles() {
         return this.repository.findAll()
@@ -60,8 +59,8 @@ public class ArticleControl {
                 .get();
     }
 
-    private boolean depositSpotAlreadyOccupied(Integer reihenNr, Integer spaltenNr) {
-        return this.spotRepository.findDepositorySpotByColumnNrAndRowNr(spaltenNr,reihenNr) != null;
+    private boolean depositSpotAlreadyOccupied(Integer column, Integer row) {
+        return this.itemRepository.findDepositorySpotByColumnNrAndRowNr(column,row);
     }
 
     public GetArticle patchArticle(PatchArticle patchArticle) {

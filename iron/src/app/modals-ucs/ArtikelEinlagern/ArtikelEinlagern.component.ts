@@ -12,10 +12,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ToastService} from '../../services/toast.service';
 
 @Component({
-  selector: 'ls-artikel-einlagern',
-  standalone: true,
-  imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
-  template: `
+    selector: 'ls-artikel-einlagern',
+    imports: [ModalContainerComponent, BorderContainerComponent, InputComponent, ButtonComponent, CurrencyPipe, StatusComponent, FormsModule, ReactiveFormsModule],
+    template: `
     <ls-modal-container [title]="'Artikel einlagern'">
       <article>
         <div>
@@ -62,7 +61,7 @@ import {ToastService} from '../../services/toast.service';
       </div>
     </ls-modal-container>
   `,
-  styles: `
+    styles: `
     :host {
       display: block;
     }
@@ -123,7 +122,7 @@ import {ToastService} from '../../services/toast.service';
       font-size: 36px;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArtikelEinlagernComponent implements ModalBase {
   row?: string;
