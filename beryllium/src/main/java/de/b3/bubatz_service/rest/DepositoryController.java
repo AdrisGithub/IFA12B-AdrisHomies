@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(
+        origins = "*",
+        maxAge = 1209600L,
+        allowedHeaders = {"origin","content-type","accept","authorization"}
+)
 @RestController
 public class DepositoryController implements DepositoryApi {
 

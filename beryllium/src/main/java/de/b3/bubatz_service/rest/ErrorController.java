@@ -11,7 +11,11 @@ import java.time.LocalDateTime;
 
 @RestController("/error")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(
+        origins = "*",
+        maxAge = 1209600L,
+        allowedHeaders = {"origin","content-type","accept","authorization"}
+)
 public class ErrorController {
 
     @GetMapping

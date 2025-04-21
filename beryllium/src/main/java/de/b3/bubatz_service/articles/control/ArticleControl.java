@@ -39,8 +39,8 @@ public class ArticleControl {
     }
 
     public GetArticle storeArticle(StoreArticle storeArticle) {
-        if (depositSpotAlreadyOccupied(storeArticle.getReihenNr(), storeArticle.getSpaltenNr()))
-            throw new DepositorySpotAlreadyOccupiedException(storeArticle.getReihenNr(),storeArticle.getSpaltenNr());
+        //if (depositSpotAlreadyOccupied(storeArticle.getReihenNr(), storeArticle.getSpaltenNr()))
+        //    throw new DepositorySpotAlreadyOccupiedException(storeArticle.getReihenNr(),storeArticle.getSpaltenNr());
 
         final ArticleItemEntity itemEntity = this.itemRepository.findById(storeArticle.getId())
                 .orElseThrow(() -> new EntityNotFoundException("ArticleItem with id " + storeArticle.getId() + " not found"));

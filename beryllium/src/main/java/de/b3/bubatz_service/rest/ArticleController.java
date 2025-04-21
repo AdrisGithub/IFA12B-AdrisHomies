@@ -6,7 +6,6 @@ import de.b3.bubatz_service.generated.models.PatchArticle;
 import de.b3.bubatz_service.generated.models.PostArticle;
 import de.b3.bubatz_service.generated.api.ArticleApi;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,11 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(
+        origins = "*",
+        maxAge = 1209600L,
+        allowedHeaders = {"origin","content-type","accept","authorization"}
+)
 public class ArticleController implements ArticleApi{
 
     private final ArticleControl control;
